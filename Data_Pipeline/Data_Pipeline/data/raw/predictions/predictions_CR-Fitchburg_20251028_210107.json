@@ -1,0 +1,1512 @@
+{
+  "data": [
+    {
+      "attributes": {
+        "arrival_time": null,
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T17:00:29-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 0,
+        "update_type": null
+      },
+      "id": "prediction-Base-772421-429-BNT-0000-0-CR-Fitchburg",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Fitchburg",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "BNT-0000",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772421-429",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1721",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:00:07-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T17:00:07-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 30,
+        "update_type": null
+      },
+      "id": "prediction-Base-772423-434-FR-0394-02-30-CR-Fitchburg",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Fitchburg",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "FR-0394-02",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772423-434",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1724",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:00:37-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T17:00:37-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 50,
+        "update_type": null
+      },
+      "id": "prediction-Base-772462-1427-FR-0115-01-50-CR-Fitchburg",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Fitchburg",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "FR-0115-01",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772462-1427",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1809",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:00:52-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T17:00:52-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 150,
+        "update_type": null
+      },
+      "id": "prediction-Base-772420-428-FR-0034-02-150-CR-Fitchburg",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Fitchburg",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "FR-0034-02",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772420-428",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1824",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:02:41-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T17:02:41-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 60,
+        "update_type": null
+      },
+      "id": "prediction-Base-772462-1427-FR-0132-01-60-CR-Fitchburg",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Fitchburg",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "FR-0132-01",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772462-1427",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1809",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:03:40-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T17:03:40-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 40,
+        "update_type": null
+      },
+      "id": "prediction-Base-772423-434-FR-0361-02-40-CR-Fitchburg",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Fitchburg",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "FR-0361-02",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772423-434",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1724",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:05:24-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T17:05:24-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 140,
+        "update_type": null
+      },
+      "id": "prediction-Base-772419-425-FR-0451-01-140-CR-Fitchburg",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Fitchburg",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "FR-0451-01",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772419-425",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1718",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:06:48-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T17:06:48-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 70,
+        "update_type": null
+      },
+      "id": "prediction-Base-772462-1427-FR-0167-01-70-CR-Fitchburg",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Fitchburg",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "FR-0167-01",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772462-1427",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1809",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:08:13-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T17:10:00-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 10,
+        "update_type": null
+      },
+      "id": "prediction-Base-772421-429-FR-0034-01-10-CR-Fitchburg",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Fitchburg",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "FR-0034-01",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772421-429",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1721",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:10:42-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": null,
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 160,
+        "update_type": null
+      },
+      "id": "prediction-Base-772420-428-BNT-0000-160-CR-Fitchburg",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Fitchburg",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "BNT-0000",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772420-428",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1824",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:10:46-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T17:10:46-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 80,
+        "update_type": null
+      },
+      "id": "prediction-Base-772462-1427-FR-0201-01-80-CR-Fitchburg",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Fitchburg",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "FR-0201-01",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772462-1427",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1809",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:11:58-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T17:11:58-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 150,
+        "update_type": null
+      },
+      "id": "prediction-Base-772419-425-FR-0494-CS-150-CR-Fitchburg",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Fitchburg",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "FR-0494-CS",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772419-425",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1718",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:12:09-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T17:12:09-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 50,
+        "update_type": null
+      },
+      "id": "prediction-Base-772423-434-FR-0301-02-50-CR-Fitchburg",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Fitchburg",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "FR-0301-02",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772423-434",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1724",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:13:02-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T17:13:02-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 90,
+        "update_type": null
+      },
+      "id": "prediction-Base-772462-1427-FR-0219-01-90-CR-Fitchburg",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Fitchburg",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "FR-0219-01",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772462-1427",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1809",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:16:45-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T17:17:00-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 60,
+        "update_type": null
+      },
+      "id": "prediction-Base-772423-434-FR-0253-02-60-CR-Fitchburg",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Fitchburg",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "FR-0253-02",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772423-434",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1724",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:17:18-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T17:17:18-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 100,
+        "update_type": null
+      },
+      "id": "prediction-Base-772462-1427-FR-0253-01-100-CR-Fitchburg",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Fitchburg",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "FR-0253-01",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772462-1427",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1809",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:20:33-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": null,
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 160,
+        "update_type": null
+      },
+      "id": "prediction-Base-772419-425-FR-3338-CS-160-CR-Fitchburg",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Fitchburg",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "FR-3338-CS",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772419-425",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1718",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:22:02-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T17:22:02-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 70,
+        "update_type": null
+      },
+      "id": "prediction-Base-772423-434-FR-0219-02-70-CR-Fitchburg",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Fitchburg",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "FR-0219-02",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772423-434",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1724",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:22:11-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": null,
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 110,
+        "update_type": null
+      },
+      "id": "prediction-Base-772462-1427-FR-0301-02-110-CR-Fitchburg",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Fitchburg",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "FR-0301-02",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772462-1427",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1809",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:24:39-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T17:25:00-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 80,
+        "update_type": null
+      },
+      "id": "prediction-Base-772423-434-FR-0201-02-80-CR-Fitchburg",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Fitchburg",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "FR-0201-02",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772423-434",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1724",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:30:19-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T17:31:00-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 90,
+        "update_type": null
+      },
+      "id": "prediction-Base-772423-434-FR-0167-02-90-CR-Fitchburg",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Fitchburg",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "FR-0167-02",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772423-434",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1724",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:34:27-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T17:35:00-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 20,
+        "update_type": null
+      },
+      "id": "prediction-Base-772421-429-FR-0253-01-20-CR-Fitchburg",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Fitchburg",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "FR-0253-01",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772421-429",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1721",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:35:12-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T17:37:00-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 100,
+        "update_type": null
+      },
+      "id": "prediction-Base-772423-434-FR-0132-02-100-CR-Fitchburg",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Fitchburg",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "FR-0132-02",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772423-434",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1724",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:39:35-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T17:40:00-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 110,
+        "update_type": null
+      },
+      "id": "prediction-Base-772423-434-FR-0115-02-110-CR-Fitchburg",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Fitchburg",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "FR-0115-02",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772423-434",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1724",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:40:37-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T17:42:00-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 30,
+        "update_type": null
+      },
+      "id": "prediction-Base-772421-429-FR-0301-01-30-CR-Fitchburg",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Fitchburg",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "FR-0301-01",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772421-429",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1721",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:43:44-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T17:44:00-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 120,
+        "update_type": null
+      },
+      "id": "prediction-Base-772423-434-FR-0098-S-120-CR-Fitchburg",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Fitchburg",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "FR-0098-S",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772423-434",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1724",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:47:56-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T17:49:00-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 130,
+        "update_type": null
+      },
+      "id": "prediction-Base-772423-434-FR-0074-02-130-CR-Fitchburg",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Fitchburg",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "FR-0074-02",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772423-434",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1724",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:48:35-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T17:50:00-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 40,
+        "update_type": null
+      },
+      "id": "prediction-Base-772421-429-FR-0361-01-40-CR-Fitchburg",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Fitchburg",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "FR-0361-01",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772421-429",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1721",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:51:03-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T17:51:03-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 140,
+        "update_type": null
+      },
+      "id": "prediction-Base-772423-434-FR-0064-02-140-CR-Fitchburg",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Fitchburg",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "FR-0064-02",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772423-434",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1724",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:54:24-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T17:55:00-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 50,
+        "update_type": null
+      },
+      "id": "prediction-Base-772421-429-FR-0394-01-50-CR-Fitchburg",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Fitchburg",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "FR-0394-01",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772421-429",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1721",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:54:51-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T17:57:00-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 150,
+        "update_type": null
+      },
+      "id": "prediction-Base-772423-434-FR-0034-02-150-CR-Fitchburg",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Fitchburg",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "FR-0034-02",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772423-434",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1724",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T18:02:40-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T18:04:00-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 60,
+        "update_type": null
+      },
+      "id": "prediction-Base-772421-429-FR-0451-01-60-CR-Fitchburg",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Fitchburg",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "FR-0451-01",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772421-429",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1721",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T18:07:53-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": null,
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 160,
+        "update_type": null
+      },
+      "id": "prediction-Base-772423-434-BNT-0000-160-CR-Fitchburg",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Fitchburg",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "BNT-0000",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772423-434",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1724",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T18:11:06-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T18:12:00-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 70,
+        "update_type": null
+      },
+      "id": "prediction-Base-772421-429-FR-0494-CS-70-CR-Fitchburg",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Fitchburg",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "FR-0494-CS",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772421-429",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1721",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T18:20:55-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": null,
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 80,
+        "update_type": null
+      },
+      "id": "prediction-Base-772421-429-FR-3338-CS-80-CR-Fitchburg",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Fitchburg",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "FR-3338-CS",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772421-429",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1721",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    }
+  ],
+  "jsonapi": {
+    "version": "1.0"
+  }
+}

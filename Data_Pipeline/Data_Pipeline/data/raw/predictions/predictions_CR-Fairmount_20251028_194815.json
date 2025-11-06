@@ -1,0 +1,50 @@
+{
+  "data": [
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T15:49:32-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": null,
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 70,
+        "update_type": null
+      },
+      "id": "prediction-Base-772926-1666-NEC-2287-70-CR-Fairmount",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Fairmount",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "NEC-2287",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772926-1666",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1823",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    }
+  ],
+  "jsonapi": {
+    "version": "1.0"
+  }
+}

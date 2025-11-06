@@ -1,0 +1,1684 @@
+{
+  "data": [
+    {
+      "attributes": {
+        "arrival_time": null,
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T16:30:00-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": "Now boarding",
+        "stop_sequence": 0,
+        "update_type": null
+      },
+      "id": "prediction-Base-774632-159-BNT-0000-02-0-CR-Newburyport",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Newburyport",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "BNT-0000-02",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-774632-159",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1702",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T16:24:16-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T16:24:16-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 50,
+        "update_type": null
+      },
+      "id": "prediction-Base-774631-154-ER-0183-02-50-CR-Newburyport",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Newburyport",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "ER-0183-02",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-774631-154",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1818",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T16:25:08-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T16:25:08-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 100,
+        "update_type": null
+      },
+      "id": "prediction-Base-774600-51-GB-0296-02-100-CR-Newburyport",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Newburyport",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "GB-0296-02",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-774600-51",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1709",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T16:25:36-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T16:25:36-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 20,
+        "update_type": null
+      },
+      "id": "prediction-Base-774603-57-ER-0099-01-20-CR-Newburyport",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Newburyport",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "ER-0099-01",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-774603-57",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1713",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T16:25:51-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T16:25:51-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 110,
+        "update_type": null
+      },
+      "id": "prediction-Base-774602-52-ER-0042-02-110-CR-Newburyport",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Newburyport",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "ER-0042-02",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-774602-52",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1717",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T16:26:24-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T16:26:24-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 70,
+        "update_type": null
+      },
+      "id": "prediction-Base-774630-153-ER-0208-01-70-CR-Newburyport",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Newburyport",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "ER-0208-01",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-774630-153",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1804",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T16:28:44-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T16:28:44-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 60,
+        "update_type": null
+      },
+      "id": "prediction-Base-774631-154-ER-0168-S-60-CR-Newburyport",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Newburyport",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "ER-0168-S",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-774631-154",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1818",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T16:28:59-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T16:28:59-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 30,
+        "update_type": null
+      },
+      "id": "prediction-Base-774603-57-ER-0117-01-30-CR-Newburyport",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Newburyport",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "ER-0117-01",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-774603-57",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1713",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T16:29:02-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T16:29:02-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 80,
+        "update_type": null
+      },
+      "id": "prediction-Base-774630-153-ER-0227-S-80-CR-Newburyport",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Newburyport",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "ER-0227-S",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-774630-153",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1804",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T16:29:05-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T16:29:05-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 110,
+        "update_type": null
+      },
+      "id": "prediction-Base-774600-51-GB-0316-S-110-CR-Newburyport",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Newburyport",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "GB-0316-S",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-774600-51",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1709",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T16:30:39-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T16:32:00-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 40,
+        "update_type": null
+      },
+      "id": "prediction-Base-774603-57-ER-0128-01-40-CR-Newburyport",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Newburyport",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "ER-0128-01",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-774603-57",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1713",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T16:33:57-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T16:33:57-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 70,
+        "update_type": null
+      },
+      "id": "prediction-Base-774631-154-ER-0128-02-70-CR-Newburyport",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Newburyport",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "ER-0128-02",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-774631-154",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1818",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T16:34:49-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T16:34:49-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 90,
+        "update_type": null
+      },
+      "id": "prediction-Base-774630-153-ER-0276-S-90-CR-Newburyport",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Newburyport",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "ER-0276-S",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-774630-153",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1804",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T16:35:36-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T16:35:36-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 80,
+        "update_type": null
+      },
+      "id": "prediction-Base-774631-154-ER-0117-02-80-CR-Newburyport",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Newburyport",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "ER-0117-02",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-774631-154",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1818",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T16:35:54-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": null,
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 120,
+        "update_type": null
+      },
+      "id": "prediction-Base-774602-52-BNT-0000-120-CR-Newburyport",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Newburyport",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "BNT-0000",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-774602-52",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1717",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T16:37:32-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": null,
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 120,
+        "update_type": null
+      },
+      "id": "prediction-Base-774600-51-GB-0353-S-120-CR-Newburyport",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Newburyport",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "GB-0353-S",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-774600-51",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1709",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T16:38:46-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T16:38:46-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 90,
+        "update_type": null
+      },
+      "id": "prediction-Base-774631-154-ER-0099-02-90-CR-Newburyport",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Newburyport",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "ER-0099-02",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-774631-154",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1818",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T16:39:10-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T16:41:00-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 10,
+        "update_type": null
+      },
+      "id": "prediction-Base-774632-159-ER-0042-01-10-CR-Newburyport",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Newburyport",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "ER-0042-01",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-774632-159",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1702",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T16:39:40-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T16:39:40-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 100,
+        "update_type": null
+      },
+      "id": "prediction-Base-774630-153-ER-0312-S-100-CR-Newburyport",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Newburyport",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "ER-0312-S",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-774630-153",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1804",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T16:39:48-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T16:39:48-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 50,
+        "update_type": null
+      },
+      "id": "prediction-Base-774603-57-ER-0168-S-50-CR-Newburyport",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Newburyport",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "ER-0168-S",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-774603-57",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1713",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T16:46:02-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T16:46:02-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 60,
+        "update_type": null
+      },
+      "id": "prediction-Base-774603-57-ER-0183-01-60-CR-Newburyport",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Newburyport",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "ER-0183-01",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-774603-57",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1713",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T16:46:24-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T16:46:24-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 100,
+        "update_type": null
+      },
+      "id": "prediction-Base-774631-154-ER-0042-02-100-CR-Newburyport",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Newburyport",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "ER-0042-02",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-774631-154",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1818",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T16:46:26-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": null,
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 110,
+        "update_type": null
+      },
+      "id": "prediction-Base-774630-153-ER-0362-01-110-CR-Newburyport",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Newburyport",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "ER-0362-01",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-774630-153",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1804",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T16:49:19-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T16:49:19-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 70,
+        "update_type": null
+      },
+      "id": "prediction-Base-774603-57-GB-0198-01-70-CR-Newburyport",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Newburyport",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "GB-0198-01",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-774603-57",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1713",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T16:52:19-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T16:52:19-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 20,
+        "update_type": null
+      },
+      "id": "prediction-Base-774632-159-ER-0117-01-20-CR-Newburyport",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Newburyport",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "ER-0117-01",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-774632-159",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1702",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T16:53:03-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T16:53:03-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 80,
+        "update_type": null
+      },
+      "id": "prediction-Base-774603-57-GB-0229-01-80-CR-Newburyport",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Newburyport",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "GB-0229-01",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-774603-57",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1713",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T16:53:52-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T16:56:00-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 30,
+        "update_type": null
+      },
+      "id": "prediction-Base-774632-159-ER-0128-01-30-CR-Newburyport",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Newburyport",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "ER-0128-01",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-774632-159",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1702",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T16:56:20-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": null,
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 110,
+        "update_type": null
+      },
+      "id": "prediction-Base-774631-154-BNT-0000-110-CR-Newburyport",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Newburyport",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "BNT-0000",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-774631-154",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1818",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T16:58:20-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T16:59:00-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 90,
+        "update_type": null
+      },
+      "id": "prediction-Base-774603-57-GB-0254-01-90-CR-Newburyport",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Newburyport",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "GB-0254-01",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-774603-57",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1713",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:03:16-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T17:03:16-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 40,
+        "update_type": null
+      },
+      "id": "prediction-Base-774632-159-ER-0168-S-40-CR-Newburyport",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Newburyport",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "ER-0168-S",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-774632-159",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1702",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:05:59-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T17:05:59-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 100,
+        "update_type": null
+      },
+      "id": "prediction-Base-774603-57-GB-0296-01-100-CR-Newburyport",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Newburyport",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "GB-0296-01",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-774603-57",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1713",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:07:27-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T17:08:00-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 50,
+        "update_type": null
+      },
+      "id": "prediction-Base-774632-159-ER-0183-01-50-CR-Newburyport",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Newburyport",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "ER-0183-01",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-774632-159",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1702",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:10:11-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T17:10:11-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 110,
+        "update_type": null
+      },
+      "id": "prediction-Base-774603-57-GB-0316-S-110-CR-Newburyport",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Newburyport",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "GB-0316-S",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-774603-57",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1713",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:13:47-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T17:13:47-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 60,
+        "update_type": null
+      },
+      "id": "prediction-Base-774632-159-ER-0208-01-60-CR-Newburyport",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Newburyport",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "ER-0208-01",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-774632-159",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1702",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:16:54-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T17:17:00-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 70,
+        "update_type": null
+      },
+      "id": "prediction-Base-774632-159-ER-0227-S-70-CR-Newburyport",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Newburyport",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "ER-0227-S",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-774632-159",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1702",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:20:16-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": null,
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 120,
+        "update_type": null
+      },
+      "id": "prediction-Base-774603-57-GB-0353-S-120-CR-Newburyport",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Newburyport",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "GB-0353-S",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-774603-57",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1713",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:24:23-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T17:24:23-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 80,
+        "update_type": null
+      },
+      "id": "prediction-Base-774632-159-ER-0276-S-80-CR-Newburyport",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Newburyport",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "ER-0276-S",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-774632-159",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1702",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:29:45-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T17:29:45-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 90,
+        "update_type": null
+      },
+      "id": "prediction-Base-774632-159-ER-0312-S-90-CR-Newburyport",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Newburyport",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "ER-0312-S",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-774632-159",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1702",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:36:28-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": null,
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 100,
+        "update_type": null
+      },
+      "id": "prediction-Base-774632-159-ER-0362-01-100-CR-Newburyport",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Newburyport",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "ER-0362-01",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-774632-159",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1702",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    }
+  ],
+  "jsonapi": {
+    "version": "1.0"
+  }
+}

@@ -1,0 +1,523 @@
+{
+  "data": [
+    {
+      "attributes": {
+        "arrival_time": null,
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T16:30:09-04:00",
+        "departure_uncertainty": 360,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": "ADDED",
+        "status": null,
+        "stop_sequence": 610,
+        "update_type": "REVERSE_TRIP"
+      },
+      "id": "prediction-ADDED-1583224874-Government Center-Brattle-610-Green-D",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "Green-D",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "Government Center-Brattle",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "ADDED-1583224874",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "G-10152",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T16:20:49-04:00",
+        "arrival_uncertainty": 60,
+        "departure_time": "2025-10-28T16:21:01-04:00",
+        "departure_uncertainty": 60,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": "ADDED",
+        "status": null,
+        "stop_sequence": 20,
+        "update_type": "MID_TRIP"
+      },
+      "id": "prediction-ADDED-1583224846-70206-20-Green-D",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "Green-D",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "70206",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "ADDED-1583224846",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "G-10152",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T16:22:03-04:00",
+        "arrival_uncertainty": 60,
+        "departure_time": "2025-10-28T16:22:32-04:00",
+        "departure_uncertainty": 60,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": "ADDED",
+        "status": null,
+        "stop_sequence": 640,
+        "update_type": "MID_TRIP"
+      },
+      "id": "prediction-ADDED-1583224898-70207-640-Green-D",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "Green-D",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "70207",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "ADDED-1583224898",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "G-10001",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T16:22:33-04:00",
+        "arrival_uncertainty": 60,
+        "departure_time": "2025-10-28T16:23:10-04:00",
+        "departure_uncertainty": 60,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": "ADDED",
+        "status": null,
+        "stop_sequence": 30,
+        "update_type": "MID_TRIP"
+      },
+      "id": "prediction-ADDED-1583224846-70204-30-Green-D",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "Green-D",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "70204",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "ADDED-1583224846",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "G-10152",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T16:23:33-04:00",
+        "arrival_uncertainty": 60,
+        "departure_time": "2025-10-28T16:24:24-04:00",
+        "departure_uncertainty": 60,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": "ADDED",
+        "status": null,
+        "stop_sequence": 650,
+        "update_type": "MID_TRIP"
+      },
+      "id": "prediction-ADDED-1583224898-70501-650-Green-D",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "Green-D",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "70501",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "ADDED-1583224898",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "G-10001",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T16:24:32-04:00",
+        "arrival_uncertainty": 60,
+        "departure_time": null,
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": "ADDED",
+        "status": null,
+        "stop_sequence": 40,
+        "update_type": "MID_TRIP"
+      },
+      "id": "prediction-ADDED-1583224846-Government Center-Brattle-40-Green-D",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "Green-D",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "Government Center-Brattle",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "ADDED-1583224846",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "G-10152",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T16:29:15-04:00",
+        "arrival_uncertainty": 60,
+        "departure_time": null,
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": "ADDED",
+        "status": null,
+        "stop_sequence": 660,
+        "update_type": "MID_TRIP"
+      },
+      "id": "prediction-ADDED-1583224898-70503-660-Green-D",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "Green-D",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "70503",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "ADDED-1583224898",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "G-10001",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T16:31:04-04:00",
+        "arrival_uncertainty": 360,
+        "departure_time": "2025-10-28T16:32:04-04:00",
+        "departure_uncertainty": 360,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": "ADDED",
+        "status": null,
+        "stop_sequence": 620,
+        "update_type": "REVERSE_TRIP"
+      },
+      "id": "prediction-ADDED-1583224874-70203-620-Green-D",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "Green-D",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "70203",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "ADDED-1583224874",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "G-10152",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T16:33:04-04:00",
+        "arrival_uncertainty": 360,
+        "departure_time": "2025-10-28T16:33:55-04:00",
+        "departure_uncertainty": 360,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": "ADDED",
+        "status": null,
+        "stop_sequence": 630,
+        "update_type": "REVERSE_TRIP"
+      },
+      "id": "prediction-ADDED-1583224874-70205-630-Green-D",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "Green-D",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "70205",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "ADDED-1583224874",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "G-10152",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T16:35:51-04:00",
+        "arrival_uncertainty": 360,
+        "departure_time": "2025-10-28T16:36:20-04:00",
+        "departure_uncertainty": 360,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": "ADDED",
+        "status": null,
+        "stop_sequence": 640,
+        "update_type": "REVERSE_TRIP"
+      },
+      "id": "prediction-ADDED-1583224874-70207-640-Green-D",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "Green-D",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "70207",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "ADDED-1583224874",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "G-10152",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T16:37:21-04:00",
+        "arrival_uncertainty": 360,
+        "departure_time": "2025-10-28T16:38:12-04:00",
+        "departure_uncertainty": 360,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": "ADDED",
+        "status": null,
+        "stop_sequence": 650,
+        "update_type": "REVERSE_TRIP"
+      },
+      "id": "prediction-ADDED-1583224874-70501-650-Green-D",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "Green-D",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "70501",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "ADDED-1583224874",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "G-10152",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T16:43:03-04:00",
+        "arrival_uncertainty": 360,
+        "departure_time": null,
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": "ADDED",
+        "status": null,
+        "stop_sequence": 660,
+        "update_type": "REVERSE_TRIP"
+      },
+      "id": "prediction-ADDED-1583224874-70503-660-Green-D",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "Green-D",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "70503",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "ADDED-1583224874",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "G-10152",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    }
+  ],
+  "jsonapi": {
+    "version": "1.0"
+  }
+}

@@ -1,0 +1,12 @@
+experiment:
+  name: "charlie_mbta_model_dev"
+  tracking_uri: "mlruns"   # Local MLflow folder; you can change this later
+
+training:
+  target_column: "delayed"
+  test_size: 0.2
+  random_state: 42
+  metrics: ["accuracy", "precision", "recall", "f1", "roc_auc"]
+
+bias:
+  slice_columns: ["route_id", "direction_id"]

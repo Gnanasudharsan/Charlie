@@ -1,0 +1,179 @@
+{
+  "data": [
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T14:41:58-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": null,
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 110,
+        "update_type": null
+      },
+      "id": "prediction-Base-772708-645-NB-0137-S-110-CR-Needham",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Needham",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "NB-0137-S",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772708-645",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1815",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T14:43:00-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T14:43:00-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 90,
+        "update_type": null
+      },
+      "id": "prediction-Base-772709-646-NEC-2265-03-90-CR-Needham",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Needham",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "NEC-2265-03",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772709-646",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1858",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T14:46:17-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T14:46:17-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 100,
+        "update_type": null
+      },
+      "id": "prediction-Base-772709-646-NEC-2276-03-100-CR-Needham",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Needham",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "NEC-2276-03",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772709-646",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1858",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T14:52:32-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": null,
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 110,
+        "update_type": null
+      },
+      "id": "prediction-Base-772709-646-NEC-2287-110-CR-Needham",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Needham",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "NEC-2287",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772709-646",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1858",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    }
+  ],
+  "jsonapi": {
+    "version": "1.0"
+  }
+}
