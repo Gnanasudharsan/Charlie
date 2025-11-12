@@ -1,17 +1,16 @@
 name: MLOps Automated Pipeline
 
 on:
+  workflow_dispatch:  # manual trigger
   push:
-    branches: [ main, master ]
-  pull_request:
-    branches: [ main, master ]
+    branches: [ main ]
 
 jobs:
-  train_and_validate:
+  mlops-pipeline:
     runs-on: ubuntu-latest
 
     steps:
-      - name: ✅ Checkout Repository
+      - name: ✅ Checkout repository
         uses: actions/checkout@v4
 
       - name: 🐍 Set up Python
@@ -21,33 +20,20 @@ jobs:
 
       - name: 📦 Install Dependencies
         run: |
-          python -m venv .venv
-          source .venv/bin/activate
-          pip install --upgrade pip
+          python -m pip install --upgrade pip
           pip install -r requirements.txt
-
-      - name: 📂 Pull DVC Data
-        run: |
-          source .venv/bin/activate
-          pip install dvc[gdrive]
-          dvc pull || echo "No DVC data found."
+          pip install mlflow fairlearn shap lime scikit-learn pandas numpy matplotlib plotly joblib pyyaml
 
       - name: 🤖 Train Model
-        run: |
-          source .venv/bin/activate
-          python -m ml_src.model_train
+        run: python -m ml_src.model_train
 
       - name: 🧠 Bias Analysis
-        run: |
-          source .venv/bin/activate
-          python -m ml_src.bias_analysis
+        run: python -m ml_src.bias_analysis
 
       - name: 🔍 Model Explainability
-        run: |
-          source .venv/bin/activate
-          python -m ml_src.explainability
+        run: python -m ml_src.explainability
 
-      - name: 🧾 Upload Reports
+      - name: 📤 Upload Reports
         uses: actions/upload-artifact@v4
         with:
           name: model-reports
