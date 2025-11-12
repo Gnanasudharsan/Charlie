@@ -1,0 +1,54 @@
+name: MLOps Automated Pipeline
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  train_and_validate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: ✅ Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: 🐍 Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: 📦 Install Dependencies
+        run: |
+          python -m venv .venv
+          source .venv/bin/activate
+          pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: 📂 Pull DVC Data
+        run: |
+          source .venv/bin/activate
+          pip install dvc[gdrive]
+          dvc pull || echo "No DVC data found."
+
+      - name: 🤖 Train Model
+        run: |
+          source .venv/bin/activate
+          python -m ml_src.model_train
+
+      - name: 🧠 Bias Analysis
+        run: |
+          source .venv/bin/activate
+          python -m ml_src.bias_analysis
+
+      - name: 🔍 Model Explainability
+        run: |
+          source .venv/bin/activate
+          python -m ml_src.explainability
+
+      - name: 🧾 Upload Reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: model-reports
+          path: reports/
