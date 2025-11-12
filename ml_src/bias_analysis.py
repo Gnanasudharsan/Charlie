@@ -1,88 +1,83 @@
-# ml_src/bias_analysis.py
-from __future__ import annotations
-import os
-import yaml
 import pandas as pd
 import numpy as np
-import joblib
-import mlflow
-from fairlearn.metrics import MetricFrame, selection_rate
-from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
+import os
+import matplotlib.pyplot as plt
+from fairlearn.reductions import ExponentiatedGradient, DemographicParity
+from fairlearn.metrics import MetricFrame, selection_rate, accuracy_score_group_min, accuracy_score_group_max
+from sklearn.linear_model import LogisticRegression
 from ml_src.data_loader import DataPaths
-from ml_src.model_train import prepare_data
 from ml_src.utils.logging import get_logger
-import plotly.express as px
 
 logger = get_logger("bias_analysis")
 
 def main():
-    # --- Load data ---
+    # Load processed predictions data
     paths = DataPaths("ml_configs/paths.yaml")
-    df_pred = paths.load_all()["predictions"]
-    X, y = prepare_data(df_pred)
+    dfs = paths.load_all()
+    df = dfs["predictions"]
 
-    # --- Load model ---
-    model_path = "models/best_model_rf.joblib"
-    if not os.path.exists(model_path):
-        model_path = "models/baseline_logreg.joblib"
-    model = joblib.load(model_path)
+    # Choose a sensitive feature
+    sensitive_feature = "direction_id"  # example categorical slice
+    df = df.dropna(subset=[sensitive_feature, "arrival_time", "departure_time"])
+    df["delay_minutes"] = (
+        pd.to_datetime(df["departure_time"]) - pd.to_datetime(df["arrival_time"])
+    ).dt.total_seconds() / 60
+    df["delayed"] = (df["delay_minutes"] > 5).astype(int)
+    X = df[["stop_sequence"]]
+    y = df["delayed"]
+    groups = df[sensitive_feature]
 
-    # --- Choose slices ---
-    if "route_id" in df_pred.columns:
-        sensitive_feature = df_pred.loc[X.index, "route_id"]
-    elif "direction_id" in df_pred.columns:
-        sensitive_feature = df_pred.loc[X.index, "direction_id"]
-    else:
-        raise ValueError("No route_id or direction_id column found for slicing.")
+    # Baseline model
+    base_model = LogisticRegression(max_iter=500)
+    base_model.fit(X, y)
+    preds = base_model.predict(X)
 
-    y_pred = model.predict(X)
-    y_prob = model.predict_proba(X)[:, 1] if hasattr(model, "predict_proba") else y_pred
+    # Compute group metrics
+    mf = MetricFrame(
+        metrics={"accuracy": accuracy_score_group_min},
+        y_true=y,
+        y_pred=preds,
+        sensitive_features=groups
+    )
+    fairness_df = pd.DataFrame({
+        "Group": mf.by_group.index,
+        "Accuracy": mf.by_group.values
+    })
 
-    # --- Fairlearn MetricFrame ---
-    metrics = {
-        "accuracy": accuracy_score,
-        "precision": precision_score,
-        "recall": recall_score,
-        "f1": f1_score,
-        "selection_rate": selection_rate,
-    }
-    frame = MetricFrame(metrics=metrics, y_true=y, y_pred=y_pred, sensitive_features=sensitive_feature)
+    # Mitigation via Fairlearn
+    mitigator = ExponentiatedGradient(
+        estimator=LogisticRegression(max_iter=500),
+        constraints=DemographicParity()
+    )
+    mitigator.fit(X, y, sensitive_features=groups)
+    mitigated_preds = mitigator.predict(X)
 
-    # --- Aggregate and group summaries ---
-    df_report = frame.by_group
-    df_report.reset_index(inplace=True)
-    df_report.rename(columns={"index": "group"}, inplace=True)
-
-    logger.info(f"\nBias report summary:\n{df_report.head()}")
+    # Post-mitigation metrics
+    post_mf = MetricFrame(
+        metrics={"accuracy": accuracy_score_group_min},
+        y_true=y,
+        y_pred=mitigated_preds,
+        sensitive_features=groups
+    )
+    fairness_df["Accuracy_After"] = post_mf.by_group.values
+    fairness_df["Improvement"] = fairness_df["Accuracy_After"] - fairness_df["Accuracy"]
 
     os.makedirs("reports", exist_ok=True)
-    report_path = "reports/bias_report.csv"
-    df_report.to_csv(report_path, index=False)
+    fairness_df.to_csv("reports/fairness_report.csv", index=False)
 
-    # --- Plot visualization ---
-    fig = px.bar(
-        df_report,
-        x="route_id" if "route_id" in df_report.columns else "direction_id",
-        y="accuracy",
-        title="Accuracy by Group (Fairness Slice)"
+    # Plot improvement
+    plt.figure(figsize=(7, 4))
+    fairness_df.plot(
+        x="Group",
+        y=["Accuracy", "Accuracy_After"],
+        kind="bar",
+        title="Group-wise Fairness Before vs After Mitigation"
     )
-    fig_path = "reports/bias_plot.html"
-    fig.write_html(fig_path)
+    plt.tight_layout()
+    plt.savefig("reports/fairness_summary.png")
+    plt.close()
 
-    # --- Log to MLflow ---
-    with open("configs/config.yaml") as f:
-        cfg = yaml.safe_load(f)
-    mlflow.set_tracking_uri(cfg["experiment"]["tracking_uri"])
-    mlflow.set_experiment(cfg["experiment"]["name"])
-
-    with mlflow.start_run(run_name="bias_analysis"):
-        mlflow.log_artifact(report_path)
-        mlflow.log_artifact(fig_path)
-        mlflow.log_metric("accuracy_gap", frame.difference(method="between_groups")["accuracy"])
-        mlflow.log_metric("selection_rate_gap", frame.difference(method="between_groups")["selection_rate"])
-        mlflow.log_param("sensitive_feature", "route_id" if "route_id" in df_pred.columns else "direction_id")
-
-    logger.info("✅ Bias analysis completed and logged to MLflow.")
+    logger.info("✅ Fairness mitigation complete. Reports saved under 'reports/'.")
 
 if __name__ == "__main__":
     main()
