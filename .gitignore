@@ -88,3 +88,6 @@ Desktop.ini
 *.ipynb
 # Ignore MLflow runs
 mlruns/
+
+# Ignore Python virtual environment
+.venv/
