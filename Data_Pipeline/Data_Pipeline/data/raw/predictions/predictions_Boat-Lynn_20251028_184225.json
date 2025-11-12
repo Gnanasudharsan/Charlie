@@ -1,0 +1,407 @@
+{
+  "data": [
+    {
+      "attributes": {
+        "arrival_time": null,
+        "arrival_uncertainty": null,
+        "departure_time": null,
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": "CANCELLED",
+        "status": null,
+        "stop_sequence": 0,
+        "update_type": null
+      },
+      "id": "prediction-Boat-Lynn-1915-Long-BLY-01-Weekday-Summer-25-Boat-Long-0-Boat-Lynn",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "Boat-Lynn",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "Boat-Long",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Boat-Lynn-1915-Long-BLY-01-Weekday-Summer-25",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": null
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": null,
+        "arrival_uncertainty": null,
+        "departure_time": null,
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": "CANCELLED",
+        "status": null,
+        "stop_sequence": 1,
+        "update_type": null
+      },
+      "id": "prediction-Boat-Lynn-1915-Long-BLY-01-Weekday-Summer-25-Boat-Blossom-1-Boat-Lynn",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "Boat-Lynn",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "Boat-Blossom",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Boat-Lynn-1915-Long-BLY-01-Weekday-Summer-25",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": null
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": null,
+        "arrival_uncertainty": null,
+        "departure_time": null,
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": "CANCELLED",
+        "status": null,
+        "stop_sequence": 0,
+        "update_type": null
+      },
+      "id": "prediction-Boat-Lynn-1830-Blossom-BLY-01-Weekday-Summer-25-Boat-Blossom-0-Boat-Lynn",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "Boat-Lynn",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "Boat-Blossom",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Boat-Lynn-1830-Blossom-BLY-01-Weekday-Summer-25",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": null
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": null,
+        "arrival_uncertainty": null,
+        "departure_time": null,
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": "CANCELLED",
+        "status": null,
+        "stop_sequence": 1,
+        "update_type": null
+      },
+      "id": "prediction-Boat-Lynn-1830-Blossom-BLY-01-Weekday-Summer-25-Boat-Long-1-Boat-Lynn",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "Boat-Lynn",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "Boat-Long",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Boat-Lynn-1830-Blossom-BLY-01-Weekday-Summer-25",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": null
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": null,
+        "arrival_uncertainty": null,
+        "departure_time": null,
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": "CANCELLED",
+        "status": null,
+        "stop_sequence": 0,
+        "update_type": null
+      },
+      "id": "prediction-Boat-Lynn-1745-Long-BLY-01-Weekday-Summer-25-Boat-Long-0-Boat-Lynn",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "Boat-Lynn",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "Boat-Long",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Boat-Lynn-1745-Long-BLY-01-Weekday-Summer-25",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": null
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": null,
+        "arrival_uncertainty": null,
+        "departure_time": null,
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": "CANCELLED",
+        "status": null,
+        "stop_sequence": 1,
+        "update_type": null
+      },
+      "id": "prediction-Boat-Lynn-1745-Long-BLY-01-Weekday-Summer-25-Boat-Blossom-1-Boat-Lynn",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "Boat-Lynn",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "Boat-Blossom",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Boat-Lynn-1745-Long-BLY-01-Weekday-Summer-25",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": null
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": null,
+        "arrival_uncertainty": null,
+        "departure_time": null,
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": "CANCELLED",
+        "status": null,
+        "stop_sequence": 0,
+        "update_type": null
+      },
+      "id": "prediction-Boat-Lynn-1700-Blossom-BLY-01-Weekday-Summer-25-Boat-Blossom-0-Boat-Lynn",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "Boat-Lynn",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "Boat-Blossom",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Boat-Lynn-1700-Blossom-BLY-01-Weekday-Summer-25",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": null
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": null,
+        "arrival_uncertainty": null,
+        "departure_time": null,
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": "CANCELLED",
+        "status": null,
+        "stop_sequence": 1,
+        "update_type": null
+      },
+      "id": "prediction-Boat-Lynn-1700-Blossom-BLY-01-Weekday-Summer-25-Boat-Long-1-Boat-Lynn",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "Boat-Lynn",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "Boat-Long",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Boat-Lynn-1700-Blossom-BLY-01-Weekday-Summer-25",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": null
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": null,
+        "arrival_uncertainty": null,
+        "departure_time": null,
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": "CANCELLED",
+        "status": null,
+        "stop_sequence": 0,
+        "update_type": null
+      },
+      "id": "prediction-Boat-Lynn-1600-Long-BLY-01-Weekday-Summer-25-Boat-Long-0-Boat-Lynn",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "Boat-Lynn",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "Boat-Long",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Boat-Lynn-1600-Long-BLY-01-Weekday-Summer-25",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": null
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": null,
+        "arrival_uncertainty": null,
+        "departure_time": null,
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": "CANCELLED",
+        "status": null,
+        "stop_sequence": 1,
+        "update_type": null
+      },
+      "id": "prediction-Boat-Lynn-1600-Long-BLY-01-Weekday-Summer-25-Boat-Blossom-1-Boat-Lynn",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "Boat-Lynn",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "Boat-Blossom",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Boat-Lynn-1600-Long-BLY-01-Weekday-Summer-25",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": null
+        }
+      },
+      "type": "prediction"
+    }
+  ],
+  "jsonapi": {
+    "version": "1.0"
+  }
+}

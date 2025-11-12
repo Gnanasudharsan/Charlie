@@ -1,0 +1,781 @@
+{
+  "data": [
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T16:12:36-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T16:12:36-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 40,
+        "update_type": null
+      },
+      "id": "prediction-Base-772713-655-NB-0064-S-40-CR-Needham",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Needham",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "NB-0064-S",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772713-655",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1865",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T16:13:00-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T16:13:00-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 20,
+        "update_type": null
+      },
+      "id": "prediction-Base-772712-654-NB-0120-S-20-CR-Needham",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Needham",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "NB-0120-S",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772712-654",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1812",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T16:13:55-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T16:14:00-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 50,
+        "update_type": null
+      },
+      "id": "prediction-Base-772713-655-NB-0072-S-50-CR-Needham",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Needham",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "NB-0072-S",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772713-655",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1865",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T16:15:49-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T16:16:00-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 60,
+        "update_type": null
+      },
+      "id": "prediction-Base-772713-655-NB-0076-S-60-CR-Needham",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Needham",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "NB-0076-S",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772713-655",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1865",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T16:16:06-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T16:16:06-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 30,
+        "update_type": null
+      },
+      "id": "prediction-Base-772712-654-NB-0109-S-30-CR-Needham",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Needham",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "NB-0109-S",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772712-654",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1812",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T16:17:25-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T16:18:00-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 70,
+        "update_type": null
+      },
+      "id": "prediction-Base-772713-655-NB-0080-S-70-CR-Needham",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Needham",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "NB-0080-S",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772713-655",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1865",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T16:22:41-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T16:24:00-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 80,
+        "update_type": null
+      },
+      "id": "prediction-Base-772713-655-NB-0109-S-80-CR-Needham",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Needham",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "NB-0109-S",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772713-655",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1865",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T16:22:52-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T16:26:00-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 40,
+        "update_type": null
+      },
+      "id": "prediction-Base-772712-654-NB-0080-S-40-CR-Needham",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Needham",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "NB-0080-S",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772712-654",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1812",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T16:27:15-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T16:27:15-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 90,
+        "update_type": null
+      },
+      "id": "prediction-Base-772713-655-NB-0120-S-90-CR-Needham",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Needham",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "NB-0120-S",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772713-655",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1865",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T16:27:58-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T16:28:00-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 50,
+        "update_type": null
+      },
+      "id": "prediction-Base-772712-654-NB-0076-S-50-CR-Needham",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Needham",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "NB-0076-S",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772712-654",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1812",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T16:30:00-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T16:31:00-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 100,
+        "update_type": null
+      },
+      "id": "prediction-Base-772713-655-NB-0127-S-100-CR-Needham",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Needham",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "NB-0127-S",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772713-655",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1865",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T16:30:03-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T16:30:03-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 60,
+        "update_type": null
+      },
+      "id": "prediction-Base-772712-654-NB-0072-S-60-CR-Needham",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Needham",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "NB-0072-S",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772712-654",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1812",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T16:31:53-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T16:33:00-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 70,
+        "update_type": null
+      },
+      "id": "prediction-Base-772712-654-NB-0064-S-70-CR-Needham",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Needham",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "NB-0064-S",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772712-654",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1812",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T16:34:48-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": null,
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 110,
+        "update_type": null
+      },
+      "id": "prediction-Base-772713-655-NB-0137-S-110-CR-Needham",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Needham",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "NB-0137-S",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772713-655",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1865",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T16:36:16-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T16:36:16-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 80,
+        "update_type": null
+      },
+      "id": "prediction-Base-772712-654-NEC-2237-05-80-CR-Needham",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Needham",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "NEC-2237-05",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772712-654",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1812",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T16:40:09-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T16:40:09-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 90,
+        "update_type": null
+      },
+      "id": "prediction-Base-772712-654-NEC-2265-03-90-CR-Needham",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Needham",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "NEC-2265-03",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772712-654",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1812",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T16:43:36-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T16:43:36-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 100,
+        "update_type": null
+      },
+      "id": "prediction-Base-772712-654-NEC-2276-03-100-CR-Needham",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Needham",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "NEC-2276-03",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772712-654",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1812",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T16:49:16-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": null,
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 110,
+        "update_type": null
+      },
+      "id": "prediction-Base-772712-654-NEC-2287-110-CR-Needham",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Needham",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "NEC-2287",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772712-654",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1812",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    }
+  ],
+  "jsonapi": {
+    "version": "1.0"
+  }
+}

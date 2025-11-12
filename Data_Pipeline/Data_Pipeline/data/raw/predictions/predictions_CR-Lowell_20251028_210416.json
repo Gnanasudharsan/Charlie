@@ -1,0 +1,477 @@
+{
+  "data": [
+    {
+      "attributes": {
+        "arrival_time": null,
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T17:05:00-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": "All aboard",
+        "stop_sequence": 0,
+        "update_type": null
+      },
+      "id": "prediction-Base-772389-363-BNT-0000-08-0-CR-Lowell",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Lowell",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "BNT-0000-08",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772389-363",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": null
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": null,
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T17:07:00-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 0,
+        "update_type": null
+      },
+      "id": "prediction-Base-772388-360-NHRML-0254-04-0-CR-Lowell",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Lowell",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "NHRML-0254-04",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772388-360",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1719",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:09:19-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T17:09:19-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 60,
+        "update_type": null
+      },
+      "id": "prediction-Base-772387-359-NHRML-0218-01-60-CR-Lowell",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Lowell",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "NHRML-0218-01",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772387-359",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1714",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:13:42-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T17:15:00-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 10,
+        "update_type": null
+      },
+      "id": "prediction-Base-772388-360-NHRML-0218-02-10-CR-Lowell",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Lowell",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "NHRML-0218-02",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772388-360",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1719",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:17:20-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": null,
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 70,
+        "update_type": null
+      },
+      "id": "prediction-Base-772387-359-NHRML-0254-04-70-CR-Lowell",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Lowell",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "NHRML-0254-04",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772387-359",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1714",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:23:33-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T17:23:33-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 20,
+        "update_type": null
+      },
+      "id": "prediction-Base-772388-360-NHRML-0152-02-20-CR-Lowell",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Lowell",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "NHRML-0152-02",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772388-360",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1719",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:26:26-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T17:26:26-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 30,
+        "update_type": null
+      },
+      "id": "prediction-Base-772388-360-NHRML-0127-02-30-CR-Lowell",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Lowell",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "NHRML-0127-02",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772388-360",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1719",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:32:27-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T17:32:27-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 40,
+        "update_type": null
+      },
+      "id": "prediction-Base-772388-360-NHRML-0078-02-40-CR-Lowell",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Lowell",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "NHRML-0078-02",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772388-360",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1719",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:33:29-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T17:34:00-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 50,
+        "update_type": null
+      },
+      "id": "prediction-Base-772388-360-NHRML-0073-02-50-CR-Lowell",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Lowell",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "NHRML-0073-02",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772388-360",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1719",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:37:51-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T17:38:00-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 60,
+        "update_type": null
+      },
+      "id": "prediction-Base-772388-360-NHRML-0055-02-60-CR-Lowell",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Lowell",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "NHRML-0055-02",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772388-360",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1719",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:49:51-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": null,
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 70,
+        "update_type": null
+      },
+      "id": "prediction-Base-772388-360-BNT-0000-70-CR-Lowell",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Lowell",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "BNT-0000",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772388-360",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1719",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    }
+  ],
+  "jsonapi": {
+    "version": "1.0"
+  }
+}

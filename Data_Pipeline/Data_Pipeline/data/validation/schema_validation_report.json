@@ -1,0 +1,75 @@
+[
+  {
+    "file": "Data_Pipeline/data/processed/predictions.csv",
+    "rows": 220392,
+    "missing_columns": [
+      "relationships.route.data.id",
+      "id",
+      "attributes.arrival_time",
+      "attributes.departure_time"
+    ],
+    "extra_columns": [
+      "departure_time",
+      "stop_sequence",
+      "route_id",
+      "direction_id",
+      "status",
+      "arrival_time"
+    ],
+    "status": "FAIL"
+  },
+  {
+    "file": "Data_Pipeline/data/processed/vehicles.csv",
+    "rows": 804,
+    "missing_columns": [],
+    "extra_columns": [
+      "relationships.stop.data.id",
+      "relationships.trip.data.id",
+      "links.self",
+      "attributes.label",
+      "type",
+      "attributes.current_stop_sequence",
+      "attributes.revenue",
+      "relationships.route.data.type",
+      "relationships.trip.data.type",
+      "attributes.current_status",
+      "attributes.speed",
+      "attributes.occupancy_status",
+      "relationships.stop.data.type",
+      "attributes.bearing",
+      "attributes.direction_id",
+      "relationships.stop.data",
+      "attributes.carriages",
+      "attributes.updated_at"
+    ],
+    "status": "PASS"
+  },
+  {
+    "file": "Data_Pipeline/data/processed/alerts.csv",
+    "rows": 126,
+    "missing_columns": [],
+    "extra_columns": [
+      "attributes.service_effect",
+      "attributes.informed_entity",
+      "attributes.active_period",
+      "links.self",
+      "attributes.description",
+      "type",
+      "attributes.duration_certainty",
+      "attributes.last_push_notification_timestamp",
+      "attributes.image_alternative_text",
+      "attributes.closed_timestamp",
+      "attributes.image",
+      "attributes.url",
+      "attributes.header",
+      "attributes.lifecycle",
+      "attributes.reminder_times",
+      "attributes.short_header",
+      "attributes.banner",
+      "attributes.created_at",
+      "attributes.timeframe",
+      "attributes.severity"
+    ],
+    "status": "PASS"
+  }
+]

@@ -1,0 +1,1208 @@
+{
+  "data": [
+    {
+      "attributes": {
+        "arrival_time": null,
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T17:05:00-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": "All aboard",
+        "stop_sequence": 0,
+        "update_type": null
+      },
+      "id": "prediction-ReadRailJobConnectionsUpdate-778617-763-NEC-2287-03-0-CR-Franklin",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Franklin",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "NEC-2287-03",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "ReadRailJobConnectionsUpdate-778617-763",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": null
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:00:25-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T17:00:25-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 80,
+        "update_type": null
+      },
+      "id": "prediction-Base-772778-856-NEC-2265-02-80-CR-Franklin",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Franklin",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "NEC-2265-02",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772778-856",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1832",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:03:37-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T17:03:37-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 60,
+        "update_type": null
+      },
+      "id": "prediction-Base-772740-759-FB-0109-01-60-CR-Franklin",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Franklin",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "FB-0109-01",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772740-759",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1823",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:03:53-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T17:03:53-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 90,
+        "update_type": null
+      },
+      "id": "prediction-Base-772778-856-NEC-2276-02-90-CR-Franklin",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Franklin",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "NEC-2276-02",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772778-856",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1832",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:04:52-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T17:04:52-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 70,
+        "update_type": null
+      },
+      "id": "prediction-Base-772740-759-FB-0118-01-70-CR-Franklin",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Franklin",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "FB-0118-01",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772740-759",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1823",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:05:23-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T17:05:23-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 20,
+        "update_type": null
+      },
+      "id": "prediction-Base-772741-762-FB-0230-S-20-CR-Franklin",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Franklin",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "FB-0230-S",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772741-762",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1858",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:06:06-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T17:06:06-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 80,
+        "update_type": null
+      },
+      "id": "prediction-Base-772740-759-FB-0125-01-80-CR-Franklin",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Franklin",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "FB-0125-01",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772740-759",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1823",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:07:13-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": null,
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 80,
+        "update_type": null
+      },
+      "id": "prediction-Base-772956-1756-NEC-2287-80-CR-Franklin",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Franklin",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "NEC-2287",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772956-1756",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1834",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:08:34-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": null,
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 110,
+        "update_type": null
+      },
+      "id": "prediction-Base-772957-1757-FS-0049-S-110-CR-Franklin",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Franklin",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "FS-0049-S",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772957-1757",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1863",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:08:58-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T17:08:58-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 90,
+        "update_type": null
+      },
+      "id": "prediction-Base-772740-759-FB-0143-01-90-CR-Franklin",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Franklin",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "FB-0143-01",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772740-759",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1823",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:09:45-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": null,
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 100,
+        "update_type": null
+      },
+      "id": "prediction-Base-772778-856-NEC-2287-100-CR-Franklin",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Franklin",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "NEC-2287",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772778-856",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1832",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:09:57-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T17:21:00-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 30,
+        "update_type": null
+      },
+      "id": "prediction-Base-772741-762-FB-0191-S-30-CR-Franklin",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Franklin",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "FB-0191-S",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772741-762",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1858",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:09:59-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T17:09:59-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 100,
+        "update_type": null
+      },
+      "id": "prediction-Base-772740-759-FB-0148-01-100-CR-Franklin",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Franklin",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "FB-0148-01",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772740-759",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1823",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:12:24-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T17:12:24-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 110,
+        "update_type": null
+      },
+      "id": "prediction-Base-772740-759-FB-0166-S-110-CR-Franklin",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Franklin",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "FB-0166-S",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772740-759",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1823",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:15:56-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T17:15:56-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 120,
+        "update_type": null
+      },
+      "id": "prediction-Base-772740-759-FB-0191-S-120-CR-Franklin",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Franklin",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "FB-0191-S",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772740-759",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1823",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:20:17-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T17:22:00-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 130,
+        "update_type": null
+      },
+      "id": "prediction-Base-772740-759-FB-0230-S-130-CR-Franklin",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Franklin",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "FB-0230-S",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772740-759",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1823",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:25:18-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T17:25:18-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 40,
+        "update_type": null
+      },
+      "id": "prediction-Base-772741-762-FB-0166-S-40-CR-Franklin",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Franklin",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "FB-0166-S",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772741-762",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1858",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:27:33-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T17:28:00-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 50,
+        "update_type": null
+      },
+      "id": "prediction-Base-772741-762-FB-0148-02-50-CR-Franklin",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Franklin",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "FB-0148-02",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772741-762",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1858",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:28:00-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T17:29:00-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 140,
+        "update_type": null
+      },
+      "id": "prediction-Base-772740-759-FB-0275-S-140-CR-Franklin",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Franklin",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "FB-0275-S",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772740-759",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1823",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:30:20-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T17:30:20-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 60,
+        "update_type": null
+      },
+      "id": "prediction-Base-772741-762-FB-0143-02-60-CR-Franklin",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Franklin",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "FB-0143-02",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772741-762",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1858",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:32:40-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T17:34:00-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 70,
+        "update_type": null
+      },
+      "id": "prediction-Base-772741-762-FB-0125-02-70-CR-Franklin",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Franklin",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "FB-0125-02",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772741-762",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1858",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:35:55-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T17:36:00-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 80,
+        "update_type": null
+      },
+      "id": "prediction-Base-772741-762-FB-0118-02-80-CR-Franklin",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Franklin",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "FB-0118-02",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772741-762",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1858",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:36:03-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": null,
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 150,
+        "update_type": null
+      },
+      "id": "prediction-Base-772740-759-FB-0303-S-150-CR-Franklin",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Franklin",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "FB-0303-S",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772740-759",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1823",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:38:34-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T17:39:00-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 90,
+        "update_type": null
+      },
+      "id": "prediction-Base-772741-762-FB-0109-02-90-CR-Franklin",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Franklin",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "FB-0109-02",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772741-762",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1858",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:42:19-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T17:43:00-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 100,
+        "update_type": null
+      },
+      "id": "prediction-Base-772741-762-FB-0095-05-100-CR-Franklin",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Franklin",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "FB-0095-05",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772741-762",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1858",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:56:59-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T17:56:59-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 110,
+        "update_type": null
+      },
+      "id": "prediction-Base-772741-762-NEC-2265-02-110-CR-Franklin",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Franklin",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "NEC-2265-02",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772741-762",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1858",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T18:00:59-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T18:00:59-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 120,
+        "update_type": null
+      },
+      "id": "prediction-Base-772741-762-NEC-2276-02-120-CR-Franklin",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Franklin",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "NEC-2276-02",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772741-762",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1858",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T18:08:09-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": null,
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 130,
+        "update_type": null
+      },
+      "id": "prediction-Base-772741-762-NEC-2287-130-CR-Franklin",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Franklin",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "NEC-2287",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772741-762",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1858",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    }
+  ],
+  "jsonapi": {
+    "version": "1.0"
+  }
+}

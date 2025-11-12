@@ -1,0 +1,4483 @@
+{
+  "data": [
+    {
+      "attributes": {
+        "arrival_time": null,
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T16:52:00-04:00",
+        "departure_uncertainty": 300,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 1,
+        "update_type": null
+      },
+      "id": "prediction-71987565-13829-1-226",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "226",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "13829",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "71987565",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": null
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": null,
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T16:20:00-04:00",
+        "departure_uncertainty": 300,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 1,
+        "update_type": null
+      },
+      "id": "prediction-71987562-38671-1-226",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "226",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "38671",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "71987562",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": null
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": null,
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T16:22:00-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 1,
+        "update_type": null
+      },
+      "id": "prediction-71987528-13829-1-226",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "226",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "13829",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "71987528",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "y0815",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T15:56:57-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T15:56:57-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 5,
+        "update_type": null
+      },
+      "id": "prediction-71987547-39695-5-226",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "226",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "39695",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "71987547",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "y0815",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T15:57:36-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T15:57:36-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 6,
+        "update_type": null
+      },
+      "id": "prediction-71987547-39696-6-226",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "226",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "39696",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "71987547",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "y0815",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T15:59:32-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T15:59:32-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 7,
+        "update_type": null
+      },
+      "id": "prediction-71987547-13808-7-226",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "226",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "13808",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "71987547",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "y0815",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T15:59:53-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T15:59:53-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 8,
+        "update_type": null
+      },
+      "id": "prediction-71987547-13813-8-226",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "226",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "13813",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "71987547",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "y0815",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T16:00:19-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T16:00:19-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 9,
+        "update_type": null
+      },
+      "id": "prediction-71987547-13814-9-226",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "226",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "13814",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "71987547",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "y0815",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T16:00:54-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T16:00:54-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 10,
+        "update_type": null
+      },
+      "id": "prediction-71987547-13815-10-226",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "226",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "13815",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "71987547",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "y0815",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T16:01:45-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T16:01:45-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 11,
+        "update_type": null
+      },
+      "id": "prediction-71987547-13816-11-226",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "226",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "13816",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "71987547",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "y0815",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T16:02:42-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T16:02:42-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 12,
+        "update_type": null
+      },
+      "id": "prediction-71987547-13817-12-226",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "226",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "13817",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "71987547",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "y0815",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T16:02:54-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T16:02:54-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 13,
+        "update_type": null
+      },
+      "id": "prediction-71987547-13818-13-226",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "226",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "13818",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "71987547",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "y0815",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T16:03:09-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T16:03:09-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 14,
+        "update_type": null
+      },
+      "id": "prediction-71987547-13819-14-226",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "226",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "13819",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "71987547",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "y0815",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T16:03:36-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T16:03:36-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 15,
+        "update_type": null
+      },
+      "id": "prediction-71987547-13820-15-226",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "226",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "13820",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "71987547",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "y0815",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T16:04:59-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T16:04:59-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 16,
+        "update_type": null
+      },
+      "id": "prediction-71987547-13821-16-226",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "226",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "13821",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "71987547",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "y0815",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T16:05:55-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T16:05:55-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 17,
+        "update_type": null
+      },
+      "id": "prediction-71987547-13822-17-226",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "226",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "13822",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "71987547",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "y0815",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T16:06:23-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T16:06:23-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 18,
+        "update_type": null
+      },
+      "id": "prediction-71987547-13823-18-226",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "226",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "13823",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "71987547",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "y0815",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T16:07:30-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T16:07:30-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 19,
+        "update_type": null
+      },
+      "id": "prediction-71987547-23823-19-226",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "226",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "23823",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "71987547",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "y0815",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T16:08:02-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T16:08:02-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 20,
+        "update_type": null
+      },
+      "id": "prediction-71987547-13824-20-226",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "226",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "13824",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "71987547",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "y0815",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T16:09:24-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T16:09:24-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 21,
+        "update_type": null
+      },
+      "id": "prediction-71987547-13825-21-226",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "226",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "13825",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "71987547",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "y0815",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T16:10:06-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T16:10:06-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 22,
+        "update_type": null
+      },
+      "id": "prediction-71987547-13826-22-226",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "226",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "13826",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "71987547",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "y0815",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T16:12:04-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T16:12:04-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 23,
+        "update_type": null
+      },
+      "id": "prediction-71987547-23826-23-226",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "226",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "23826",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "71987547",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "y0815",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T16:13:13-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T16:13:13-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 24,
+        "update_type": null
+      },
+      "id": "prediction-71987547-13827-24-226",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "226",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "13827",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "71987547",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "y0815",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T16:14:37-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T16:14:37-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 25,
+        "update_type": null
+      },
+      "id": "prediction-71987547-13828-25-226",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "226",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "13828",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "71987547",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "y0815",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T16:14:50-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": null,
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 26,
+        "update_type": null
+      },
+      "id": "prediction-71987547-13829-26-226",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "226",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "13829",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "71987547",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "y0815",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T16:23:20-04:00",
+        "arrival_uncertainty": 300,
+        "departure_time": "2025-10-28T16:23:20-04:00",
+        "departure_uncertainty": 300,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 2,
+        "update_type": null
+      },
+      "id": "prediction-71987562-39692-2-226",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "226",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "39692",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "71987562",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": null
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T16:24:03-04:00",
+        "arrival_uncertainty": 300,
+        "departure_time": "2025-10-28T16:24:03-04:00",
+        "departure_uncertainty": 300,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 3,
+        "update_type": null
+      },
+      "id": "prediction-71987562-39693-3-226",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "226",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "39693",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "71987562",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": null
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T16:24:27-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T16:24:27-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 2,
+        "update_type": null
+      },
+      "id": "prediction-71987528-13830-2-226",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "226",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "13830",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "71987528",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "y0815",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T16:25:23-04:00",
+        "arrival_uncertainty": 300,
+        "departure_time": "2025-10-28T16:25:23-04:00",
+        "departure_uncertainty": 300,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 4,
+        "update_type": null
+      },
+      "id": "prediction-71987562-39694-4-226",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "226",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "39694",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "71987562",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": null
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T16:25:38-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T16:25:38-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 3,
+        "update_type": null
+      },
+      "id": "prediction-71987528-13831-3-226",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "226",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "13831",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "71987528",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "y0815",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T16:26:37-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T16:26:37-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 4,
+        "update_type": null
+      },
+      "id": "prediction-71987528-13832-4-226",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "226",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "13832",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "71987528",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "y0815",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T16:26:42-04:00",
+        "arrival_uncertainty": 300,
+        "departure_time": "2025-10-28T16:26:42-04:00",
+        "departure_uncertainty": 300,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 5,
+        "update_type": null
+      },
+      "id": "prediction-71987562-39695-5-226",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "226",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "39695",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "71987562",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": null
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T16:27:04-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T16:27:04-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 5,
+        "update_type": null
+      },
+      "id": "prediction-71987528-23832-5-226",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "226",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "23832",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "71987528",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "y0815",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T16:27:23-04:00",
+        "arrival_uncertainty": 300,
+        "departure_time": "2025-10-28T16:27:23-04:00",
+        "departure_uncertainty": 300,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 6,
+        "update_type": null
+      },
+      "id": "prediction-71987562-39696-6-226",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "226",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "39696",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "71987562",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": null
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T16:27:37-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T16:27:37-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 6,
+        "update_type": null
+      },
+      "id": "prediction-71987528-13833-6-226",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "226",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "13833",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "71987528",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "y0815",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T16:28:00-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T16:28:00-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 7,
+        "update_type": null
+      },
+      "id": "prediction-71987528-13834-7-226",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "226",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "13834",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "71987528",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "y0815",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T16:29:09-04:00",
+        "arrival_uncertainty": 300,
+        "departure_time": "2025-10-28T16:29:09-04:00",
+        "departure_uncertainty": 300,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 7,
+        "update_type": null
+      },
+      "id": "prediction-71987562-13808-7-226",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "226",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "13808",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "71987562",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": null
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T16:29:30-04:00",
+        "arrival_uncertainty": 300,
+        "departure_time": "2025-10-28T16:29:30-04:00",
+        "departure_uncertainty": 300,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 8,
+        "update_type": null
+      },
+      "id": "prediction-71987562-13813-8-226",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "226",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "13813",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "71987562",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": null
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T16:30:01-04:00",
+        "arrival_uncertainty": 300,
+        "departure_time": "2025-10-28T16:30:01-04:00",
+        "departure_uncertainty": 300,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 9,
+        "update_type": null
+      },
+      "id": "prediction-71987562-13814-9-226",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "226",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "13814",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "71987562",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": null
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T16:30:01-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T16:30:01-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 8,
+        "update_type": null
+      },
+      "id": "prediction-71987528-13835-8-226",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "226",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "13835",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "71987528",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "y0815",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T16:30:09-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T16:30:09-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 9,
+        "update_type": null
+      },
+      "id": "prediction-71987528-23835-9-226",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "226",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "23835",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "71987528",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "y0815",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T16:30:47-04:00",
+        "arrival_uncertainty": 300,
+        "departure_time": "2025-10-28T16:30:47-04:00",
+        "departure_uncertainty": 300,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 10,
+        "update_type": null
+      },
+      "id": "prediction-71987562-13815-10-226",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "226",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "13815",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "71987562",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": null
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T16:31:00-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T16:31:00-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 10,
+        "update_type": null
+      },
+      "id": "prediction-71987528-13836-10-226",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "226",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "13836",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "71987528",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "y0815",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T16:31:24-04:00",
+        "arrival_uncertainty": 300,
+        "departure_time": "2025-10-28T16:31:24-04:00",
+        "departure_uncertainty": 300,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 11,
+        "update_type": null
+      },
+      "id": "prediction-71987562-13816-11-226",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "226",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "13816",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "71987562",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": null
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T16:32:02-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T16:32:02-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 11,
+        "update_type": null
+      },
+      "id": "prediction-71987528-13837-11-226",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "226",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "13837",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "71987528",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "y0815",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T16:32:27-04:00",
+        "arrival_uncertainty": 300,
+        "departure_time": "2025-10-28T16:32:27-04:00",
+        "departure_uncertainty": 300,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 12,
+        "update_type": null
+      },
+      "id": "prediction-71987562-13817-12-226",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "226",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "13817",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "71987562",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": null
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T16:32:38-04:00",
+        "arrival_uncertainty": 300,
+        "departure_time": "2025-10-28T16:32:38-04:00",
+        "departure_uncertainty": 300,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 13,
+        "update_type": null
+      },
+      "id": "prediction-71987562-13818-13-226",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "226",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "13818",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "71987562",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": null
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T16:32:38-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T16:32:38-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 12,
+        "update_type": null
+      },
+      "id": "prediction-71987528-13838-12-226",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "226",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "13838",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "71987528",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "y0815",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T16:32:53-04:00",
+        "arrival_uncertainty": 300,
+        "departure_time": "2025-10-28T16:32:53-04:00",
+        "departure_uncertainty": 300,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 14,
+        "update_type": null
+      },
+      "id": "prediction-71987562-13819-14-226",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "226",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "13819",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "71987562",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": null
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T16:33:22-04:00",
+        "arrival_uncertainty": 300,
+        "departure_time": "2025-10-28T16:33:22-04:00",
+        "departure_uncertainty": 300,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 15,
+        "update_type": null
+      },
+      "id": "prediction-71987562-13820-15-226",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "226",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "13820",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "71987562",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": null
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T16:33:52-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T16:33:52-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 13,
+        "update_type": null
+      },
+      "id": "prediction-71987528-13839-13-226",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "226",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "13839",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "71987528",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "y0815",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T16:34:19-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T16:34:19-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 14,
+        "update_type": null
+      },
+      "id": "prediction-71987528-13840-14-226",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "226",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "13840",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "71987528",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "y0815",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T16:34:41-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T16:34:41-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 15,
+        "update_type": null
+      },
+      "id": "prediction-71987528-13841-15-226",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "226",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "13841",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "71987528",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "y0815",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T16:34:46-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T16:34:46-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 16,
+        "update_type": null
+      },
+      "id": "prediction-71987528-13842-16-226",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "226",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "13842",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "71987528",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "y0815",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T16:34:48-04:00",
+        "arrival_uncertainty": 300,
+        "departure_time": "2025-10-28T16:34:48-04:00",
+        "departure_uncertainty": 300,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 16,
+        "update_type": null
+      },
+      "id": "prediction-71987562-13821-16-226",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "226",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "13821",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "71987562",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": null
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T16:35:23-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T16:35:23-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 17,
+        "update_type": null
+      },
+      "id": "prediction-71987528-13843-17-226",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "226",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "13843",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "71987528",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "y0815",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T16:35:37-04:00",
+        "arrival_uncertainty": 300,
+        "departure_time": "2025-10-28T16:35:37-04:00",
+        "departure_uncertainty": 300,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 17,
+        "update_type": null
+      },
+      "id": "prediction-71987562-13822-17-226",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "226",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "13822",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "71987562",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": null
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T16:35:41-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T16:35:41-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 18,
+        "update_type": null
+      },
+      "id": "prediction-71987528-3821-18-226",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "226",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "3821",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "71987528",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "y0815",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T16:35:59-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T16:35:59-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 19,
+        "update_type": null
+      },
+      "id": "prediction-71987528-3822-19-226",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "226",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "3822",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "71987528",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "y0815",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T16:36:05-04:00",
+        "arrival_uncertainty": 300,
+        "departure_time": "2025-10-28T16:36:05-04:00",
+        "departure_uncertainty": 300,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 18,
+        "update_type": null
+      },
+      "id": "prediction-71987562-13823-18-226",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "226",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "13823",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "71987562",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": null
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T16:36:11-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T16:36:11-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 20,
+        "update_type": null
+      },
+      "id": "prediction-71987528-3823-20-226",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "226",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "3823",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "71987528",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "y0815",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T16:36:41-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T16:36:41-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 21,
+        "update_type": null
+      },
+      "id": "prediction-71987528-3824-21-226",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "226",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "3824",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "71987528",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "y0815",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T16:37:00-04:00",
+        "arrival_uncertainty": 300,
+        "departure_time": "2025-10-28T16:37:00-04:00",
+        "departure_uncertainty": 300,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 19,
+        "update_type": null
+      },
+      "id": "prediction-71987562-23823-19-226",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "226",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "23823",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "71987562",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": null
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T16:37:27-04:00",
+        "arrival_uncertainty": 300,
+        "departure_time": "2025-10-28T16:37:27-04:00",
+        "departure_uncertainty": 300,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 20,
+        "update_type": null
+      },
+      "id": "prediction-71987562-13824-20-226",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "226",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "13824",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "71987562",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": null
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T16:38:14-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T16:38:14-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 22,
+        "update_type": null
+      },
+      "id": "prediction-71987528-3709-22-226",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "226",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "3709",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "71987528",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "y0815",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T16:38:30-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T16:38:30-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 23,
+        "update_type": null
+      },
+      "id": "prediction-71987528-3710-23-226",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "226",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "3710",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "71987528",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "y0815",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T16:38:54-04:00",
+        "arrival_uncertainty": 300,
+        "departure_time": "2025-10-28T16:38:54-04:00",
+        "departure_uncertainty": 300,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 21,
+        "update_type": null
+      },
+      "id": "prediction-71987562-13825-21-226",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "226",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "13825",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "71987562",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": null
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T16:39:14-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T16:39:14-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 24,
+        "update_type": null
+      },
+      "id": "prediction-71987528-3711-24-226",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "226",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "3711",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "71987528",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "y0815",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T16:39:18-04:00",
+        "arrival_uncertainty": 300,
+        "departure_time": "2025-10-28T16:39:18-04:00",
+        "departure_uncertainty": 300,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 22,
+        "update_type": null
+      },
+      "id": "prediction-71987562-13826-22-226",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "226",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "13826",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "71987562",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": null
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T16:39:51-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T16:39:51-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 25,
+        "update_type": null
+      },
+      "id": "prediction-71987528-13713-25-226",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "226",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "13713",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "71987528",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "y0815",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T16:40:10-04:00",
+        "arrival_uncertainty": 300,
+        "departure_time": "2025-10-28T16:40:10-04:00",
+        "departure_uncertainty": 300,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 23,
+        "update_type": null
+      },
+      "id": "prediction-71987562-23826-23-226",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "226",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "23826",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "71987562",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": null
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T16:41:03-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T16:41:03-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 26,
+        "update_type": null
+      },
+      "id": "prediction-71987528-13714-26-226",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "226",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "13714",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "71987528",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "y0815",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T16:41:04-04:00",
+        "arrival_uncertainty": 300,
+        "departure_time": "2025-10-28T16:41:04-04:00",
+        "departure_uncertainty": 300,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 24,
+        "update_type": null
+      },
+      "id": "prediction-71987562-13827-24-226",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "226",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "13827",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "71987562",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": null
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T16:41:44-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T16:41:44-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 27,
+        "update_type": null
+      },
+      "id": "prediction-71987528-13716-27-226",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "226",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "13716",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "71987528",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "y0815",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T16:42:29-04:00",
+        "arrival_uncertainty": 300,
+        "departure_time": "2025-10-28T16:42:29-04:00",
+        "departure_uncertainty": 300,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 25,
+        "update_type": null
+      },
+      "id": "prediction-71987562-13828-25-226",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "226",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "13828",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "71987562",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": null
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T16:42:43-04:00",
+        "arrival_uncertainty": 300,
+        "departure_time": null,
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 26,
+        "update_type": null
+      },
+      "id": "prediction-71987562-13829-26-226",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "226",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "13829",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "71987562",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": null
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T16:42:51-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T16:42:51-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 28,
+        "update_type": null
+      },
+      "id": "prediction-71987528-38501-28-226",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "226",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "38501",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "71987528",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "y0815",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T16:43:27-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T16:43:27-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 29,
+        "update_type": null
+      },
+      "id": "prediction-71987528-38502-29-226",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "226",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "38502",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "71987528",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "y0815",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T16:45:04-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": null,
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 30,
+        "update_type": null
+      },
+      "id": "prediction-71987528-38671-30-226",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "226",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "38671",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "71987528",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "y0815",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T16:53:13-04:00",
+        "arrival_uncertainty": 300,
+        "departure_time": "2025-10-28T16:53:13-04:00",
+        "departure_uncertainty": 300,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 2,
+        "update_type": null
+      },
+      "id": "prediction-71987565-13830-2-226",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "226",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "13830",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "71987565",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": null
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T16:54:25-04:00",
+        "arrival_uncertainty": 300,
+        "departure_time": "2025-10-28T16:54:25-04:00",
+        "departure_uncertainty": 300,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 3,
+        "update_type": null
+      },
+      "id": "prediction-71987565-13831-3-226",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "226",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "13831",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "71987565",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": null
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T16:55:09-04:00",
+        "arrival_uncertainty": 300,
+        "departure_time": "2025-10-28T16:55:09-04:00",
+        "departure_uncertainty": 300,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 4,
+        "update_type": null
+      },
+      "id": "prediction-71987565-13832-4-226",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "226",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "13832",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "71987565",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": null
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T16:55:31-04:00",
+        "arrival_uncertainty": 300,
+        "departure_time": "2025-10-28T16:55:31-04:00",
+        "departure_uncertainty": 300,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 5,
+        "update_type": null
+      },
+      "id": "prediction-71987565-23832-5-226",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "226",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "23832",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "71987565",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": null
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T16:56:06-04:00",
+        "arrival_uncertainty": 300,
+        "departure_time": "2025-10-28T16:56:06-04:00",
+        "departure_uncertainty": 300,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 6,
+        "update_type": null
+      },
+      "id": "prediction-71987565-13833-6-226",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "226",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "13833",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "71987565",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": null
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T16:56:32-04:00",
+        "arrival_uncertainty": 300,
+        "departure_time": "2025-10-28T16:56:32-04:00",
+        "departure_uncertainty": 300,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 7,
+        "update_type": null
+      },
+      "id": "prediction-71987565-13834-7-226",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "226",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "13834",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "71987565",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": null
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T16:57:59-04:00",
+        "arrival_uncertainty": 300,
+        "departure_time": "2025-10-28T16:57:59-04:00",
+        "departure_uncertainty": 300,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 8,
+        "update_type": null
+      },
+      "id": "prediction-71987565-13835-8-226",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "226",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "13835",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "71987565",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": null
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T16:58:08-04:00",
+        "arrival_uncertainty": 300,
+        "departure_time": "2025-10-28T16:58:08-04:00",
+        "departure_uncertainty": 300,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 9,
+        "update_type": null
+      },
+      "id": "prediction-71987565-23835-9-226",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "226",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "23835",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "71987565",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": null
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T16:58:40-04:00",
+        "arrival_uncertainty": 300,
+        "departure_time": "2025-10-28T16:58:40-04:00",
+        "departure_uncertainty": 300,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 10,
+        "update_type": null
+      },
+      "id": "prediction-71987565-13836-10-226",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "226",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "13836",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "71987565",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": null
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T16:59:40-04:00",
+        "arrival_uncertainty": 300,
+        "departure_time": "2025-10-28T16:59:40-04:00",
+        "departure_uncertainty": 300,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 11,
+        "update_type": null
+      },
+      "id": "prediction-71987565-13837-11-226",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "226",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "13837",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "71987565",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": null
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:00:14-04:00",
+        "arrival_uncertainty": 300,
+        "departure_time": "2025-10-28T17:00:14-04:00",
+        "departure_uncertainty": 300,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 12,
+        "update_type": null
+      },
+      "id": "prediction-71987565-13838-12-226",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "226",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "13838",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "71987565",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": null
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:01:49-04:00",
+        "arrival_uncertainty": 300,
+        "departure_time": "2025-10-28T17:01:49-04:00",
+        "departure_uncertainty": 300,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 13,
+        "update_type": null
+      },
+      "id": "prediction-71987565-13839-13-226",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "226",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "13839",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "71987565",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": null
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:02:13-04:00",
+        "arrival_uncertainty": 300,
+        "departure_time": "2025-10-28T17:02:13-04:00",
+        "departure_uncertainty": 300,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 14,
+        "update_type": null
+      },
+      "id": "prediction-71987565-13840-14-226",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "226",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "13840",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "71987565",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": null
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:02:35-04:00",
+        "arrival_uncertainty": 300,
+        "departure_time": "2025-10-28T17:02:35-04:00",
+        "departure_uncertainty": 300,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 15,
+        "update_type": null
+      },
+      "id": "prediction-71987565-13841-15-226",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "226",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "13841",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "71987565",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": null
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:02:39-04:00",
+        "arrival_uncertainty": 300,
+        "departure_time": "2025-10-28T17:02:39-04:00",
+        "departure_uncertainty": 300,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 16,
+        "update_type": null
+      },
+      "id": "prediction-71987565-13842-16-226",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "226",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "13842",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "71987565",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": null
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:03:05-04:00",
+        "arrival_uncertainty": 300,
+        "departure_time": "2025-10-28T17:03:05-04:00",
+        "departure_uncertainty": 300,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 17,
+        "update_type": null
+      },
+      "id": "prediction-71987565-13843-17-226",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "226",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "13843",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "71987565",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": null
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:03:21-04:00",
+        "arrival_uncertainty": 300,
+        "departure_time": "2025-10-28T17:03:21-04:00",
+        "departure_uncertainty": 300,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 18,
+        "update_type": null
+      },
+      "id": "prediction-71987565-3821-18-226",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "226",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "3821",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "71987565",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": null
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:03:39-04:00",
+        "arrival_uncertainty": 300,
+        "departure_time": "2025-10-28T17:03:39-04:00",
+        "departure_uncertainty": 300,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 19,
+        "update_type": null
+      },
+      "id": "prediction-71987565-3822-19-226",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "226",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "3822",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "71987565",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": null
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:03:51-04:00",
+        "arrival_uncertainty": 300,
+        "departure_time": "2025-10-28T17:03:51-04:00",
+        "departure_uncertainty": 300,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 20,
+        "update_type": null
+      },
+      "id": "prediction-71987565-3823-20-226",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "226",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "3823",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "71987565",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": null
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:04:20-04:00",
+        "arrival_uncertainty": 300,
+        "departure_time": "2025-10-28T17:04:20-04:00",
+        "departure_uncertainty": 300,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 21,
+        "update_type": null
+      },
+      "id": "prediction-71987565-3824-21-226",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "226",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "3824",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "71987565",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": null
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:05:29-04:00",
+        "arrival_uncertainty": 300,
+        "departure_time": "2025-10-28T17:05:29-04:00",
+        "departure_uncertainty": 300,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 22,
+        "update_type": null
+      },
+      "id": "prediction-71987565-3709-22-226",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "226",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "3709",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "71987565",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": null
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:05:46-04:00",
+        "arrival_uncertainty": 300,
+        "departure_time": "2025-10-28T17:05:46-04:00",
+        "departure_uncertainty": 300,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 23,
+        "update_type": null
+      },
+      "id": "prediction-71987565-3710-23-226",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "226",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "3710",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "71987565",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": null
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:06:11-04:00",
+        "arrival_uncertainty": 300,
+        "departure_time": "2025-10-28T17:06:11-04:00",
+        "departure_uncertainty": 300,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 24,
+        "update_type": null
+      },
+      "id": "prediction-71987565-3711-24-226",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "226",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "3711",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "71987565",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": null
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:06:51-04:00",
+        "arrival_uncertainty": 300,
+        "departure_time": "2025-10-28T17:06:51-04:00",
+        "departure_uncertainty": 300,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 25,
+        "update_type": null
+      },
+      "id": "prediction-71987565-13713-25-226",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "226",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "13713",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "71987565",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": null
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:08:01-04:00",
+        "arrival_uncertainty": 300,
+        "departure_time": "2025-10-28T17:08:01-04:00",
+        "departure_uncertainty": 300,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 26,
+        "update_type": null
+      },
+      "id": "prediction-71987565-13714-26-226",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "226",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "13714",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "71987565",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": null
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:08:34-04:00",
+        "arrival_uncertainty": 300,
+        "departure_time": "2025-10-28T17:08:34-04:00",
+        "departure_uncertainty": 300,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 27,
+        "update_type": null
+      },
+      "id": "prediction-71987565-13716-27-226",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "226",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "13716",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "71987565",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": null
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:09:45-04:00",
+        "arrival_uncertainty": 300,
+        "departure_time": "2025-10-28T17:09:45-04:00",
+        "departure_uncertainty": 300,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 28,
+        "update_type": null
+      },
+      "id": "prediction-71987565-38501-28-226",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "226",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "38501",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "71987565",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": null
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:10:24-04:00",
+        "arrival_uncertainty": 300,
+        "departure_time": "2025-10-28T17:10:24-04:00",
+        "departure_uncertainty": 300,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 29,
+        "update_type": null
+      },
+      "id": "prediction-71987565-38502-29-226",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "226",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "38502",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "71987565",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": null
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:12:16-04:00",
+        "arrival_uncertainty": 300,
+        "departure_time": null,
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 30,
+        "update_type": null
+      },
+      "id": "prediction-71987565-38671-30-226",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "226",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "38671",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "71987565",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": null
+        }
+      },
+      "type": "prediction"
+    }
+  ],
+  "jsonapi": {
+    "version": "1.0"
+  }
+}

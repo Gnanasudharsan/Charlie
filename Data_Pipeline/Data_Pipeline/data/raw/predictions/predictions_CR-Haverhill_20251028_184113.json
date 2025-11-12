@@ -1,0 +1,867 @@
+{
+  "data": [
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T14:42:33-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T14:43:00-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 80,
+        "update_type": null
+      },
+      "id": "prediction-Base-772345-247-WR-0120-S-80-CR-Haverhill",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Haverhill",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "WR-0120-S",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772345-247",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1814",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T14:44:20-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T14:44:20-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 30,
+        "update_type": null
+      },
+      "id": "prediction-Base-772346-250-WR-0228-02-30-CR-Haverhill",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Haverhill",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "WR-0228-02",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772346-250",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1715",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T14:47:10-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T14:48:00-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 40,
+        "update_type": null
+      },
+      "id": "prediction-Base-772346-250-WR-0205-02-40-CR-Haverhill",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Haverhill",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "WR-0205-02",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772346-250",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1715",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T14:47:14-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": null,
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 80,
+        "update_type": null
+      },
+      "id": "prediction-Base-772448-1246-BNT-0000-80-CR-Haverhill",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Haverhill",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "BNT-0000",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772448-1246",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1718",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T14:48:16-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T14:49:00-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 90,
+        "update_type": null
+      },
+      "id": "prediction-Base-772345-247-WR-0163-S-90-CR-Haverhill",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Haverhill",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "WR-0163-S",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772345-247",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1814",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T14:54:44-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T14:57:00-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 100,
+        "update_type": null
+      },
+      "id": "prediction-Base-772345-247-WR-0205-02-100-CR-Haverhill",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Haverhill",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "WR-0205-02",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772345-247",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1814",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T14:56:12-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T14:56:12-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 50,
+        "update_type": null
+      },
+      "id": "prediction-Base-772346-250-WR-0163-S-50-CR-Haverhill",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Haverhill",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "WR-0163-S",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772346-250",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1715",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T15:00:57-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T15:02:00-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 110,
+        "update_type": null
+      },
+      "id": "prediction-Base-772345-247-WR-0228-02-110-CR-Haverhill",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Haverhill",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "WR-0228-02",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772345-247",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1814",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T15:02:06-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T15:03:00-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 60,
+        "update_type": null
+      },
+      "id": "prediction-Base-772346-250-WR-0120-S-60-CR-Haverhill",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Haverhill",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "WR-0120-S",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772346-250",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1715",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T15:07:47-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T15:09:00-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 70,
+        "update_type": null
+      },
+      "id": "prediction-Base-772346-250-WR-0099-02-70-CR-Haverhill",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Haverhill",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "WR-0099-02",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772346-250",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1715",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T15:08:10-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T15:09:00-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 120,
+        "update_type": null
+      },
+      "id": "prediction-Base-772345-247-WR-0264-02-120-CR-Haverhill",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Haverhill",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "WR-0264-02",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772345-247",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1814",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T15:12:14-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T15:12:14-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 80,
+        "update_type": null
+      },
+      "id": "prediction-Base-772346-250-WR-0085-02-80-CR-Haverhill",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Haverhill",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "WR-0085-02",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772346-250",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1715",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T15:13:52-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T15:14:00-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 90,
+        "update_type": null
+      },
+      "id": "prediction-Base-772346-250-WR-0075-02-90-CR-Haverhill",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Haverhill",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "WR-0075-02",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772346-250",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1715",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T15:15:42-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T15:16:00-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 100,
+        "update_type": null
+      },
+      "id": "prediction-Base-772346-250-WR-0067-02-100-CR-Haverhill",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Haverhill",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "WR-0067-02",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772346-250",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1715",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T15:16:22-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T15:17:00-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 130,
+        "update_type": null
+      },
+      "id": "prediction-Base-772345-247-WR-0325-01-130-CR-Haverhill",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Haverhill",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "WR-0325-01",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772345-247",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1814",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T15:17:00-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T15:18:00-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 110,
+        "update_type": null
+      },
+      "id": "prediction-Base-772346-250-WR-0062-02-110-CR-Haverhill",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Haverhill",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "WR-0062-02",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772346-250",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1715",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T15:19:15-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T15:20:00-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 120,
+        "update_type": null
+      },
+      "id": "prediction-Base-772346-250-WR-0053-S-120-CR-Haverhill",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Haverhill",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "WR-0053-S",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772346-250",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1715",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T15:19:41-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": null,
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 140,
+        "update_type": null
+      },
+      "id": "prediction-Base-772345-247-WR-0329-01-140-CR-Haverhill",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Haverhill",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "WR-0329-01",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772345-247",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1814",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T15:22:01-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T15:22:01-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 130,
+        "update_type": null
+      },
+      "id": "prediction-Base-772346-250-WR-0045-S-130-CR-Haverhill",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Haverhill",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "WR-0045-S",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772346-250",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1715",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T15:33:29-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": null,
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 140,
+        "update_type": null
+      },
+      "id": "prediction-Base-772346-250-BNT-0000-140-CR-Haverhill",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Haverhill",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "BNT-0000",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772346-250",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1715",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    }
+  ],
+  "jsonapi": {
+    "version": "1.0"
+  }
+}

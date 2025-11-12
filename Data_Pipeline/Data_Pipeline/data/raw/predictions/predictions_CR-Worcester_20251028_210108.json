@@ -1,0 +1,1291 @@
+{
+  "data": [
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T16:59:30-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T16:59:30-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 80,
+        "update_type": null
+      },
+      "id": "prediction-Base-772677-556-WML-0012-05-80-CR-Worcester",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Worcester",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "WML-0012-05",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772677-556",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1822",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:00:07-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T17:00:07-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 40,
+        "update_type": null
+      },
+      "id": "prediction-Base-772679-560-WML-0252-02-40-CR-Worcester",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Worcester",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "WML-0252-02",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772679-560",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1849",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:00:25-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T17:00:25-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 70,
+        "update_type": null
+      },
+      "id": "prediction-Base-772675-553-WML-0274-01-70-CR-Worcester",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Worcester",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "WML-0274-01",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772675-553",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1808",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:01:00-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T17:01:00-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": "All aboard",
+        "stop_sequence": 10,
+        "update_type": null
+      },
+      "id": "prediction-ReadRailJobConnectionsUpdate-777213-1561-WML-0012-07-10-CR-Worcester",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Worcester",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "WML-0012-07",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "ReadRailJobConnectionsUpdate-777213-1561",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": null
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:01:00-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T17:01:00-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": "All aboard",
+        "stop_sequence": 80,
+        "update_type": null
+      },
+      "id": "prediction-ReadRailJobConnectionsUpdate-777055-556-WML-0012-05-80-CR-Worcester",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Worcester",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "WML-0012-05",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "ReadRailJobConnectionsUpdate-777055-556",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": null
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:01:03-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T17:01:03-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 40,
+        "update_type": null
+      },
+      "id": "prediction-Base-772882-1558-WML-0135-01-40-CR-Worcester",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Worcester",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "WML-0135-01",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772882-1558",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1842",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:01:22-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T17:01:22-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 110,
+        "update_type": null
+      },
+      "id": "prediction-Base-772881-1555-WML-0199-02-110-CR-Worcester",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Worcester",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "WML-0199-02",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772881-1555",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1833",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:02:00-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T17:02:00-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 30,
+        "update_type": null
+      },
+      "id": "prediction-Base-772678-559-WML-0035-01-30-CR-Worcester",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Worcester",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "WML-0035-01",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772678-559",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1838",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:02:37-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T17:02:37-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 50,
+        "update_type": null
+      },
+      "id": "prediction-Base-772882-1558-WML-0125-01-50-CR-Worcester",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Worcester",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "WML-0125-01",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772882-1558",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1842",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:04:18-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": null,
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 120,
+        "update_type": null
+      },
+      "id": "prediction-Base-772881-1555-WML-0214-01-120-CR-Worcester",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Worcester",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "WML-0214-01",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772881-1555",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1833",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:06:05-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": null,
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 90,
+        "update_type": null
+      },
+      "id": "prediction-Base-772677-556-NEC-2287-90-CR-Worcester",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Worcester",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "NEC-2287",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772677-556",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1822",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:07:24-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T17:07:24-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 80,
+        "update_type": null
+      },
+      "id": "prediction-Base-772675-553-WML-0340-01-80-CR-Worcester",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Worcester",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "WML-0340-01",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772675-553",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1808",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:08:34-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T17:10:00-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 50,
+        "update_type": null
+      },
+      "id": "prediction-Base-772679-560-WML-0214-02-50-CR-Worcester",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Worcester",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "WML-0214-02",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772679-560",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1849",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:10:39-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T17:10:39-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 90,
+        "update_type": null
+      },
+      "id": "prediction-Base-772675-553-WML-0364-01-90-CR-Worcester",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Worcester",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "WML-0364-01",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772675-553",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1808",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:11:33-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T17:11:33-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 60,
+        "update_type": null
+      },
+      "id": "prediction-Base-772882-1558-WML-0035-02-60-CR-Worcester",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Worcester",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "WML-0035-02",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772882-1558",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1842",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:15:50-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T17:16:00-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 70,
+        "update_type": null
+      },
+      "id": "prediction-Base-772882-1558-WML-0025-05-70-CR-Worcester",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Worcester",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "WML-0025-05",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772882-1558",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1842",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:18:32-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T17:18:32-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 40,
+        "update_type": null
+      },
+      "id": "prediction-Base-772678-559-WML-0199-02-40-CR-Worcester",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Worcester",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "WML-0199-02",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772678-559",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1838",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:19:18-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T17:19:18-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 80,
+        "update_type": null
+      },
+      "id": "prediction-Base-772882-1558-WML-0012-05-80-CR-Worcester",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Worcester",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "WML-0012-05",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772882-1558",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1842",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:21:46-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T17:23:00-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 50,
+        "update_type": null
+      },
+      "id": "prediction-Base-772678-559-WML-0214-02-50-CR-Worcester",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Worcester",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "WML-0214-02",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772678-559",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1838",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:23:05-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": null,
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 100,
+        "update_type": null
+      },
+      "id": "prediction-Base-772675-553-WML-0442-CS-100-CR-Worcester",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Worcester",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "WML-0442-CS",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772675-553",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1808",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:26:21-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": null,
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 90,
+        "update_type": null
+      },
+      "id": "prediction-Base-772882-1558-NEC-2287-90-CR-Worcester",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Worcester",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "NEC-2287",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772882-1558",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1842",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:30:31-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T17:30:31-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 60,
+        "update_type": null
+      },
+      "id": "prediction-Base-772678-559-WML-0252-01-60-CR-Worcester",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Worcester",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "WML-0252-01",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772678-559",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1838",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:32:37-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T17:32:37-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 60,
+        "update_type": null
+      },
+      "id": "prediction-Base-772679-560-WML-0035-02-60-CR-Worcester",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Worcester",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "WML-0035-02",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772679-560",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1849",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:33:23-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T17:34:00-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 70,
+        "update_type": null
+      },
+      "id": "prediction-Base-772678-559-WML-0274-01-70-CR-Worcester",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Worcester",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "WML-0274-01",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772678-559",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1838",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:36:25-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T17:36:25-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 70,
+        "update_type": null
+      },
+      "id": "prediction-Base-772679-560-WML-0025-05-70-CR-Worcester",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Worcester",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "WML-0025-05",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772679-560",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1849",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:39:26-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T17:39:26-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 80,
+        "update_type": null
+      },
+      "id": "prediction-Base-772679-560-WML-0012-05-80-CR-Worcester",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Worcester",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "WML-0012-05",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772679-560",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1849",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:42:18-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T17:43:00-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 80,
+        "update_type": null
+      },
+      "id": "prediction-Base-772678-559-WML-0340-01-80-CR-Worcester",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Worcester",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "WML-0340-01",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772678-559",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1838",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:46:28-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": null,
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 90,
+        "update_type": null
+      },
+      "id": "prediction-Base-772679-560-NEC-2287-90-CR-Worcester",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Worcester",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "NEC-2287",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772679-560",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1849",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:46:56-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T17:49:00-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 90,
+        "update_type": null
+      },
+      "id": "prediction-Base-772678-559-WML-0364-01-90-CR-Worcester",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Worcester",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "WML-0364-01",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772678-559",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1838",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T18:02:43-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": null,
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 100,
+        "update_type": null
+      },
+      "id": "prediction-Base-772678-559-WML-0442-CS-100-CR-Worcester",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Worcester",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "WML-0442-CS",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772678-559",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1838",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    }
+  ],
+  "jsonapi": {
+    "version": "1.0"
+  }
+}

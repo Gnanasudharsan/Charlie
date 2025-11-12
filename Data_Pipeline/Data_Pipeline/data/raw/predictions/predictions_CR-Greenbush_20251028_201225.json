@@ -1,0 +1,133 @@
+{
+  "data": [
+    {
+      "attributes": {
+        "arrival_time": null,
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T16:20:00-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": "Now boarding",
+        "stop_sequence": 0,
+        "update_type": null
+      },
+      "id": "prediction-ReadRailJobConnectionsUpdate-777411-1077-NEC-2287-13-0-CR-Greenbush",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Greenbush",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "NEC-2287-13",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "ReadRailJobConnectionsUpdate-777411-1077",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": null
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T16:11:39-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T16:11:39-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 80,
+        "update_type": null
+      },
+      "id": "prediction-Base-774208-1073-GRB-0233-S-80-CR-Greenbush",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Greenbush",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "GRB-0233-S",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-774208-1073",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1856",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T16:17:50-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": null,
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 90,
+        "update_type": null
+      },
+      "id": "prediction-Base-774208-1073-GRB-0276-S-90-CR-Greenbush",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Greenbush",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "GRB-0276-S",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-774208-1073",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1856",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    }
+  ],
+  "jsonapi": {
+    "version": "1.0"
+  }
+}

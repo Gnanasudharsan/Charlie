@@ -1,0 +1,609 @@
+{
+  "data": [
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T14:40:49-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T14:40:49-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 40,
+        "update_type": null
+      },
+      "id": "prediction-Base-774185-1028-PB-0194-S-40-CR-Kingston",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Kingston",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "PB-0194-S",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-774185-1028",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1837",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T14:43:01-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T14:43:01-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 10,
+        "update_type": null
+      },
+      "id": "prediction-Base-774174-1021-MM-0023-S-10-CR-Kingston",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Kingston",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "MM-0023-S",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-774174-1021",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1852",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T14:44:33-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T14:46:00-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 50,
+        "update_type": null
+      },
+      "id": "prediction-Base-774185-1028-PB-0158-S-50-CR-Kingston",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Kingston",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "PB-0158-S",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-774185-1028",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1837",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T14:50:25-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T14:50:25-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 20,
+        "update_type": null
+      },
+      "id": "prediction-Base-774174-1021-MM-0079-S-20-CR-Kingston",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Kingston",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "MM-0079-S",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-774174-1021",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1852",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T14:53:05-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T14:53:05-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 60,
+        "update_type": null
+      },
+      "id": "prediction-Base-774185-1028-MM-0109-S-60-CR-Kingston",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Kingston",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "MM-0109-S",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-774185-1028",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1837",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T14:55:19-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T14:56:00-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 30,
+        "update_type": null
+      },
+      "id": "prediction-Base-774174-1021-MM-0109-S-30-CR-Kingston",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Kingston",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "MM-0109-S",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-774174-1021",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1852",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T14:59:05-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T14:59:05-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 70,
+        "update_type": null
+      },
+      "id": "prediction-Base-774185-1028-MM-0079-S-70-CR-Kingston",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Kingston",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "MM-0079-S",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-774185-1028",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1837",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T15:03:06-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T15:03:06-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 40,
+        "update_type": null
+      },
+      "id": "prediction-Base-774174-1021-PB-0158-S-40-CR-Kingston",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Kingston",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "PB-0158-S",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-774174-1021",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1852",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T15:07:38-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T15:08:00-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 50,
+        "update_type": null
+      },
+      "id": "prediction-Base-774174-1021-PB-0194-S-50-CR-Kingston",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Kingston",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "PB-0194-S",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-774174-1021",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1852",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T15:10:31-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T15:11:00-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 60,
+        "update_type": null
+      },
+      "id": "prediction-Base-774174-1021-PB-0212-S-60-CR-Kingston",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Kingston",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "PB-0212-S",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-774174-1021",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1852",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T15:13:32-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": null,
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 80,
+        "update_type": null
+      },
+      "id": "prediction-Base-774185-1028-NEC-2287-80-CR-Kingston",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Kingston",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "NEC-2287",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-774185-1028",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1837",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T15:15:31-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T15:16:00-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 70,
+        "update_type": null
+      },
+      "id": "prediction-Base-774174-1021-PB-0245-S-70-CR-Kingston",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Kingston",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "PB-0245-S",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-774174-1021",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1852",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T15:20:42-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T15:21:00-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 80,
+        "update_type": null
+      },
+      "id": "prediction-Base-774174-1021-PB-0281-S-80-CR-Kingston",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Kingston",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "PB-0281-S",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-774174-1021",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1852",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T15:29:50-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": null,
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 90,
+        "update_type": null
+      },
+      "id": "prediction-Base-774174-1021-KB-0351-S-90-CR-Kingston",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Kingston",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "KB-0351-S",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-774174-1021",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1852",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    }
+  ],
+  "jsonapi": {
+    "version": "1.0"
+  }
+}

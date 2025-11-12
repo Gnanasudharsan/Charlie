@@ -1,0 +1,1340 @@
+{
+  "data": [
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T14:40:05-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T14:40:05-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 60,
+        "update_type": null
+      },
+      "id": "prediction-Base-772809-945-SB-0156-S-60-CR-Providence",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Providence",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "SB-0156-S",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772809-945",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1863",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T14:40:27-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T14:40:27-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 30,
+        "update_type": null
+      },
+      "id": "prediction-Base-772774-848-NEC-2040-02-30-CR-Providence",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Providence",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "NEC-2040-02",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772774-848",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1865",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T14:42:13-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T14:42:13-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 30,
+        "update_type": null
+      },
+      "id": "prediction-Base-772773-847-NEC-2173-01-30-CR-Providence",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Providence",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "NEC-2173-01",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772773-847",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1860",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T14:44:05-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T14:44:05-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 50,
+        "update_type": null
+      },
+      "id": "prediction-Base-772810-946-NEC-2265-02-50-CR-Providence",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Providence",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "NEC-2265-02",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772810-946",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1842",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T14:46:06-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T14:46:06-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 40,
+        "update_type": null
+      },
+      "id": "prediction-Base-772773-847-NEC-2139-01-40-CR-Providence",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Providence",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "NEC-2139-01",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772773-847",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1860",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T14:47:07-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T14:47:07-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 60,
+        "update_type": null
+      },
+      "id": "prediction-Base-772810-946-NEC-2276-02-60-CR-Providence",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Providence",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "NEC-2276-02",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772810-946",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1842",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T14:47:08-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": null,
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 70,
+        "update_type": null
+      },
+      "id": "prediction-Base-772809-945-SB-0189-S-70-CR-Providence",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Providence",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "SB-0189-S",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772809-945",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1863",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T14:48:10-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T14:49:00-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 40,
+        "update_type": null
+      },
+      "id": "prediction-Base-772774-848-NEC-2108-02-40-CR-Providence",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Providence",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "NEC-2108-02",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772774-848",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1865",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T14:49:53-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T14:51:00-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 50,
+        "update_type": null
+      },
+      "id": "prediction-Base-772773-847-NEC-2108-01-50-CR-Providence",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Providence",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "NEC-2108-01",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772773-847",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1860",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T14:52:47-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": null,
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 70,
+        "update_type": null
+      },
+      "id": "prediction-Base-772810-946-NEC-2287-70-CR-Providence",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Providence",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "NEC-2287",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772810-946",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1842",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T14:55:15-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T14:56:00-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 20,
+        "update_type": null
+      },
+      "id": "prediction-Base-772776-852-NEC-1851-03-20-CR-Providence",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Providence",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "NEC-1851-03",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772776-852",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1862",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T14:56:01-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T14:57:00-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 50,
+        "update_type": null
+      },
+      "id": "prediction-Base-772774-848-NEC-2173-02-50-CR-Providence",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Providence",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "NEC-2173-02",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772774-848",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1865",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T14:58:47-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T14:59:00-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 60,
+        "update_type": null
+      },
+      "id": "prediction-Base-772773-847-NEC-2040-01-60-CR-Providence",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Providence",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "NEC-2040-01",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772773-847",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1860",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T15:02:13-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T15:02:13-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 40,
+        "update_type": null
+      },
+      "id": "prediction-Base-772776-852-NEC-1891-02-40-CR-Providence",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Providence",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "NEC-1891-02",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772776-852",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1862",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T15:06:26-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T15:06:26-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 60,
+        "update_type": null
+      },
+      "id": "prediction-Base-772774-848-NEC-2265-02-60-CR-Providence",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Providence",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "NEC-2265-02",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772774-848",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1865",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T15:07:38-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T15:07:38-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 70,
+        "update_type": null
+      },
+      "id": "prediction-Base-772773-847-NEC-1969-03-70-CR-Providence",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Providence",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "NEC-1969-03",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772773-847",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1860",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T15:09:36-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T15:09:36-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 70,
+        "update_type": null
+      },
+      "id": "prediction-Base-772774-848-NEC-2276-02-70-CR-Providence",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Providence",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "NEC-2276-02",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772774-848",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1865",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T15:13:46-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T15:14:00-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 80,
+        "update_type": null
+      },
+      "id": "prediction-Base-772773-847-NEC-1919-01-80-CR-Providence",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Providence",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "NEC-1919-01",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772773-847",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1860",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T15:14:23-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T15:15:00-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 50,
+        "update_type": null
+      },
+      "id": "prediction-Base-772776-852-NEC-1969-04-50-CR-Providence",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Providence",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "NEC-1969-04",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772776-852",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1862",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T15:15:05-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": null,
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 80,
+        "update_type": null
+      },
+      "id": "prediction-Base-772774-848-NEC-2287-80-CR-Providence",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Providence",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "NEC-2287",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772774-848",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1865",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T15:18:30-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T15:18:30-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 90,
+        "update_type": null
+      },
+      "id": "prediction-Base-772773-847-NEC-1891-01-90-CR-Providence",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Providence",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "NEC-1891-01",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772773-847",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1860",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T15:23:58-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T15:25:00-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 60,
+        "update_type": null
+      },
+      "id": "prediction-Base-772776-852-NEC-2040-02-60-CR-Providence",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Providence",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "NEC-2040-02",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772776-852",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1862",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T15:24:58-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T15:30:00-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 100,
+        "update_type": null
+      },
+      "id": "prediction-Base-772773-847-NEC-1851-03-100-CR-Providence",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Providence",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "NEC-1851-03",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772773-847",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1860",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T15:32:21-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T15:34:00-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 70,
+        "update_type": null
+      },
+      "id": "prediction-Base-772776-852-NEC-2108-02-70-CR-Providence",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Providence",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "NEC-2108-02",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772776-852",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1862",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T15:37:48-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T15:39:00-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 80,
+        "update_type": null
+      },
+      "id": "prediction-Base-772776-852-NEC-2139-02-80-CR-Providence",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Providence",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "NEC-2139-02",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772776-852",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1862",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T15:42:30-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T15:44:00-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 120,
+        "update_type": null
+      },
+      "id": "prediction-Base-772773-847-NEC-1768-03-120-CR-Providence",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Providence",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "NEC-1768-03",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772773-847",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1860",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T15:42:56-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T15:44:00-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 90,
+        "update_type": null
+      },
+      "id": "prediction-Base-772776-852-NEC-2173-02-90-CR-Providence",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Providence",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "NEC-2173-02",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772776-852",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1862",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T15:53:04-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T15:53:04-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 100,
+        "update_type": null
+      },
+      "id": "prediction-Base-772776-852-NEC-2265-02-100-CR-Providence",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Providence",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "NEC-2265-02",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772776-852",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1862",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T15:56:22-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T15:56:22-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 110,
+        "update_type": null
+      },
+      "id": "prediction-Base-772776-852-NEC-2276-02-110-CR-Providence",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Providence",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "NEC-2276-02",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772776-852",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1862",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T15:57:22-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": null,
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 130,
+        "update_type": null
+      },
+      "id": "prediction-Base-772773-847-NEC-1659-03-130-CR-Providence",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Providence",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "NEC-1659-03",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772773-847",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1860",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T16:02:12-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": null,
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 120,
+        "update_type": null
+      },
+      "id": "prediction-Base-772776-852-NEC-2287-120-CR-Providence",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Providence",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "NEC-2287",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772776-852",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1862",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    }
+  ],
+  "jsonapi": {
+    "version": "1.0"
+  }
+}

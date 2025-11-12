@@ -1,0 +1,90 @@
+{
+  "data": [
+    {
+      "attributes": {
+        "arrival_time": null,
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T15:55:00-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": "Now boarding",
+        "stop_sequence": 0,
+        "update_type": null
+      },
+      "id": "prediction-ReadRailJobConnectionsUpdate-777091-655-NEC-2287-03-0-CR-Needham",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Needham",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "NEC-2287-03",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "ReadRailJobConnectionsUpdate-777091-655",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": null
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T15:54:27-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": null,
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 110,
+        "update_type": null
+      },
+      "id": "prediction-Base-772711-650-NEC-2287-110-CR-Needham",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-Needham",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "NEC-2287",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772711-650",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1815",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    }
+  ],
+  "jsonapi": {
+    "version": "1.0"
+  }
+}

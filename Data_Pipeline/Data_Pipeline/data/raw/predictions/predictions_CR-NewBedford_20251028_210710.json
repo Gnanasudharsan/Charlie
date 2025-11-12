@@ -1,0 +1,910 @@
+{
+  "data": [
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:06:25-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T17:06:25-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 30,
+        "update_type": null
+      },
+      "id": "prediction-Base-773002-2029-MM-0109-S-30-CR-NewBedford",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-NewBedford",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "MM-0109-S",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-773002-2029",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1857",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:06:30-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T17:06:30-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 20,
+        "update_type": null
+      },
+      "id": "prediction-Base-772975-1936-NBM-0374-01-20-CR-NewBedford",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-NewBedford",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "NBM-0374-01",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772975-1936",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1861",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:12:10-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T17:12:10-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 110,
+        "update_type": null
+      },
+      "id": "prediction-Base-772973-1925-FRS-0054-S-110-CR-NewBedford",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-NewBedford",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "FRS-0054-S",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772973-1925",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1837",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:14:25-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T17:14:25-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 40,
+        "update_type": null
+      },
+      "id": "prediction-Base-773002-2029-MM-0150-S-40-CR-NewBedford",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-NewBedford",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "MM-0150-S",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-773002-2029",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1857",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:15:54-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T17:15:54-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 30,
+        "update_type": null
+      },
+      "id": "prediction-Base-772975-1936-MBS-0350-S-30-CR-NewBedford",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-NewBedford",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "MBS-0350-S",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772975-1936",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1861",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:17:55-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T17:17:55-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 50,
+        "update_type": null
+      },
+      "id": "prediction-Base-773002-2029-MM-0186-S-50-CR-NewBedford",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-NewBedford",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "MM-0186-S",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-773002-2029",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1857",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:19:58-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": null,
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 120,
+        "update_type": null
+      },
+      "id": "prediction-Base-772973-1925-FRS-0109-S-120-CR-NewBedford",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-NewBedford",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "FRS-0109-S",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772973-1925",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1837",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:20:31-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T17:21:00-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 60,
+        "update_type": null
+      },
+      "id": "prediction-Base-773002-2029-MM-0200-S-60-CR-NewBedford",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-NewBedford",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "MM-0200-S",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-773002-2029",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1857",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:23:59-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T17:25:00-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 70,
+        "update_type": null
+      },
+      "id": "prediction-Base-773002-2029-MM-0219-S-70-CR-NewBedford",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-NewBedford",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "MM-0219-S",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-773002-2029",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1857",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:25:05-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T17:25:05-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 40,
+        "update_type": null
+      },
+      "id": "prediction-Base-772975-1936-MM-0277-S-40-CR-NewBedford",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-NewBedford",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "MM-0277-S",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772975-1936",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1861",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:32:12-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T17:34:00-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 50,
+        "update_type": null
+      },
+      "id": "prediction-Base-772975-1936-MM-0219-S-50-CR-NewBedford",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-NewBedford",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "MM-0219-S",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772975-1936",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1861",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:32:18-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T17:34:00-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 80,
+        "update_type": null
+      },
+      "id": "prediction-Base-773002-2029-MM-0277-S-80-CR-NewBedford",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-NewBedford",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "MM-0277-S",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-773002-2029",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1857",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:37:09-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T17:38:00-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 60,
+        "update_type": null
+      },
+      "id": "prediction-Base-772975-1936-MM-0200-CS-60-CR-NewBedford",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-NewBedford",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "MM-0200-CS",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772975-1936",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1861",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:40:51-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T17:43:00-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 70,
+        "update_type": null
+      },
+      "id": "prediction-Base-772975-1936-MM-0186-CS-70-CR-NewBedford",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-NewBedford",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "MM-0186-CS",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772975-1936",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1861",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:45:51-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T17:46:00-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 90,
+        "update_type": null
+      },
+      "id": "prediction-Base-773002-2029-MBS-0350-S-90-CR-NewBedford",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-NewBedford",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "MBS-0350-S",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-773002-2029",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1857",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:47:47-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T17:48:00-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 80,
+        "update_type": null
+      },
+      "id": "prediction-Base-772975-1936-MM-0150-S-80-CR-NewBedford",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-NewBedford",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "MM-0150-S",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772975-1936",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1861",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:55:42-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T17:55:42-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 90,
+        "update_type": null
+      },
+      "id": "prediction-Base-772975-1936-MM-0109-S-90-CR-NewBedford",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-NewBedford",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "MM-0109-S",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772975-1936",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1861",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:56:50-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T17:58:00-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 100,
+        "update_type": null
+      },
+      "id": "prediction-Base-773002-2029-NBM-0374-01-100-CR-NewBedford",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-NewBedford",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "NBM-0374-01",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-773002-2029",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1857",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T18:12:30-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T18:13:00-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 110,
+        "update_type": null
+      },
+      "id": "prediction-Base-773002-2029-NBM-0523-S-110-CR-NewBedford",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-NewBedford",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "NBM-0523-S",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-773002-2029",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1857",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T18:16:08-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": null,
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 100,
+        "update_type": null
+      },
+      "id": "prediction-Base-772975-1936-NEC-2287-100-CR-NewBedford",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-NewBedford",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "NEC-2287",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-772975-1936",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1861",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T18:19:04-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": null,
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 120,
+        "update_type": null
+      },
+      "id": "prediction-Base-773002-2029-NBM-0546-S-120-CR-NewBedford",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "CR-NewBedford",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "NBM-0546-S",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "Base-773002-2029",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "1857",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    }
+  ],
+  "jsonapi": {
+    "version": "1.0"
+  }
+}

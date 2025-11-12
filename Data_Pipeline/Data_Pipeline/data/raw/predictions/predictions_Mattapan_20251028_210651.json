@@ -1,0 +1,1125 @@
+{
+  "data": [
+    {
+      "attributes": {
+        "arrival_time": null,
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T17:07:25-04:00",
+        "departure_uncertainty": 120,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": "ADDED",
+        "status": null,
+        "stop_sequence": 1,
+        "update_type": "AT_TERMINAL"
+      },
+      "id": "prediction-ADDED-1583225128-70261-1-Mattapan",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "Mattapan",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "70261",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "ADDED-1583225128",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "G-10059",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": null,
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T17:15:06-04:00",
+        "departure_uncertainty": 360,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": "ADDED",
+        "status": null,
+        "stop_sequence": 1,
+        "update_type": "REVERSE_TRIP"
+      },
+      "id": "prediction-ADDED-1583225123-70261-1-Mattapan",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "Mattapan",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "70261",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "ADDED-1583225123",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "G-10018",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:06:17-04:00",
+        "arrival_uncertainty": 60,
+        "departure_time": "2025-10-28T17:06:42-04:00",
+        "departure_uncertainty": 60,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": "ADDED",
+        "status": null,
+        "stop_sequence": 4,
+        "update_type": "MID_TRIP"
+      },
+      "id": "prediction-ADDED-1583225104-70267-4-Mattapan",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "Mattapan",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "70267",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "ADDED-1583225104",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "G-10099",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:07:24-04:00",
+        "arrival_uncertainty": 60,
+        "departure_time": "2025-10-28T17:08:10-04:00",
+        "departure_uncertainty": 60,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": "ADDED",
+        "status": null,
+        "stop_sequence": 4,
+        "update_type": "MID_TRIP"
+      },
+      "id": "prediction-ADDED-1583225114-70270-4-Mattapan",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "Mattapan",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "70270",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "ADDED-1583225114",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "G-10018",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:07:32-04:00",
+        "arrival_uncertainty": 60,
+        "departure_time": "2025-10-28T17:08:12-04:00",
+        "departure_uncertainty": 60,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": "ADDED",
+        "status": null,
+        "stop_sequence": 5,
+        "update_type": "MID_TRIP"
+      },
+      "id": "prediction-ADDED-1583225104-70269-5-Mattapan",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "Mattapan",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "70269",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "ADDED-1583225104",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "G-10099",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:08:38-04:00",
+        "arrival_uncertainty": 120,
+        "departure_time": "2025-10-28T17:08:51-04:00",
+        "departure_uncertainty": 120,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": "ADDED",
+        "status": null,
+        "stop_sequence": 2,
+        "update_type": "AT_TERMINAL"
+      },
+      "id": "prediction-ADDED-1583225128-70263-2-Mattapan",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "Mattapan",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "70263",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "ADDED-1583225128",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "G-10059",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:08:42-04:00",
+        "arrival_uncertainty": 60,
+        "departure_time": "2025-10-28T17:08:59-04:00",
+        "departure_uncertainty": 60,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": "ADDED",
+        "status": null,
+        "stop_sequence": 5,
+        "update_type": "MID_TRIP"
+      },
+      "id": "prediction-ADDED-1583225114-70268-5-Mattapan",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "Mattapan",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "70268",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "ADDED-1583225114",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "G-10018",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:09:09-04:00",
+        "arrival_uncertainty": 60,
+        "departure_time": "2025-10-28T17:09:22-04:00",
+        "departure_uncertainty": 60,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": "ADDED",
+        "status": null,
+        "stop_sequence": 6,
+        "update_type": "MID_TRIP"
+      },
+      "id": "prediction-ADDED-1583225104-70271-6-Mattapan",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "Mattapan",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "70271",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "ADDED-1583225104",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "G-10099",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:09:44-04:00",
+        "arrival_uncertainty": 60,
+        "departure_time": "2025-10-28T17:09:59-04:00",
+        "departure_uncertainty": 60,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": "ADDED",
+        "status": null,
+        "stop_sequence": 6,
+        "update_type": "MID_TRIP"
+      },
+      "id": "prediction-ADDED-1583225114-70266-6-Mattapan",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "Mattapan",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "70266",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "ADDED-1583225114",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "G-10018",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:10:11-04:00",
+        "arrival_uncertainty": 60,
+        "departure_time": "2025-10-28T17:10:17-04:00",
+        "departure_uncertainty": 60,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": "ADDED",
+        "status": null,
+        "stop_sequence": 7,
+        "update_type": "MID_TRIP"
+      },
+      "id": "prediction-ADDED-1583225104-70273-7-Mattapan",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "Mattapan",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "70273",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "ADDED-1583225104",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "G-10099",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:10:25-04:00",
+        "arrival_uncertainty": 120,
+        "departure_time": "2025-10-28T17:10:49-04:00",
+        "departure_uncertainty": 120,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": "ADDED",
+        "status": null,
+        "stop_sequence": 3,
+        "update_type": "AT_TERMINAL"
+      },
+      "id": "prediction-ADDED-1583225128-70265-3-Mattapan",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "Mattapan",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "70265",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "ADDED-1583225128",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "G-10059",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:10:49-04:00",
+        "arrival_uncertainty": 60,
+        "departure_time": null,
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": "ADDED",
+        "status": null,
+        "stop_sequence": 8,
+        "update_type": "MID_TRIP"
+      },
+      "id": "prediction-ADDED-1583225104-70275-8-Mattapan",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "Mattapan",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "70275",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "ADDED-1583225104",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "G-10099",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:11:24-04:00",
+        "arrival_uncertainty": 120,
+        "departure_time": "2025-10-28T17:11:49-04:00",
+        "departure_uncertainty": 120,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": "ADDED",
+        "status": null,
+        "stop_sequence": 4,
+        "update_type": "AT_TERMINAL"
+      },
+      "id": "prediction-ADDED-1583225128-70267-4-Mattapan",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "Mattapan",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "70267",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "ADDED-1583225128",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "G-10059",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:11:34-04:00",
+        "arrival_uncertainty": 60,
+        "departure_time": "2025-10-28T17:11:51-04:00",
+        "departure_uncertainty": 60,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": "ADDED",
+        "status": null,
+        "stop_sequence": 7,
+        "update_type": "MID_TRIP"
+      },
+      "id": "prediction-ADDED-1583225114-70264-7-Mattapan",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "Mattapan",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "70264",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "ADDED-1583225114",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "G-10018",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:12:31-04:00",
+        "arrival_uncertainty": 60,
+        "departure_time": null,
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": "ADDED",
+        "status": null,
+        "stop_sequence": 8,
+        "update_type": "MID_TRIP"
+      },
+      "id": "prediction-ADDED-1583225114-70261-8-Mattapan",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "Mattapan",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "70261",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "ADDED-1583225114",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "G-10018",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:12:39-04:00",
+        "arrival_uncertainty": 120,
+        "departure_time": "2025-10-28T17:13:19-04:00",
+        "departure_uncertainty": 120,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": "ADDED",
+        "status": null,
+        "stop_sequence": 5,
+        "update_type": "AT_TERMINAL"
+      },
+      "id": "prediction-ADDED-1583225128-70269-5-Mattapan",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "Mattapan",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "70269",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "ADDED-1583225128",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "G-10059",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:14:16-04:00",
+        "arrival_uncertainty": 120,
+        "departure_time": "2025-10-28T17:14:29-04:00",
+        "departure_uncertainty": 120,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": "ADDED",
+        "status": null,
+        "stop_sequence": 6,
+        "update_type": "AT_TERMINAL"
+      },
+      "id": "prediction-ADDED-1583225128-70271-6-Mattapan",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "Mattapan",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "70271",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "ADDED-1583225128",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "G-10059",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:15:18-04:00",
+        "arrival_uncertainty": 120,
+        "departure_time": "2025-10-28T17:15:24-04:00",
+        "departure_uncertainty": 120,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": "ADDED",
+        "status": null,
+        "stop_sequence": 7,
+        "update_type": "AT_TERMINAL"
+      },
+      "id": "prediction-ADDED-1583225128-70273-7-Mattapan",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "Mattapan",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "70273",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "ADDED-1583225128",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "G-10059",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:15:56-04:00",
+        "arrival_uncertainty": 120,
+        "departure_time": null,
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": "ADDED",
+        "status": null,
+        "stop_sequence": 8,
+        "update_type": "AT_TERMINAL"
+      },
+      "id": "prediction-ADDED-1583225128-70275-8-Mattapan",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "Mattapan",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "70275",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "ADDED-1583225128",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "G-10059",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:16:19-04:00",
+        "arrival_uncertainty": 360,
+        "departure_time": "2025-10-28T17:16:32-04:00",
+        "departure_uncertainty": 360,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": "ADDED",
+        "status": null,
+        "stop_sequence": 2,
+        "update_type": "REVERSE_TRIP"
+      },
+      "id": "prediction-ADDED-1583225123-70263-2-Mattapan",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "Mattapan",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "70263",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "ADDED-1583225123",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "G-10018",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:18:06-04:00",
+        "arrival_uncertainty": 360,
+        "departure_time": "2025-10-28T17:18:30-04:00",
+        "departure_uncertainty": 360,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": "ADDED",
+        "status": null,
+        "stop_sequence": 3,
+        "update_type": "REVERSE_TRIP"
+      },
+      "id": "prediction-ADDED-1583225123-70265-3-Mattapan",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "Mattapan",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "70265",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "ADDED-1583225123",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "G-10018",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:19:05-04:00",
+        "arrival_uncertainty": 360,
+        "departure_time": "2025-10-28T17:19:30-04:00",
+        "departure_uncertainty": 360,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": "ADDED",
+        "status": null,
+        "stop_sequence": 4,
+        "update_type": "REVERSE_TRIP"
+      },
+      "id": "prediction-ADDED-1583225123-70267-4-Mattapan",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "Mattapan",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "70267",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "ADDED-1583225123",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "G-10018",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:20:20-04:00",
+        "arrival_uncertainty": 360,
+        "departure_time": "2025-10-28T17:21:00-04:00",
+        "departure_uncertainty": 360,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": "ADDED",
+        "status": null,
+        "stop_sequence": 5,
+        "update_type": "REVERSE_TRIP"
+      },
+      "id": "prediction-ADDED-1583225123-70269-5-Mattapan",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "Mattapan",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "70269",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "ADDED-1583225123",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "G-10018",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:21:57-04:00",
+        "arrival_uncertainty": 360,
+        "departure_time": "2025-10-28T17:22:10-04:00",
+        "departure_uncertainty": 360,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": "ADDED",
+        "status": null,
+        "stop_sequence": 6,
+        "update_type": "REVERSE_TRIP"
+      },
+      "id": "prediction-ADDED-1583225123-70271-6-Mattapan",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "Mattapan",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "70271",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "ADDED-1583225123",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "G-10018",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:22:59-04:00",
+        "arrival_uncertainty": 360,
+        "departure_time": "2025-10-28T17:23:05-04:00",
+        "departure_uncertainty": 360,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": "ADDED",
+        "status": null,
+        "stop_sequence": 7,
+        "update_type": "REVERSE_TRIP"
+      },
+      "id": "prediction-ADDED-1583225123-70273-7-Mattapan",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "Mattapan",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "70273",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "ADDED-1583225123",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "G-10018",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T17:23:37-04:00",
+        "arrival_uncertainty": 360,
+        "departure_time": null,
+        "departure_uncertainty": null,
+        "direction_id": 0,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": "ADDED",
+        "status": null,
+        "stop_sequence": 8,
+        "update_type": "REVERSE_TRIP"
+      },
+      "id": "prediction-ADDED-1583225123-70275-8-Mattapan",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "Mattapan",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "70275",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "ADDED-1583225123",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "G-10018",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    }
+  ],
+  "jsonapi": {
+    "version": "1.0"
+  }
+}

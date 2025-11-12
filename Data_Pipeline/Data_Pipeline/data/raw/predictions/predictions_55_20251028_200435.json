@@ -1,0 +1,93 @@
+{
+  "data": [
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T16:04:00-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": "2025-10-28T16:04:00-04:00",
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 9,
+        "update_type": null
+      },
+      "id": "prediction-71467325-144-9-55",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "55",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "144",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "71467325",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "y1913",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    },
+    {
+      "attributes": {
+        "arrival_time": "2025-10-28T16:04:06-04:00",
+        "arrival_uncertainty": null,
+        "departure_time": null,
+        "departure_uncertainty": null,
+        "direction_id": 1,
+        "last_trip": false,
+        "revenue": "REVENUE",
+        "schedule_relationship": null,
+        "status": null,
+        "stop_sequence": 10,
+        "update_type": null
+      },
+      "id": "prediction-71467325-177-10-55",
+      "relationships": {
+        "route": {
+          "data": {
+            "id": "55",
+            "type": "route"
+          }
+        },
+        "stop": {
+          "data": {
+            "id": "177",
+            "type": "stop"
+          }
+        },
+        "trip": {
+          "data": {
+            "id": "71467325",
+            "type": "trip"
+          }
+        },
+        "vehicle": {
+          "data": {
+            "id": "y1913",
+            "type": "vehicle"
+          }
+        }
+      },
+      "type": "prediction"
+    }
+  ],
+  "jsonapi": {
+    "version": "1.0"
+  }
+}
