@@ -37089,25 +37089,25 @@
 /***/ })
 /******/ ]);
 //# sourceMappingURL=bundle.js.map </script></head><body>
-        <div class="lime top_div" id="top_div2WWVM7VAPMJPIHS"></div>
+        <div class="lime top_div" id="top_div8OXFQ9AOIWC12LM"></div>
         
         <script>
-        var top_div = d3.select('#top_div2WWVM7VAPMJPIHS').classed('lime top_div', true);
+        var top_div = d3.select('#top_div8OXFQ9AOIWC12LM').classed('lime top_div', true);
         
             var pp_div = top_div.append('div')
                                 .classed('lime predict_proba', true);
             var pp_svg = pp_div.append('svg').style('width', '100%');
-            var pp = new lime.PredictProba(pp_svg, ["No Delay", "Delay"], [0.9998908799477373, 0.00010912005226268864]);
+            var pp = new lime.PredictProba(pp_svg, ["No Delay", "Delay"], [0.9999085417105147, 9.14582894852938e-05]);
             
         
         var exp_div;
             var exp = new lime.Explanation(["No Delay", "Delay"]);
         
                 exp_div = top_div.append('div').classed('lime explanation', true);
-                exp.show([["direction_id <= 0.00", 0.00013370130057754106], ["stop_sequence > 33.00", 8.078009377413852e-05]], 1, exp_div);
+                exp.show([["direction_id <= 0.00", 0.00011741365594490924], ["stop_sequence <= 11.00", -2.8036300170334976e-05]], 1, exp_div);
                 
         var raw_div = top_div.append('div');
-            exp.show_raw_tabular([["direction_id", "0.00", 0.00013370130057754106], ["stop_sequence", "50.00", 8.078009377413852e-05]], 1, raw_div);
+            exp.show_raw_tabular([["direction_id", "0.00", 0.00011741365594490924], ["stop_sequence", "8.00", -2.8036300170334976e-05]], 1, raw_div);
         
         </script>
         </body></html>

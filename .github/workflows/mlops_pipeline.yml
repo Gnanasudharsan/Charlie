@@ -11,71 +11,103 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1️⃣ Checkout repository
-      - name: ✅ Checkout Repository
+      # -----------------------------------------------------
+      # 1) Checkout repo
+      # -----------------------------------------------------
+      - name: Checkout Repository
         uses: actions/checkout@v4
 
-      # 2️⃣ Set up Python 3.12
-      - name: 🐍 Set up Python
+      # -----------------------------------------------------
+      # 2) Python setup
+      # -----------------------------------------------------
+      - name: Setup Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.12"
 
-      # 3️⃣ Install all dependencies
-      - name: 📦 Install Dependencies
+      # -----------------------------------------------------
+      # 3) Install dependencies
+      # -----------------------------------------------------
+      - name: Install Dependencies
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-          pip install dvc[all] fairlearn mlflow matplotlib seaborn scikit-learn joblib pyyaml lime shap plotly imbalanced-learn pandas numpy scipy
+          pip install dvc[all] fairlearn mlflow matplotlib seaborn \
+                     scikit-learn joblib pyyaml lime shap plotly \
+                     imbalanced-learn pandas numpy lightgbm
 
-      # 4️⃣ Pull data via DVC (optional)
-      - name: 📂 Pull DVC Data
+      # -----------------------------------------------------
+      # 4) Pull DVC data (if available)
+      # -----------------------------------------------------
+      - name: Pull DVC Data
         run: |
           if [ -f "dvc.yaml" ]; then
             echo "📦 Pulling data from DVC..."
-            dvc pull || echo "⚠️ No DVC remote found, continuing..."
+            dvc pull || echo "⚠️ No DVC remote available."
           else
-            echo "ℹ️ Skipping DVC pull (no dvc.yaml present)."
+            echo "ℹ️ No dvc.yaml found. Skipping data pull."
           fi
 
-      # 5️⃣ Train baseline model
-      - name: 🤖 Train Model
+      # -----------------------------------------------------
+      # 5) Train Model
+      # -----------------------------------------------------
+      - name: Train Model
         run: |
-          echo "🚀 Training baseline model..."
-          python -m ml_src.model_train || echo "⚠️ Skipping training (data missing)."
+          echo "🚀 Training model..."
+          python -m ml_src.model_train || echo "⚠️ Skipping training."
 
-      # 6️⃣ Hyperparameter tuning (with SMOTE)
-      - name: 🎯 Hyperparameter Tuning
+      # -----------------------------------------------------
+      # 6) Hyperparameter Tuning
+      # -----------------------------------------------------
+      - name: Hyperparameter Tuning
         run: |
-          echo "🔧 Running model tuning..."
-          python -m ml_src.model_tuning || echo "⚠️ Skipping tuning (data missing in CI)."
+          echo "🔧 Running tuning..."
+          python -m ml_src.model_tuning || echo "⚠️ Skipping tuning."
 
-      # 7️⃣ Bias Analysis
-      - name: 🧠 Bias Analysis
+      # -----------------------------------------------------
+      # 7) Bias Analysis
+      # -----------------------------------------------------
+      - name: Bias & Fairness Check
         run: |
-          echo "📊 Running bias & fairness check..."
-          python -m ml_src.bias_analysis || echo "⚠️ Skipping bias analysis (data missing)."
+          echo "📊 Running bias analysis..."
+          python -m ml_src.bias_analysis || echo "⚠️ Skipping bias analysis."
 
-      # 8️⃣ Explainability (SHAP + LIME)
-      - name: 🔍 Model Explainability
+      # -----------------------------------------------------
+      # 8) Explainability
+      # -----------------------------------------------------
+      - name: Explainability (SHAP + LIME)
         run: |
-          echo "🧩 Running model explainability (SHAP + LIME)..."
-          python -m ml_src.explainability || echo "⚠️ Skipping explainability (data missing)."
+          echo "🧩 Running explainability..."
+          python -m ml_src.explainability || echo "⚠️ Skipping explainability."
 
-      # 9️⃣ Register model in MLflow registry
-      - name: 📦 Register Model in MLflow Registry
+      # -----------------------------------------------------
+      # 9) Model Selection  ✅ NEW STEP
+      # -----------------------------------------------------
+      - name: Select Best Model
         run: |
-          echo "🏷️ Registering model in MLflow Model Registry..."
-          python -m ml_src.register_model || echo "⚠️ Skipping model registry (no run found)."
+          echo "🏆 Selecting best model..."
+          python -m ml_src.model_select || echo "⚠️ Skipping model selection."
 
-      # 🔟 Data & Performance Drift Monitoring
-      - name: 📉 Data & Performance Drift Check
+      # -----------------------------------------------------
+      # 10) Model Registry
+      # -----------------------------------------------------
+      - name: Register Model
         run: |
-          echo "📈 Checking for data drift..."
-          python -m ml_src.monitor_drift || echo "⚠️ Skipping drift check (missing data)."
+          echo "🏷️ Registering model..."
+          python -m ml_src.register_model || echo "⚠️ Skipping model registry."
 
-      # 1️⃣1️⃣ Upload reports and models
-      - name: 🧾 Upload Reports
+      # -----------------------------------------------------
+      # 11) Drift Monitoring
+      # -----------------------------------------------------
+      - name: Drift Monitoring
+        run: |
+          echo "📈 Running drift monitoring..."
+          python -m ml_src.monitor_drift || echo "⚠️ Skipping drift monitoring."
+
+      # -----------------------------------------------------
+      # 12) Upload artifacts
+      # -----------------------------------------------------
+      - name: Upload Reports
         uses: actions/upload-artifact@v4
         with:
           name: model-reports
@@ -83,18 +115,5 @@ jobs:
             models/
             reports/
 
-      # 1️⃣2️⃣ Notify on failure (Slack optional)
-      - name: 📣 Notify if pipeline fails
-        if: failure()
-        uses: slackapi/slack-github-action@v1.27.0
-        with:
-          payload: |
-            {
-              "text": "❌ MLOps Automated Pipeline failed for *${{ github.repository }}*.\nRun URL: ${{ github.run_url }}"
-            }
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-
-      # 1️⃣3️⃣ Completion confirmation
-      - name: ✅ Pipeline Completed
-        run: echo "🎉 MLOps Automated Pipeline completed successfully!"
+      - name: Pipeline Completed
+        run: echo "🎉 Pipeline execution finished!"

@@ -11,14 +11,23 @@ logger = get_logger("model_tuning")
 
 
 def prepare_data(df):
+    """Prepare features + target for tuning."""
+
+    df = df.copy()
+
     df["arrival_time"] = pd.to_datetime(df["arrival_time"], errors="coerce")
     df["departure_time"] = pd.to_datetime(df["departure_time"], errors="coerce")
     df = df.dropna(subset=["arrival_time", "departure_time"])
-    df["delay_minutes"] = (df["departure_time"] - df["arrival_time"]).dt.total_seconds() / 60
-    df["delayed"] = (df["delay_minutes"] > 5).astype(int)
 
-    X = df[["direction_id", "stop_sequence"]].dropna()
-    y = df["delayed"]
+    df.loc[:, "delay_minutes"] = (
+        df["departure_time"] - df["arrival_time"]
+    ).dt.total_seconds() / 60
+
+    df.loc[:, "delayed"] = (df["delay_minutes"] > 5).astype(int)
+
+    X = df[["direction_id", "stop_sequence"]].copy()
+    y = df["delayed"].copy()
+
     return X, y
 
 
@@ -30,7 +39,7 @@ def train_and_log():
     try:
         df_pred = paths.load_all()["predictions"]
     except FileNotFoundError as e:
-        logger.warning("⚠️ Processed data not found. Skipping tuning step in CI/CD environment.")
+        logger.warning("⚠️ Processed data not found. Skipping tuning step.")
         print(str(e))
         import sys
         sys.exit(0)
@@ -39,12 +48,27 @@ def train_and_log():
 
     # Prepare data
     X, y = prepare_data(df_pred)
-    smote = SMOTE(random_state=42)
+
+    n_pos = (y == 1).sum()
+    logger.info(f"🔍 Positive (delayed) samples in dataset: {n_pos}")
+
+    # FIX: prevent SMOTE crash
+    if n_pos < 2:
+        logger.warning("❌ Not enough minority samples for SMOTE! Skipping tuning safely.")
+        return
+
+    # Use SMOTE with k_neighbors=1 to avoid crash
+    smote = SMOTE(k_neighbors=1, random_state=42)
+
     X_res, y_res = smote.fit_resample(X, y)
-    logger.info(f"📈 After SMOTE: {X_res.shape}")
+    logger.info(f"📈 After SMOTE oversampling: {X_res.shape}")
 
     X_train, X_val, y_train, y_val = train_test_split(
-        X_res, y_res, test_size=0.2, random_state=42, stratify=y_res
+        X_res,
+        y_res,
+        test_size=0.2,
+        random_state=42,
+        stratify=y_res
     )
 
     # Load MLflow config
@@ -55,8 +79,18 @@ def train_and_log():
     mlflow.set_experiment(cfg["experiment"]["name"])
 
     # Hyperparameter tuning
-    params = {"C": [0.01, 0.1, 1, 10], "solver": ["lbfgs", "liblinear"]}
-    grid = GridSearchCV(LogisticRegression(max_iter=1000), params, cv=5, scoring="roc_auc")
+    params = {
+        "C": [0.01, 0.1, 1, 10],
+        "solver": ["lbfgs", "liblinear"]
+    }
+
+    grid = GridSearchCV(
+        LogisticRegression(max_iter=2000),
+        params,
+        cv=5,
+        scoring="roc_auc"
+    )
+
     grid.fit(X_train, y_train)
 
     best_model = grid.best_estimator_
@@ -65,13 +99,14 @@ def train_and_log():
     # Evaluate
     y_pred = best_model.predict(X_val)
     y_prob = best_model.predict_proba(X_val)[:, 1]
+
     metrics = {
         "accuracy": accuracy_score(y_val, y_pred),
         "f1": f1_score(y_val, y_pred),
         "roc_auc": roc_auc_score(y_val, y_prob),
     }
 
-    # Log with MLflow
+    # Log results
     with mlflow.start_run(run_name="logreg_tuned"):
         mlflow.log_params(grid.best_params_)
         mlflow.log_metrics(metrics)
@@ -79,6 +114,7 @@ def train_and_log():
 
         os.makedirs("models", exist_ok=True)
         joblib.dump(best_model, "models/logreg_tuned.joblib")
+
         logger.info("💾 Tuned model saved to models/logreg_tuned.joblib")
 
     logger.info(f"🎯 Tuning complete. Metrics: {metrics}")
