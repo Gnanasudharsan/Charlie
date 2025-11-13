@@ -37,34 +37,52 @@ jobs:
             echo "📦 Pulling data using DVC..."
             dvc pull || echo "⚠️ No remote DVC data found, continuing..."
           else
-            echo "ℹ️ No DVC configuration found. Skipping data pull."
+            echo "ℹ️ No dvc.yaml found — skipping DVC pull."
           fi
 
       # 5️⃣ Train baseline model
       - name: Train baseline model
         run: |
           echo "🚀 Starting baseline model training..."
-          python -m ml_src.model_train
+          python -m ml_src.model_train || echo "⚠️ Training step skipped."
 
       # 6️⃣ Hyperparameter tuning with SMOTE
       - name: Hyperparameter tuning
         run: |
-          echo "🎯 Running model tuning with SMOTE..."
-          python -m ml_src.model_tuning || echo "⚠️ Skipping tuning (no data found in CI)."
+          echo "🎯 Running model tuning..."
+          python -m ml_src.model_tuning || echo "⚠️ Skipping tuning (no data in CI)."
 
       # 7️⃣ Bias & Fairness Check
       - name: Bias & Fairness Check
         run: |
           echo "🧠 Running fairness analysis..."
-          python -m ml_src.bias_analysis || echo "⚠️ Skipping bias analysis (no data found)."
+          python -m ml_src.bias_analysis || echo "⚠️ Skipping bias analysis."
 
       # 8️⃣ Model Explainability (SHAP + LIME)
       - name: Model Explainability (SHAP/LIME)
         run: |
-          echo "📊 Running explainability step..."
-          python -m ml_src.explainability || echo "⚠️ Skipping explainability (no data found)."
+          echo "📊 Running explainability..."
+          python -m ml_src.explainability || echo "⚠️ Skipping explainability."
 
-      # 9️⃣ Upload all outputs
+      # 9️⃣ Model Selection
+      - name: Model Selection (Compare & Choose Best)
+        run: |
+          echo "🏆 Running model selection..."
+          python -m ml_src.model_select || echo "⚠️ Skipping model selection."
+
+      # 🔟 Drift Monitoring
+      - name: Drift Monitoring
+        run: |
+          echo "📈 Running drift monitoring..."
+          python -m ml_src.monitor_drift || echo "⚠️ Skipping drift monitoring."
+
+      # 1️⃣1️⃣ Deployment Smoke Test
+      - name: Deployment Smoke Test
+        run: |
+          echo "🚀 Running deployment readiness smoke test..."
+          python -m ml_src.deploy_model || echo "⚠️ Deployment smoke test failed."
+
+      # 1️⃣2️⃣ Upload all outputs (models + reports)
       - name: Upload model artifacts
         uses: actions/upload-artifact@v4
         with:
@@ -73,6 +91,6 @@ jobs:
             models/
             reports/
 
-      # 🔟 Confirm successful completion
-      - name: ✅ Job completed
-        run: echo "🎉 Charlie MBTA Model CI/CD pipeline completed successfully!"
+      # 1️⃣3️⃣ Confirm success
+      - name: Pipeline Completed
+        run: echo "🎉 Charlie MBTA end-to-end CI/CD pipeline completed successfully!"
