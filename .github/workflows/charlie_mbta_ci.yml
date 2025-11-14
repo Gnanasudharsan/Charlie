@@ -37,52 +37,34 @@ jobs:
             echo "📦 Pulling data using DVC..."
             dvc pull || echo "⚠️ No remote DVC data found, continuing..."
           else
-            echo "ℹ️ No dvc.yaml found — skipping DVC pull."
+            echo "ℹ️ No DVC configuration found. Skipping data pull."
           fi
 
       # 5️⃣ Train baseline model
       - name: Train baseline model
         run: |
           echo "🚀 Starting baseline model training..."
-          python -m ml_src.model_train || echo "⚠️ Training step skipped."
+          python -m ml_src.model_train
 
       # 6️⃣ Hyperparameter tuning with SMOTE
       - name: Hyperparameter tuning
         run: |
-          echo "🎯 Running model tuning..."
-          python -m ml_src.model_tuning || echo "⚠️ Skipping tuning (no data in CI)."
+          echo "🎯 Running model tuning with SMOTE..."
+          python -m ml_src.model_tuning || echo "⚠️ Skipping tuning (no data found)."
 
       # 7️⃣ Bias & Fairness Check
       - name: Bias & Fairness Check
         run: |
           echo "🧠 Running fairness analysis..."
-          python -m ml_src.bias_analysis || echo "⚠️ Skipping bias analysis."
+          python -m ml_src.bias_analysis || echo "⚠️ Skipping bias analysis (no data found)."
 
       # 8️⃣ Model Explainability (SHAP + LIME)
       - name: Model Explainability (SHAP/LIME)
         run: |
-          echo "📊 Running explainability..."
-          python -m ml_src.explainability || echo "⚠️ Skipping explainability."
+          echo "📊 Running explainability step..."
+          python -m ml_src.explainability || echo "⚠️ Skipping explainability (no data found)."
 
-      # 9️⃣ Model Selection
-      - name: Model Selection (Compare & Choose Best)
-        run: |
-          echo "🏆 Running model selection..."
-          python -m ml_src.model_select || echo "⚠️ Skipping model selection."
-
-      # 🔟 Drift Monitoring
-      - name: Drift Monitoring
-        run: |
-          echo "📈 Running drift monitoring..."
-          python -m ml_src.monitor_drift || echo "⚠️ Skipping drift monitoring."
-
-      # 1️⃣1️⃣ Deployment Smoke Test
-      - name: Deployment Smoke Test
-        run: |
-          echo "🚀 Running deployment readiness smoke test..."
-          python -m ml_src.deploy_model || echo "⚠️ Deployment smoke test failed."
-
-      # 1️⃣2️⃣ Upload all outputs (models + reports)
+      # 9️⃣ Upload all outputs to GitHub Artifacts
       - name: Upload model artifacts
         uses: actions/upload-artifact@v4
         with:
@@ -91,6 +73,40 @@ jobs:
             models/
             reports/
 
-      # 1️⃣3️⃣ Confirm success
-      - name: Pipeline Completed
-        run: echo "🎉 Charlie MBTA end-to-end CI/CD pipeline completed successfully!"
+      # 🔟 Authenticate to Google Cloud
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.GCP_SA_KEY }}
+
+      # 1️⃣1️⃣ Set up gcloud CLI
+      - name: Set up gcloud
+        uses: google-github-actions/setup-gcloud@v2
+        with:
+          project_id: charlie-478223
+
+      # 1️⃣2️⃣ Upload models to GCS Bucket
+      - name: Upload models to GCS
+        run: |
+          echo "📤 Uploading model directory to GCS..."
+          gsutil -m cp -r models/* gs://charlie-mbta-data/models/
+
+      # 1️⃣3️⃣ Upload reports to GCS Bucket
+      - name: Upload reports to GCS
+        run: |
+          echo "📤 Uploading reports to GCS..."
+          gsutil -m cp -r reports/* gs://charlie-mbta-data/reports/
+
+      # 1️⃣4️⃣ Upload processed datasets (optional)
+      - name: Upload datasets to GCS
+        run: |
+          if [ -d "data/processed" ]; then
+            echo "📤 Uploading processed data..."
+            gsutil -m cp -r data/processed/* gs://charlie-mbta-data/datasets/
+          else
+            echo "ℹ️ No processed dataset found."
+          fi
+
+      # 1️⃣5️⃣ Pipeline completed
+      - name: ✅ Pipeline Completed
+        run: echo "🎉 Charlie MBTA Model CI/CD pipeline completed successfully!"

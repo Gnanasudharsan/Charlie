@@ -1,73 +1,143 @@
-# ml_src/monitor_drift.py
-from __future__ import annotations
-import os, json
-import numpy as np
+import os
+import json
 import pandas as pd
-from pathlib import Path
+import numpy as np
+from scipy.stats import ks_2samp
+import mlflow
+from ml_src.utils.logging import get_logger
+from ml_src.data_loader import DataPaths
 
-REF_STATS = "models/reference_stats.json"
-CUR_DATA  = "Data_Pipeline/data/processed/predictions.csv"
-REPORT    = "reports/drift_report.json"
+logger = get_logger("monitor_drift")
 
-FEATURES = ["direction_id", "stop_sequence"]  # same as training
+REFERENCE_FILE = "models/reference_stats.json"
+DRIFT_REPORT_JSON = "reports/drift_report.json"
+DRIFT_REPORT_HTML = "reports/drift_report.html"
 
-def _psi(ref: np.ndarray, cur: np.ndarray, bins: int = 10) -> float:
-    """Population Stability Index (numeric only)."""
-    if len(ref) == 0 or len(cur) == 0:
-        return float("nan")
-    # same bin edges computed on reference
-    edges = np.linspace(np.nanmin(ref), np.nanmax(ref), bins + 1)
-    # avoid degenerate edges
-    if not np.isfinite(edges).all() or np.nanmin(ref) == np.nanmax(ref):
-        return 0.0
-    r_hist, _ = np.histogram(ref, bins=edges)
-    c_hist, _ = np.histogram(cur, bins=edges)
-    r_pct = np.clip(r_hist / max(r_hist.sum(), 1), 1e-6, 1)
-    c_pct = np.clip(c_hist / max(c_hist.sum(), 1), 1e-6, 1)
-    return float(np.sum((c_pct - r_pct) * np.log(c_pct / r_pct)))
 
-def _load_reference():
-    if not os.path.exists(REF_STATS):
-        return None
-    with open(REF_STATS) as f:
-        return json.load(f)
+# ----------------------------------------------------
+# Population Stability Index (PSI)
+# ----------------------------------------------------
+def calculate_psi(expected, actual, buckets=10):
+    if len(expected) == 0 or len(actual) == 0:
+        return np.nan
 
-def main():
-    Path("reports").mkdir(exist_ok=True)
+    expected_percents, _ = np.histogram(expected, bins=buckets)
+    actual_percents, _ = np.histogram(actual, bins=buckets)
 
-    ref = _load_reference()
-    if ref is None:
-        print("ℹ️ No reference_stats.json found. Skipping drift.")
+    expected_ratios = expected_percents / len(expected)
+    actual_ratios = actual_percents / len(actual)
+
+    psi = np.sum((expected_ratios - actual_ratios) *
+                 np.log((expected_ratios + 1e-6) / (actual_ratios + 1e-6)))
+    return psi
+
+
+# ----------------------------------------------------
+# Safe loader for reference data
+# ----------------------------------------------------
+def load_reference_array(ref_entry):
+    """
+    Handles both:
+    1) {"values": [...]}
+    2) [...]
+    """
+    if isinstance(ref_entry, dict) and "values" in ref_entry:
+        return np.array(ref_entry["values"], dtype=float)
+
+    if isinstance(ref_entry, list):
+        return np.array(ref_entry, dtype=float)
+
+    raise ValueError("❌ reference_stats.json has unexpected structure")
+
+
+# ----------------------------------------------------
+# Drift Monitoring
+# ----------------------------------------------------
+def run_drift_monitoring():
+    logger.info("🔍 Starting drift monitoring...")
+
+    if not os.path.exists(REFERENCE_FILE):
+        logger.error("❌ Reference stats missing. Run model_train.py first.")
         return
 
-    if not os.path.exists(CUR_DATA):
-        print("ℹ️ No current batch data found. Skipping drift.")
-        return
+    with open(REFERENCE_FILE, "r") as f:
+        reference_stats = json.load(f)
 
-    cur_df = pd.read_csv(CUR_DATA)
-    results = {"per_feature_psi": {}, "overall_flag": False}
+    # Load processed predictions
+    paths = DataPaths("ml_configs/paths.yaml")
+    df_pred = paths.load_all()["predictions"]
 
-    for feat in FEATURES:
-        if feat not in cur_df.columns or feat not in ref:
+    # Prepare target
+    df_pred["arrival_time"] = pd.to_datetime(df_pred["arrival_time"], errors="coerce")
+    df_pred["departure_time"] = pd.to_datetime(df_pred["departure_time"], errors="coerce")
+    df_pred["delay_minutes"] = (df_pred["departure_time"] - df_pred["arrival_time"]).dt.total_seconds() / 60
+    df_pred["delayed"] = (df_pred["delay_minutes"] > 5).astype(int)
+
+    report = {"feature_drift": {}, "target_drift": {}, "psi_scores": {}}
+
+    # Feature drift
+    for feature in ["direction_id", "stop_sequence"]:
+        if feature not in reference_stats:
             continue
-        cur_vals = cur_df[feat].dropna().to_numpy()
-        ref_vals = np.array(ref[feat]["values"], dtype=float)
-        psi = _psi(ref_vals, cur_vals, bins=10)
-        results["per_feature_psi"][feat] = psi
 
-    # simple flag: PSI > 0.25 => major drift, > 0.1 => moderate
-    thresh_major, thresh_mod = 0.25, 0.10
-    flags = {
-        f: ("major" if v >= thresh_major else "moderate" if v >= thresh_mod else "ok")
-        for f, v in results["per_feature_psi"].items()
-        if np.isfinite(v)
-    }
-    results["flags"] = flags
-    results["overall_flag"] = any(v in ("moderate", "major") for v in flags.values())
+        # FIXED: auto-detect structure
+        ref = load_reference_array(reference_stats[feature])
+        cur = df_pred[feature].dropna().astype(float).values
 
-    with open(REPORT, "w") as f:
-        json.dump(results, f, indent=2)
-    print("✅ Drift report written to", REPORT, results)
+        ks_stat, ks_p = ks_2samp(ref, cur)
+        drift_detected = bool(ks_p < 0.05)
+
+        psi = calculate_psi(ref, cur)
+
+        report["feature_drift"][feature] = {
+            "ks_stat": float(ks_stat),
+            "p_value": float(ks_p),
+            "drift_detected": drift_detected
+        }
+
+        report["psi_scores"][feature] = float(psi)
+
+    # Target drift
+    if "delayed" in reference_stats:
+        ref_target = load_reference_array(reference_stats["delayed"])
+        cur_target = df_pred["delayed"].astype(float).values
+
+        if len(ref_target) > 0:
+            ks_stat, ks_p = ks_2samp(ref_target, cur_target)
+
+            report["target_drift"] = {
+                "ks_stat": float(ks_stat),
+                "p_value": float(ks_p),
+                "drift_detected": bool(ks_p < 0.05)
+            }
+
+    # Save JSON
+    os.makedirs("reports", exist_ok=True)
+    with open(DRIFT_REPORT_JSON, "w") as f:
+        json.dump(report, f, indent=4)
+
+    logger.info(f"📄 Drift report saved: {DRIFT_REPORT_JSON}")
+
+    # HTML
+    html = "<h1>MBTA Drift Monitoring Report</h1><pre>" + json.dumps(report, indent=4) + "</pre>"
+    with open(DRIFT_REPORT_HTML, "w") as f:
+        f.write(html)
+
+    logger.info(f"📊 Drift HTML saved: {DRIFT_REPORT_HTML}")
+
+    # Log to MLflow
+    mlflow.set_tracking_uri("file:./mlruns")
+    mlflow.set_experiment("MBTA-Model-Drift")
+
+    with mlflow.start_run(run_name="drift_monitoring"):
+        mlflow.log_artifact(DRIFT_REPORT_JSON)
+        mlflow.log_artifact(DRIFT_REPORT_HTML)
+
+        for feat, psi in report["psi_scores"].items():
+            mlflow.log_metric(f"psi_{feat}", psi)
+
+    logger.info("🎯 Drift Monitoring Completed Successfully!")
+
 
 if __name__ == "__main__":
-    main()
+    run_drift_monitoring()

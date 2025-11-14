@@ -15,31 +15,38 @@ from ml_src.utils.logging import get_logger
 logger = get_logger("train_model")
 
 
-# -----------------------
+# ============================================================
 # Feature Engineering
-# -----------------------
+# ============================================================
 def prepare_data(df: pd.DataFrame):
-    # Convert arrival/departure to datetime
+    # Convert to datetime
     for col in ["arrival_time", "departure_time"]:
-        df[col] = pd.to_datetime(df[col], errors="ignore")
+        df[col] = pd.to_datetime(df[col], errors="coerce")
 
+    # Remove invalid rows
     df = df.dropna(subset=["arrival_time", "departure_time"])
-    df["delay_minutes"] = (df["departure_time"] - df["arrival_time"]).dt.total_seconds() / 60
+
+    # Compute delay
+    df["delay_minutes"] = (
+        df["departure_time"] - df["arrival_time"]
+    ).dt.total_seconds() / 60
+
     df["delayed"] = (df["delay_minutes"] > 5).astype(int)
 
+    # Features
     features = ["direction_id", "stop_sequence"]
     df = df.dropna(subset=features)
 
     X = df[features]
     y = df["delayed"]
-    return X, y
+    return df, X, y
 
 
-# -----------------------
+# ============================================================
 # Train + Save Model
-# -----------------------
+# ============================================================
 def main():
-    # Load data via DVC/Airflow output
+    # Load predictions from processed data
     paths = DataPaths("ml_configs/paths.yaml")
     try:
         dfs = paths.load_all()
@@ -50,22 +57,23 @@ def main():
 
     logger.info(f"Loaded predictions: {df_pred.shape}")
 
-    # Prepare features
-    X, y = prepare_data(df_pred)
+    # Prepare engineered dataset
+    df_eng, X, y = prepare_data(df_pred)
+
     X_train, X_val, y_train, y_val = train_test_split(
         X, y, test_size=0.2, stratify=y, random_state=42
     )
 
-    # Load experiment config
+    # Load MLflow config
     with open("configs/config.yaml") as f:
         cfg = yaml.safe_load(f)
 
     mlflow.set_tracking_uri(cfg["experiment"]["tracking_uri"])
     mlflow.set_experiment(cfg["experiment"]["name"])
 
-    # -----------------------
-    # LightGBM Model
-    # -----------------------
+    # ============================================================
+    # Train LightGBM model
+    # ============================================================
     with mlflow.start_run(run_name="baseline_lgbm"):
         model = LGBMClassifier(
             n_estimators=150,
@@ -79,37 +87,47 @@ def main():
 
         metrics = {
             "accuracy": accuracy_score(y_val, y_pred),
-            "precision": precision_score(y_val, y_pred),
-            "recall": recall_score(y_val, y_pred),
-            "f1": f1_score(y_val, y_pred),
+            "precision": precision_score(y_val, y_pred, zero_division=0),
+            "recall": recall_score(y_val, y_pred, zero_division=0),
+            "f1": f1_score(y_val, y_pred, zero_division=0),
             "roc_auc": roc_auc_score(y_val, y_prob),
         }
 
-        # Log to MLflow
+        # Log parameters & metrics
         mlflow.log_params(model.get_params())
         mlflow.log_metrics(metrics)
+
+        # Save MLflow model
         mlflow.sklearn.log_model(model, artifact_path="model")
 
-        # -----------------------
-        # Save local model
-        # -----------------------
+        # ========================================================
+        # Save trained model locally
+        # ========================================================
         Path("models").mkdir(exist_ok=True)
         joblib.dump(model, "models/model_lgbm.joblib")
+        logger.info("Saved model_lgbm.joblib")
 
         logger.info(f"Metrics: {metrics}")
-        logger.info("Saved model to models/model_lgbm.joblib")
 
-        # -----------------------
-        # Save reference stats for drift monitoring
-        # -----------------------
-        ref = {
-            "direction_id": {"values": X_train["direction_id"].astype(float).tolist()},
-            "stop_sequence": {"values": X_train["stop_sequence"].astype(float).tolist()},
-        }
+        # ========================================================
+        # Save reference distributions for drift monitoring (FIXED)
+        # ========================================================
+        reference_stats = {}
 
+        for feature in ["direction_id", "stop_sequence", "delay_minutes", "delayed"]:
+            if feature in df_eng.columns:
+                reference_stats[feature] = (
+                    df_eng[feature]
+                    .dropna()
+                    .astype(float)
+                    .tolist()
+                )
+
+        # Write updated stats
         with open("models/reference_stats.json", "w") as f:
-            json.dump(ref, f)
-        logger.info("Saved reference_stats.json for drift monitoring.")
+            json.dump(reference_stats, f, indent=4)
+
+        logger.info("Saved updated reference_stats.json for drift monitoring.")
 
 
 if __name__ == "__main__":
