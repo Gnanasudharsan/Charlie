@@ -34,10 +34,11 @@ jobs:
           pip install -r requirements.txt
           pip install dvc[all] fairlearn mlflow matplotlib seaborn \
                      scikit-learn joblib pyyaml lime shap plotly \
-                     imbalanced-learn pandas numpy lightgbm
+                     imbalanced-learn pandas numpy lightgbm \
+                     google-cloud-storage google-cloud-artifact-registry google-auth
 
       # -----------------------------------------------------
-      # 4) Pull DVC data (if available)
+      # 4) Pull DVC data
       # -----------------------------------------------------
       - name: Pull DVC Data
         run: |
@@ -81,7 +82,7 @@ jobs:
           python -m ml_src.explainability || echo "⚠️ Skipping explainability."
 
       # -----------------------------------------------------
-      # 9) Model Selection  ✅ NEW STEP
+      # 9) Model Selection
       # -----------------------------------------------------
       - name: Select Best Model
         run: |
@@ -89,7 +90,7 @@ jobs:
           python -m ml_src.model_select || echo "⚠️ Skipping model selection."
 
       # -----------------------------------------------------
-      # 10) Model Registry
+      # 10) Model Registry (Local MLflow)
       # -----------------------------------------------------
       - name: Register Model
         run: |
@@ -105,7 +106,7 @@ jobs:
           python -m ml_src.monitor_drift || echo "⚠️ Skipping drift monitoring."
 
       # -----------------------------------------------------
-      # 12) Upload artifacts
+      # 12) Upload artifacts to GitHub
       # -----------------------------------------------------
       - name: Upload Reports
         uses: actions/upload-artifact@v4
@@ -115,5 +116,22 @@ jobs:
             models/
             reports/
 
+      # -----------------------------------------------------
+      # 13) Push Model to GCP Artifact Registry (FINAL STEP)
+      # -----------------------------------------------------
+      - name: Push Model to GCP Artifact Registry
+        env:
+          GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }}
+        run: |
+          echo "$GCP_SA_KEY" > key.json
+          gcloud auth activate-service-account --key-file=key.json
+          gcloud config set project charlie-478223
+
+          echo "☁️ Uploading model to GCP Artifact Registry..."
+          python -m ml_src.gcp_registry || echo "⚠️ Model registry upload skipped."
+
+      # -----------------------------------------------------
+      # 14) Final completion
+      # -----------------------------------------------------
       - name: Pipeline Completed
         run: echo "🎉 Pipeline execution finished!"
