@@ -9,38 +9,37 @@ from Model_Development.ml_src.utils.logging import get_logger
 
 logger = get_logger("register_model")
 
-# Correct directory paths (consistent across pipeline)
-MODEL_DIR = "models"
+# Correct folder paths (consistent across all pipeline scripts)
+MODEL_DIR = "Model_Development/models"
 BEST_MODEL_FILE = "final_model.joblib"
-MODEL_NAME = "Charlie_MBTA_Model"     # MLflow registry name
+MODEL_NAME = "Charlie_MBTA_Model"   # MLflow Registry Name
 
 
 def load_best_model_path():
-    """Locate the final selected model inside /models/."""
+    """Return path to the final model inside Model_Development/models."""
     final_path = os.path.join(MODEL_DIR, BEST_MODEL_FILE)
 
     if not os.path.exists(final_path):
         raise FileNotFoundError(f"❌ No final model found at {final_path}")
 
-    logger.info(f"✅ Final model located: {final_path}")
+    logger.info(f"✅ Found final model → {final_path}")
     return final_path
 
 
 def register_model_with_mlflow(model_path):
-    """Register the best model into MLflow Model Registry."""
+    """Register the model inside the MLflow Model Registry."""
 
-    # MLflow will store everything inside /mlruns/
-    mlflow.set_tracking_uri("file:./mlruns")
+    # MLflow registry stored inside: Model_Development/mlruns/
+    mlflow.set_tracking_uri("file:./Model_Development/mlruns")
     mlflow.set_experiment("MBTA-Model-Registry")
 
     with mlflow.start_run(run_name="register_best_model"):
 
-        # Load raw .joblib model
+        # Load model
         model = joblib.load(model_path)
+        logger.info("📦 Logging model to MLflow registry…")
 
-        logger.info("📦 Logging best model to MLflow…")
-
-        # Log model + register to Model Registry
+        # Log & register model
         mlflow.sklearn.log_model(
             sk_model=model,
             artifact_path="model",
@@ -49,15 +48,14 @@ def register_model_with_mlflow(model_path):
 
         logger.info("✅ Model logged to MLflow registry")
 
-        # Get latest version
+        # Retrieve the latest model version
         client = mlflow.tracking.MlflowClient()
+        versions = client.get_latest_versions(MODEL_NAME, stages=["None", "Staging", "Production"])
 
-        latest_version = client.get_latest_versions(
-            name=MODEL_NAME, 
-            stages=["None"]
-        )[0].version
+        latest_version = versions[-1].version
+        logger.info(f"📌 Latest registered version = {latest_version}")
 
-        # Move to PRODUCTION
+        # Promote to PRODUCTION
         client.transition_model_version_stage(
             name=MODEL_NAME,
             version=latest_version,
@@ -76,7 +74,7 @@ def main():
         logger.info(f"🎉 Model successfully registered at version {version}")
 
     except Exception as e:
-        logger.error(f"❌ Model registry failed: {str(e)}")
+        logger.error(f"❌ Model registration failed: {str(e)}")
 
 
 if __name__ == "__main__":

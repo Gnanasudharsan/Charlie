@@ -10,7 +10,6 @@ from Model_Development.ml_src.utils.logging import get_logger
 
 logger = get_logger("gcp_registry")
 
-
 # ---------------------------------------------------
 # GCP CONFIGURATION
 # ---------------------------------------------------
@@ -21,29 +20,29 @@ PACKAGE_NAME = "charlie-mbta-model"
 
 
 def push_to_gcp(
-    model_path="models/final_model.joblib",
-    metadata_path="models/model_metadata.json",
+    model_path="Model_Development/models/final_model.joblib",
+    metadata_path="Model_Development/models/model_metadata.json",
     version=None,
 ):
     """
     Uploads a model + metadata to Google Cloud Artifact Registry.
-    Now compatible with GitHub Actions and local runs.
+    Fully compatible with local development and GitHub Actions.
     """
 
     # ---------------------------------------------------
-    # Validate model exists
+    # Paths
     # ---------------------------------------------------
     model_path = Path(model_path)
     metadata_path = Path(metadata_path)
 
     if not model_path.exists():
-        raise FileNotFoundError(f"❌ Model not found: {model_path}")
+        raise FileNotFoundError(f"❌ Model not found at: {model_path}")
 
     # ---------------------------------------------------
     # Auto-create metadata if missing
     # ---------------------------------------------------
     if not metadata_path.exists():
-        logger.warning("⚠️ Metadata file missing — creating model_metadata.json automatically.")
+        logger.warning("⚠️ Metadata missing — creating model_metadata.json.")
         metadata = {
             "model_name": model_path.name,
             "created_at": datetime.utcnow().isoformat(),
@@ -62,15 +61,17 @@ def push_to_gcp(
     metadata["version"] = version
     metadata_path.write_text(json.dumps(metadata, indent=4))
 
-    logger.info(f"📦 Packaging model → version={version}")
+    logger.info(f"📦 Packaging model — version={version}")
 
     # ---------------------------------------------------
-    # Create staging directory
+    # Create clean upload directory
     # ---------------------------------------------------
-    upload_dir = Path("gcp_upload")
-    upload_dir.mkdir(exist_ok=True)
+    upload_dir = Path("Model_Development/gcp_upload")
+    if upload_dir.exists():
+        subprocess.run(["rm", "-rf", str(upload_dir)])
+    upload_dir.mkdir(parents=True, exist_ok=True)
 
-    # Copy files
+    # Copy model + metadata
     subprocess.run(["cp", str(model_path), f"{upload_dir}/model.joblib"], check=True)
     subprocess.run(["cp", str(metadata_path), f"{upload_dir}/metadata.json"], check=True)
 
@@ -78,39 +79,31 @@ def push_to_gcp(
     # Create TAR package
     # ---------------------------------------------------
     tar_name = f"charlie_model_{version}.tar.gz"
+
     subprocess.run(
         ["tar", "-czf", tar_name, "-C", str(upload_dir), "."],
         check=True,
     )
 
-    logger.info("☁️ Uploading to Google Cloud Artifact Registry...")
+    logger.info("☁️ Uploading TAR package to GCP Artifact Registry…")
 
     # ---------------------------------------------------
-    # Upload TAR to GCP Artifact Registry
+    # Upload to Artifact Registry
     # ---------------------------------------------------
     cmd = [
-        "gcloud",
-        "artifacts",
-        "generic",
-        "upload",
-        "--project",
-        PROJECT,
-        "--location",
-        LOCATION,
-        "--repository",
-        REPO,
-        "--package",
-        PACKAGE_NAME,
-        "--version",
-        version,
-        "--source",
-        tar_name,
+        "gcloud", "artifacts", "generic", "upload",
+        "--project", PROJECT,
+        "--location", LOCATION,
+        "--repository", REPO,
+        "--package", PACKAGE_NAME,
+        "--version", version,
+        "--source", tar_name,
     ]
 
     subprocess.run(cmd, check=True)
 
     logger.info(
-        f"✅ Successfully uploaded model package → {PACKAGE_NAME}:{version}"
+        f"✅ Successfully uploaded to Artifact Registry → {PACKAGE_NAME}:{version}"
     )
     return version
 

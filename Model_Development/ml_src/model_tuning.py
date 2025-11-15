@@ -22,7 +22,7 @@ logger = get_logger("model_tuning")
 
 
 # ============================================================
-# HYPERPARAMETER TUNING + SMOTE
+# HYPERPARAMETER TUNING FOR LOGISTIC REGRESSION
 # ============================================================
 def train_and_log():
     logger.info("🚀 Starting hyperparameter tuning...")
@@ -40,18 +40,18 @@ def train_and_log():
     logger.info(f"📥 Loaded dataset: {df_pred.shape}")
 
     # ------------------------------
-    # Prepare features
+    # Prepare engineered features
     # ------------------------------
     _, X, y = prepare_data(df_pred)
 
     n_pos = (y == 1).sum()
-    logger.info(f"🔍 # of delayed (positive) samples = {n_pos}")
+    logger.info(f"🔍 Positive (delayed) samples = {n_pos}")
 
     # ------------------------------
-    # SMOTE safety check
+    # SMOTE: Prevent crash when minority class is too small
     # ------------------------------
     if n_pos < 2:
-        logger.warning("❌ Too few positive samples for SMOTE (need ≥ 2). Skipping tuning.")
+        logger.warning("❌ Too few positive samples for SMOTE. Skipping tuning.")
         return
 
     smote = SMOTE(k_neighbors=1, random_state=42)
@@ -64,16 +64,16 @@ def train_and_log():
     )
 
     # ------------------------------
-    # Load MLflow config
+    # MLflow config
     # ------------------------------
     with open("configs/config.yaml") as f:
         cfg = yaml.safe_load(f)
 
-    mlflow.set_tracking_uri(cfg["experiment"]["tracking_uri"])
+    mlflow.set_tracking_uri(cfg["experiment"]["tracking_uri"])  # file:./Model_Development/mlruns
     mlflow.set_experiment(cfg["experiment"]["name"])
 
     # ------------------------------
-    # Hyperparameter tuning grid
+    # Hyperparameter grid
     # ------------------------------
     params = {
         "C": [0.01, 0.1, 1, 10],
@@ -91,7 +91,7 @@ def train_and_log():
     grid.fit(X_train, y_train)
     best_model = grid.best_estimator_
 
-    logger.info(f"🏆 Best params found → {grid.best_params_}")
+    logger.info(f"🏆 Best Parameters → {grid.best_params_}")
 
     # ------------------------------
     # Evaluate tuned model
@@ -102,10 +102,10 @@ def train_and_log():
     metrics = {
         "accuracy": accuracy_score(y_val, y_pred),
         "f1": f1_score(y_val, y_pred),
-        "roc_auc": roc_auc_score(y_val, y_prob)
+        "roc_auc": roc_auc_score(y_val, y_prob),
     }
 
-    logger.info(f"📊 Metrics: {metrics}")
+    logger.info(f"📊 Tuned Model Metrics: {metrics}")
 
     # ------------------------------
     # Log to MLflow
@@ -113,13 +113,15 @@ def train_and_log():
     with mlflow.start_run(run_name="logreg_tuned"):
         mlflow.log_params(grid.best_params_)
         mlflow.log_metrics(metrics)
-        mlflow.sklearn.log_model(best_model, "tuned_logreg")
+        mlflow.sklearn.log_model(best_model, artifact_path="tuned_logreg")
 
         # ------------------------------
-        # SAVE MODEL IN CORRECT DIRECTORY
+        # Save model to correct directory
         # ------------------------------
-        os.makedirs("models", exist_ok=True)
-        model_path = "models/logreg_tuned.joblib"
+        model_dir = "Model_Development/models"
+        os.makedirs(model_dir, exist_ok=True)
+
+        model_path = f"{model_dir}/logreg_tuned.joblib"
         joblib.dump(best_model, model_path)
 
         logger.info(f"💾 Tuned model saved → {model_path}")

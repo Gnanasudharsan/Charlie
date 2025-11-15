@@ -43,15 +43,14 @@ def prepare_data(df: pd.DataFrame):
 
     df["delayed"] = (df["delay_minutes"] > 5).astype(int)
 
-    # Features
+    # Required features
     features = ["direction_id", "stop_sequence"]
     df = df.dropna(subset=features)
 
     X = df[features]
     y = df["delayed"]
 
-    # ALWAYS return df_clean, X, y in this order
-    return df, X, y
+    return df, X, y     # ALWAYS df_clean, X, y
 
 
 # ============================================================
@@ -61,7 +60,7 @@ def main():
     paths = DataPaths("ml_configs/paths.yaml")
 
     # -------------------------------
-    # Load processed output
+    # Load processed data
     # -------------------------------
     try:
         df_pred = paths.load_all()["predictions"]
@@ -77,7 +76,7 @@ def main():
     df_clean, X, y = prepare_data(df_pred)
 
     if len(X) == 0:
-        logger.error("❌ No rows available after preprocessing.")
+        logger.error("❌ No valid rows after preprocessing.")
         return
 
     X_train, X_val, y_train, y_val = train_test_split(
@@ -85,16 +84,16 @@ def main():
     )
 
     # -------------------------------
-    # MLflow setup
+    # MLflow configuration
     # -------------------------------
     with open("configs/config.yaml") as f:
         cfg = yaml.safe_load(f)
 
-    mlflow.set_tracking_uri(cfg["experiment"]["tracking_uri"])
-    mlflow.set_experiment(cfg["experiment"]["name"])
+    mlflow.set_tracking_uri(cfg["experiment"]["tracking_uri"])  # file:./Model_Development/mlruns
+    mlflow.set_experiment(cfg["experiment"]["name"])           # charlie_mbta_model_dev
 
     # -------------------------------
-    # Train LightGBM Model
+    # Train LightGBM model
     # -------------------------------
     with mlflow.start_run(run_name="baseline_lgbm"):
         model = LGBMClassifier(
@@ -118,24 +117,24 @@ def main():
 
         logger.info(f"📊 Validation Metrics: {metrics}")
 
-        # Log to MLflow
+        # Log metrics + params
         mlflow.log_params(model.get_params())
         mlflow.log_metrics(metrics)
         mlflow.sklearn.log_model(model, "baseline_lgbm_model")
 
         # -------------------------------
-        # Save model locally (correct directory)
+        # SAVE MODEL (CORRECT DIRECTORY)
         # -------------------------------
-        model_dir = Path("models")
+        model_dir = Path("Model_Development/models")
         model_dir.mkdir(exist_ok=True)
 
         model_path = model_dir / "model_lgbm.joblib"
         joblib.dump(model, model_path)
 
-        logger.info(f"💾 Saved model → {model_path}")
+        logger.info(f"💾 Saved LightGBM model → {model_path}")
 
         # -------------------------------
-        # Save reference distributions for drift
+        # SAVE DRIFT REFERENCE STATS
         # -------------------------------
         reference_stats = {}
         drift_cols = ["direction_id", "stop_sequence", "delay_minutes", "delayed"]
