@@ -117,29 +117,6 @@ Simple UI that calls the Cloud Run API and displays:
 	•	Model Version
 	•	Confidence Score
 
-⸻
-
- Project Structure
-
-.
-├── Data_Pipeline/        → Airflow DAGs, scripts, data
-├── ml_src/               → ML training, tuning, bias, drift, API
-│   ├── api/              → FastAPI app
-│   ├── model_train.py
-│   ├── model_tuning.py
-│   ├── model_select.py
-│   ├── bias_analysis.py
-│   ├── monitor_drift.py
-│   ├── gcp_registry.py
-│   └── deploy_model.py
-├── models/               → trained models
-├── reports/              → SHAP, LIME, drift, bias reports
-├── dvc.yaml              → data versioning
-├── Dockerfile            → Cloud Run API container
-├── docker-compose.yaml   → Airflow local setup
-├── README.md             → (this file)
-└── streamlit_app.py      → User interface
-
 
 ⸻
 
