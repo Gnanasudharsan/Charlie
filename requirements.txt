@@ -9,3 +9,5 @@ requests>=2.31
 apache-airflow==2.9.*
 fairlearn==0.10.0
 protobuf==3.20.3
+fastapi
+uvicorn[standard]
