@@ -21,7 +21,7 @@ jobs:
         with:
           python-version: "3.12"
 
-      # 3️⃣ Install all dependencies
+      # 3️⃣ Install dependencies
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
@@ -30,83 +30,80 @@ jobs:
                       joblib pyyaml lime shap plotly imbalanced-learn pandas numpy \
                       lightgbm
 
-      # 4️⃣ Pull data from DVC (optional)
+      # 4️⃣ Pull data from DVC (still optional)
       - name: Pull data from DVC
         run: |
           if [ -f "dvc.yaml" ]; then
-            echo "📦 Pulling data using DVC..."
-            dvc pull || echo "⚠️ No remote DVC data found, continuing..."
+            dvc pull || echo "⚠️ No remote DVC data found"
           else
-            echo "ℹ️ No DVC configuration found. Skipping data pull."
+            echo "ℹ️ No DVC configuration found. Skipping."
           fi
 
-      # 5️⃣ Train baseline model
+      # 5️⃣ Load data (now from new path)
+      - name: Load data for training
+        run: |
+          python Model_Development/src/data_loader.py
+
+      # 6️⃣ Train baseline model
       - name: Train baseline model
         run: |
-          echo "🚀 Starting baseline model training..."
-          python -m ml_src.model_train
+          python Model_Development/src/model_train.py
 
-      # 6️⃣ Hyperparameter tuning with SMOTE
+      # 7️⃣ Hyperparameter tuning
       - name: Hyperparameter tuning
         run: |
-          echo "🎯 Running model tuning with SMOTE..."
-          python -m ml_src.model_tuning || echo "⚠️ Skipping tuning (no data found)."
+          python Model_Development/src/model_tuning.py || echo "⚠️ Tuning skipped"
 
-      # 7️⃣ Bias & Fairness Check
+      # 8️⃣ Bias & Fairness Check
       - name: Bias & Fairness Check
         run: |
-          echo "🧠 Running fairness analysis..."
-          python -m ml_src.bias_analysis || echo "⚠️ Skipping bias analysis (no data found)."
+          python Model_Development/src/bias_analysis.py || echo "⚠️ Bias check skipped"
 
-      # 8️⃣ Model Explainability (SHAP + LIME)
-      - name: Model Explainability (SHAP/LIME)
+      # 9️⃣ Explainability (SHAP/LIME)
+      - name: Model Explainability
         run: |
-          echo "📊 Running explainability step..."
-          python -m ml_src.explainability || echo "⚠️ Skipping explainability (no data found)."
+          python Model_Development/src/explainability.py || echo "⚠️ Explainability skipped"
 
-      # 9️⃣ Upload all outputs to GitHub Artifacts
+      # 🔟 Upload artifacts to GitHub
       - name: Upload model artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: charlie-model-artifacts
+          name: mbta-model-artifacts
           path: |
-            models/
-            reports/
+            Model_Development/models/
+            Model_Development/reports/
 
-      # 🔟 Authenticate to Google Cloud
+      # 1️⃣1️⃣ Authenticate to Google Cloud
       - name: Authenticate to Google Cloud
         uses: google-github-actions/auth@v2
         with:
           credentials_json: ${{ secrets.GCP_SA_KEY }}
 
-      # 1️⃣1️⃣ Set up gcloud CLI
+      # 1️⃣2️⃣ Set up gcloud CLI
       - name: Set up gcloud
         uses: google-github-actions/setup-gcloud@v2
         with:
           project_id: charlie-478223
 
-      # 1️⃣2️⃣ Upload models to GCS Bucket
+      # 1️⃣3️⃣ Upload models to GCS
       - name: Upload models to GCS
         run: |
-          echo "📤 Uploading model directory to GCS..."
-          gsutil -m cp -r models/* gs://charlie-mbta-data/models/
+          gsutil -m cp -r Model_Development/models/* gs://charlie-mbta-data/models/ || true
 
-      # 1️⃣3️⃣ Upload reports to GCS Bucket
+      # 1️⃣4️⃣ Upload reports to GCS
       - name: Upload reports to GCS
         run: |
-          echo "📤 Uploading reports to GCS..."
-          gsutil -m cp -r reports/* gs://charlie-mbta-data/reports/
+          gsutil -m cp -r Model_Development/reports/* gs://charlie-mbta-data/reports/ || true
 
-      # 1️⃣4️⃣ Upload processed datasets (optional)
-      - name: Upload datasets to GCS
+      # 1️⃣5️⃣ Upload processed datasets
+      - name: Upload processed datasets
         run: |
-          if [ -d "data/processed" ]; then
-            echo "📤 Uploading processed data..."
-            gsutil -m cp -r data/processed/* gs://charlie-mbta-data/datasets/
+          if [ -d "Data_Pipeline/data/processed" ]; then
+            gsutil -m cp -r Data_Pipeline/data/processed/* gs://charlie-mbta-data/datasets/
           else
             echo "ℹ️ No processed dataset found."
           fi
 
-      # 1️⃣5️⃣ Pipeline completed
-      - name: ✅ Pipeline Completed
-        run: echo "🎉 Charlie MBTA Model CI/CD pipeline completed successfully!"
+      # 1️⃣6️⃣ Pipeline completed
+      - name: Pipeline Completed
+        run: echo "🎉 Charlie MBTA Model CI/CD completed successfully!"
