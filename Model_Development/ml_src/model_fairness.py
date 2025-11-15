@@ -7,6 +7,7 @@ import mlflow
 import pandas as pd
 import matplotlib.pyplot as plt
 from pathlib import Path
+
 from fairlearn.metrics import (
     MetricFrame,
     selection_rate,
@@ -23,52 +24,55 @@ logger = get_logger("model_fairness")
 
 def evaluate_fairness():
 
-    # ------------------------------
-    # Load config & MLflow settings
-    # ------------------------------
+    # --------------------------------------------
+    # Load MLflow Configuration
+    # --------------------------------------------
     with open("configs/config.yaml") as f:
         cfg = yaml.safe_load(f)
 
     mlflow.set_tracking_uri(cfg["experiment"]["tracking_uri"])
     mlflow.set_experiment(cfg["experiment"]["name"])
 
-    # ------------------------------
-    # Load predictions → prepare_data()
-    # ------------------------------
+    # --------------------------------------------
+    # Load processed predictions
+    # --------------------------------------------
     paths = DataPaths("ml_configs/paths.yaml")
     df_pred = paths.load_all()["predictions"]
 
-    X, y_true, *_ = prepare_data(df_pred)
+    df_eng, X, y_true = prepare_data(df_pred)
 
-    # ------------------------------
-    # Pick best available model
-    # ------------------------------
+    # --------------------------------------------
+    # Pick best model available
+    # --------------------------------------------
     candidate_models = [
-        "Model_Development/models/final_model.joblib",
-        "Model_Development/models/model_lgbm.joblib",
-        "Model_Development/models/best_logreg_tuned.joblib",
+        "models/final_model.joblib",
+        "models/model_lgbm.joblib",
+        "models/logreg_tuned.joblib",
     ]
 
     model_path = next((m for m in candidate_models if os.path.exists(m)), None)
     if not model_path:
-        raise FileNotFoundError("❌ No model found in Model_Development/models/")
+        raise FileNotFoundError("❌ No model found in models/ directory.")
 
     model = joblib.load(model_path)
-    logger.info(f"Loaded model → {model_path}")
+    logger.info(f"📦 Loaded model → {model_path}")
 
+    # --------------------------------------------
+    # Make predictions
+    # --------------------------------------------
     y_pred = model.predict(X)
 
-    # ------------------------------
-    # Sensitive feature (slicing)
-    # ------------------------------
+    # --------------------------------------------
+    # Sensitive Feature (slice)
+    # --------------------------------------------
     if "direction_id" not in X.columns:
-        raise ValueError("❌ direction_id column missing for fairness analysis.")
+        raise ValueError("❌ direction_id missing for fairness evaluation.")
 
-    sensitive_feature = X["direction_id"]
+    sensitive = X["direction_id"]
 
-    # ------------------------------
-    # Build MetricFrame
-    # ------------------------------
+    # --------------------------------------------
+    # MetricFrame (accuracy, recall, selection_rate)
+    # --------------------------------------------
     metrics = {
         "accuracy": accuracy_score,
         "recall": recall_score,
@@ -79,23 +83,23 @@ def evaluate_fairness():
         metrics=metrics,
         y_true=y_true,
         y_pred=y_pred,
-        sensitive_features=sensitive_feature,
+        sensitive_features=sensitive,
     )
 
-    logger.info(f"\nFairness metrics by direction_id:\n{mf.by_group}")
+    logger.info(f"\n📊 Fairness metrics by direction_id:\n{mf.by_group}")
 
-    # ------------------------------
-    # Output directory
-    # ------------------------------
+    # --------------------------------------------
+    # Output folder
+    # --------------------------------------------
     report_dir = Path("Model_Development/reports")
     report_dir.mkdir(exist_ok=True)
 
-    # ------------------------------
-    # Plot fairness metrics
-    # ------------------------------
     fairness_plot_path = report_dir / "fairness_by_direction.png"
     fairness_csv_path = report_dir / "fairness_metrics.csv"
 
+    # --------------------------------------------
+    # Plot fairness metrics
+    # --------------------------------------------
     plt.figure(figsize=(9, 4))
     mf.by_group.plot(kind="bar")
     plt.title("Fairness Metrics by Direction ID")
@@ -104,33 +108,33 @@ def evaluate_fairness():
     plt.savefig(fairness_plot_path, dpi=300)
     plt.close()
 
-    logger.info(f"Saved fairness plot → {fairness_plot_path}")
+    logger.info(f"📈 Fairness plot saved → {fairness_plot_path}")
 
-    # Save fairness metrics
+    # Save CSV
     mf.by_group.to_csv(fairness_csv_path)
-    logger.info(f"Saved fairness metrics → {fairness_csv_path}")
+    logger.info(f"📄 Fairness metrics saved → {fairness_csv_path}")
 
-    # ------------------------------
-    # Compute demographic parity difference
-    # ------------------------------
+    # --------------------------------------------
+    # Demographic Parity Difference
+    # --------------------------------------------
     dp_diff = demographic_parity_difference(
         y_true=y_true,
         y_pred=y_pred,
-        sensitive_features=sensitive_feature,
+        sensitive_features=sensitive,
     )
 
-    logger.info(f"Demographic Parity Difference = {dp_diff:.4f}")
+    logger.info(f"🎯 Demographic Parity Difference = {dp_diff:.4f}")
 
-    # ------------------------------
-    # Log artifacts to MLflow
-    # ------------------------------
+    # --------------------------------------------
+    # Log to MLflow
+    # --------------------------------------------
     try:
         with mlflow.start_run(run_name="model_fairness"):
             mlflow.log_artifact(str(fairness_plot_path))
             mlflow.log_artifact(str(fairness_csv_path))
             mlflow.log_metric("demographic_parity_difference", dp_diff)
 
-        logger.info("🎯 Fairness artifacts logged to MLflow.")
+        logger.info("☁️ Logged fairness artifacts to MLflow")
 
     except Exception as e:
         logger.warning(f"⚠️ MLflow logging failed: {e}")

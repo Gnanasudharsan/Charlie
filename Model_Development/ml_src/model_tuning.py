@@ -22,7 +22,7 @@ logger = get_logger("model_tuning")
 
 
 # ============================================================
-# HYPERPARAMETER TUNING LOGISTIC REGRESSION + SMOTE
+# HYPERPARAMETER TUNING + SMOTE
 # ============================================================
 def train_and_log():
     logger.info("🚀 Starting hyperparameter tuning...")
@@ -73,7 +73,7 @@ def train_and_log():
     mlflow.set_experiment(cfg["experiment"]["name"])
 
     # ------------------------------
-    # Define tuning grid
+    # Hyperparameter tuning grid
     # ------------------------------
     params = {
         "C": [0.01, 0.1, 1, 10],
@@ -113,11 +113,13 @@ def train_and_log():
     with mlflow.start_run(run_name="logreg_tuned"):
         mlflow.log_params(grid.best_params_)
         mlflow.log_metrics(metrics)
-        mlflow.sklearn.log_model(best_model, artifact_path="tuned_logreg")
+        mlflow.sklearn.log_model(best_model, "tuned_logreg")
 
-        # Save to correct folder
-        os.makedirs("Model_Development/models", exist_ok=True)
-        model_path = "Model_Development/models/logreg_tuned.joblib"
+        # ------------------------------
+        # SAVE MODEL IN CORRECT DIRECTORY
+        # ------------------------------
+        os.makedirs("models", exist_ok=True)
+        model_path = "models/logreg_tuned.joblib"
         joblib.dump(best_model, model_path)
 
         logger.info(f"💾 Tuned model saved → {model_path}")

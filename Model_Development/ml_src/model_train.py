@@ -25,24 +25,23 @@ logger = get_logger("train_model")
 
 
 # ============================================================
-# FEATURE ENGINEERING (CLEAN + READY FOR ALL SCRIPTS)
+# FEATURE ENGINEERING (USED BY ALL OTHER SCRIPTS)
 # ============================================================
 def prepare_data(df: pd.DataFrame):
     df = df.copy()
 
-    # Convert datetime
+    # Datetime conversion
     for col in ["arrival_time", "departure_time"]:
         df[col] = pd.to_datetime(df[col], errors="coerce")
 
-    # Remove invalid rows
     df = df.dropna(subset=["arrival_time", "departure_time"])
 
     # Compute delay
-    df.loc[:, "delay_minutes"] = (
+    df["delay_minutes"] = (
         df["departure_time"] - df["arrival_time"]
     ).dt.total_seconds() / 60
 
-    df.loc[:, "delayed"] = (df["delay_minutes"] > 5).astype(int)
+    df["delayed"] = (df["delay_minutes"] > 5).astype(int)
 
     # Features
     features = ["direction_id", "stop_sequence"]
@@ -51,8 +50,7 @@ def prepare_data(df: pd.DataFrame):
     X = df[features]
     y = df["delayed"]
 
-    # Return **3 values** for all downstream scripts:
-    # df_clean, X, y
+    # ALWAYS return df_clean, X, y in this order
     return df, X, y
 
 
@@ -63,12 +61,12 @@ def main():
     paths = DataPaths("ml_configs/paths.yaml")
 
     # -------------------------------
-    # Load processed predictions
+    # Load processed output
     # -------------------------------
     try:
         df_pred = paths.load_all()["predictions"]
     except Exception as e:
-        logger.error(f"❌ Cannot load processed data. Error: {e}")
+        logger.error(f"❌ Failed to load processed data: {e}")
         return
 
     logger.info(f"📥 Loaded predictions: {df_pred.shape}")
@@ -79,7 +77,7 @@ def main():
     df_clean, X, y = prepare_data(df_pred)
 
     if len(X) == 0:
-        logger.error("❌ No valid rows after feature engineering.")
+        logger.error("❌ No rows available after preprocessing.")
         return
 
     X_train, X_val, y_train, y_val = train_test_split(
@@ -92,14 +90,11 @@ def main():
     with open("configs/config.yaml") as f:
         cfg = yaml.safe_load(f)
 
-    tracking_uri = cfg["experiment"]["tracking_uri"]
-    experiment_name = cfg["experiment"]["name"]
-
-    mlflow.set_tracking_uri(tracking_uri)
-    mlflow.set_experiment(experiment_name)
+    mlflow.set_tracking_uri(cfg["experiment"]["tracking_uri"])
+    mlflow.set_experiment(cfg["experiment"]["name"])
 
     # -------------------------------
-    # TRAIN BASELINE MODEL (LGBM)
+    # Train LightGBM Model
     # -------------------------------
     with mlflow.start_run(run_name="baseline_lgbm"):
         model = LGBMClassifier(
@@ -121,7 +116,7 @@ def main():
             "roc_auc": roc_auc_score(y_val, y_prob),
         }
 
-        logger.info(f"📊 Model Metrics: {metrics}")
+        logger.info(f"📊 Validation Metrics: {metrics}")
 
         # Log to MLflow
         mlflow.log_params(model.get_params())
@@ -129,23 +124,23 @@ def main():
         mlflow.sklearn.log_model(model, "baseline_lgbm_model")
 
         # -------------------------------
-        # SAVE MODEL LOCALLY
+        # Save model locally (correct directory)
         # -------------------------------
-        model_dir = Path("Model_Development/models")
+        model_dir = Path("models")
         model_dir.mkdir(exist_ok=True)
 
         model_path = model_dir / "model_lgbm.joblib"
         joblib.dump(model, model_path)
 
-        logger.info(f"💾 Saved LightGBM model → {model_path}")
+        logger.info(f"💾 Saved model → {model_path}")
 
         # -------------------------------
-        # SAVE REFERENCE DISTRIBUTIONS (FOR DRIFT)
+        # Save reference distributions for drift
         # -------------------------------
         reference_stats = {}
-        drift_features = ["direction_id", "stop_sequence", "delay_minutes", "delayed"]
+        drift_cols = ["direction_id", "stop_sequence", "delay_minutes", "delayed"]
 
-        for col in drift_features:
+        for col in drift_cols:
             if col in df_clean.columns:
                 reference_stats[col] = df_clean[col].dropna().astype(float).tolist()
 
@@ -153,7 +148,7 @@ def main():
         with open(ref_path, "w") as f:
             json.dump(reference_stats, f, indent=4)
 
-        logger.info(f"📁 Saved drift reference stats → {ref_path}")
+        logger.info(f"📁 Drift reference stats saved → {ref_path}")
 
 
 if __name__ == "__main__":
