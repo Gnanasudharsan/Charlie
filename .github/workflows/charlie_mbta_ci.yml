@@ -14,12 +14,12 @@ jobs:
       PYTHONPATH: "${{ github.workspace }}"
 
     steps:
-      # 1️⃣ Checkout repo
+      # 1️⃣ Checkout repository
       - name: Checkout code
         uses: actions/checkout@v4
 
       # 2️⃣ Setup Python
-      - name: Setup Python
+      - name: Setup Python 3.12
         uses: actions/setup-python@v5
         with:
           python-version: "3.12"
@@ -29,45 +29,46 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-          pip install dvc[all] fairlearn mlflow shap lime \
-                      scikit-learn lightgbm imbalanced-learn joblib \
-                      matplotlib seaborn pyyaml pandas numpy
+          pip install dvc[all] fairlearn mlflow matplotlib seaborn \
+                      scikit-learn joblib pyyaml lime shap plotly \
+                      imbalanced-learn pandas numpy lightgbm
 
-      # 4️⃣ Pull DVC data (if any)
-      - name: DVC pull
+      # 4️⃣ Pull DVC data if available
+      - name: Pull DVC Data
         run: |
           if [ -f "dvc.yaml" ]; then
-            dvc pull || echo "No DVC remote configured."
+            dvc pull || echo "⚠️ No DVC remote found"
           fi
 
-      # 5️⃣ Train model
+      # 5️⃣ Train baseline model
       - name: Train Model
         run: python -m Model_Development.ml_src.model_train
 
       # 6️⃣ Hyperparameter tuning
       - name: Hyperparameter Tuning
-        run: python -m Model_Development.ml_src.model_tuning || echo "Skipping tuning."
+        run: python -m Model_Development.ml_src.model_tuning || echo "Skipping tuning"
 
       # 7️⃣ Bias Analysis
       - name: Bias Analysis
-        run: python -m Model_Development.ml_src.bias_analysis || echo "Skipping bias analysis."
+        run: python -m Model_Development.ml_src.bias_analysis || echo "Skipping bias analysis"
 
-      # 8️⃣ Explainability
+      # 8️⃣ Explainability (SHAP/LIME)
       - name: Explainability
-        run: python -m Model_Development.ml_src.explainability || echo "Skipping explainability."
+        run: python -m Model_Development.ml_src.explainability || echo "Skipping explainability"
 
       # 9️⃣ Drift Monitoring
       - name: Drift Monitoring
-        run: python -m Model_Development.ml_src.monitor_drift || echo "Skipping drift monitoring."
+        run: python -m Model_Development.ml_src.monitor_drift || echo "Skipping drift monitoring"
 
-      # 🔟 Upload artifacts
-      - name: Upload artifacts
+      # 🔟 Upload artifacts to GitHub
+      - name: Upload Artifacts
         uses: actions/upload-artifact@v4
         with:
           name: model-development-outputs
           path: |
-            models/
-            reports/
+            Model_Development/models/
+            Model_Development/reports/
+            Model_Development/mlruns/
 
       # 1️⃣1️⃣ Authenticate GCP
       - name: Authenticate to Google Cloud
@@ -75,20 +76,17 @@ jobs:
         with:
           credentials_json: ${{ secrets.GCP_SA_KEY }}
 
-      # 1️⃣2️⃣ Setup Gcloud
+      # 1️⃣2️⃣ Setup gcloud
       - name: Setup Google Cloud SDK
         uses: google-github-actions/setup-gcloud@v2
         with:
           project_id: charlie-478223
 
-      # 1️⃣3️⃣ Upload models to GCS
-      - name: Upload models to GCS
-        run: gsutil -m cp -r models/* gs://charlie-mbta-data/models/
+      # 1️⃣3️⃣ Upload model to GCP Artifact Registry
+      - name: Upload to Artifact Registry
+        run: |
+          python -m Model_Development.ml_src.gcp_registry || echo "Skipping GCP upload"
 
-      # 1️⃣4️⃣ Upload reports to GCS
-      - name: Upload reports to GCS
-        run: gsutil -m cp -r reports/* gs://charlie-mbta-data/reports/
-
-      # 1️⃣5️⃣ Finish
-      - name: Pipeline Complete
-        run: echo "🎉 CI/CD Completed Successfully!"
+      # 1️⃣4️⃣ Completed
+      - name: Done
+        run: echo "🎉 CI/CD Pipeline Completed!"
