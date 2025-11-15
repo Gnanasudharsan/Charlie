@@ -2,21 +2,24 @@ name: Charlie MBTA Model CI/CD
 
 on:
   push:
-    branches: [ main, master ]
+    branches: [ main ]
   pull_request:
-    branches: [ main, master ]
+    branches: [ main ]
 
 jobs:
   train_validate_bias:
     runs-on: ubuntu-latest
 
+    env:
+      PYTHONPATH: "${{ github.workspace }}"
+
     steps:
-      # 1️⃣ Checkout repository
+      # 1️⃣ Checkout repo
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # 2️⃣ Set up Python 3.12
-      - name: Set up Python
+      # 2️⃣ Python setup
+      - name: Setup Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.12"
@@ -26,61 +29,59 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-          pip install dvc[all] fairlearn mlflow matplotlib seaborn scikit-learn \
-                      joblib pyyaml lime shap plotly imbalanced-learn pandas numpy \
-                      lightgbm
+          pip install dvc[all] fairlearn mlflow shap lime \
+                      scikit-learn lightgbm imbalanced-learn joblib \
+                      matplotlib seaborn pyyaml pandas numpy
 
-      # 4️⃣ Pull data from DVC (still optional)
-      - name: Pull data from DVC
+      # 4️⃣ Pull DVC data (if any)
+      - name: DVC pull
         run: |
           if [ -f "dvc.yaml" ]; then
-            dvc pull || echo "⚠️ No remote DVC data found"
-          else
-            echo "ℹ️ No DVC configuration found. Skipping."
+            dvc pull || echo "No DVC remote found."
           fi
 
-      # 5️⃣ Load data (now from new path)
-      - name: Load data for training
+      # 5️⃣ Train Model
+      - name: Train model
         run: |
-          python Model_Development/src/data_loader.py
+          python -m Model_Development.ml_src.model_train
 
-      # 6️⃣ Train baseline model
-      - name: Train baseline model
+      # 6️⃣ Hyperparameter tuning
+      - name: Hyperparameter Tuning
         run: |
-          python Model_Development/src/model_train.py
+          python -m Model_Development.ml_src.model_tuning || echo "Skipping tuning."
 
-      # 7️⃣ Hyperparameter tuning
-      - name: Hyperparameter tuning
+      # 7️⃣ Bias Analysis
+      - name: Bias Analysis
         run: |
-          python Model_Development/src/model_tuning.py || echo "⚠️ Tuning skipped"
+          python -m Model_Development.ml_src.bias_analysis || echo "Skipping bias analysis."
 
-      # 8️⃣ Bias & Fairness Check
-      - name: Bias & Fairness Check
+      # 8️⃣ Explainability
+      - name: Explainability
         run: |
-          python Model_Development/src/bias_analysis.py || echo "⚠️ Bias check skipped"
+          python -m Model_Development.ml_src.explainability || echo "Skipping explainability."
 
-      # 9️⃣ Explainability (SHAP/LIME)
-      - name: Model Explainability
+      # 9️⃣ Drift Monitoring
+      - name: Drift Monitoring
         run: |
-          python Model_Development/src/explainability.py || echo "⚠️ Explainability skipped"
+          python -m Model_Development.ml_src.monitor_drift || echo "Skipping drift monitoring."
 
       # 🔟 Upload artifacts to GitHub
-      - name: Upload model artifacts
+      - name: Upload artifacts (models + reports)
         uses: actions/upload-artifact@v4
         with:
-          name: mbta-model-artifacts
+          name: model-development-outputs
           path: |
             Model_Development/models/
             Model_Development/reports/
 
-      # 1️⃣1️⃣ Authenticate to Google Cloud
+      # 1️⃣1️⃣ Authenticate to GCP
       - name: Authenticate to Google Cloud
         uses: google-github-actions/auth@v2
         with:
           credentials_json: ${{ secrets.GCP_SA_KEY }}
 
-      # 1️⃣2️⃣ Set up gcloud CLI
-      - name: Set up gcloud
+      # 1️⃣2️⃣ Setup gcloud
+      - name: Setup Google Cloud SDK
         uses: google-github-actions/setup-gcloud@v2
         with:
           project_id: charlie-478223
@@ -88,22 +89,13 @@ jobs:
       # 1️⃣3️⃣ Upload models to GCS
       - name: Upload models to GCS
         run: |
-          gsutil -m cp -r Model_Development/models/* gs://charlie-mbta-data/models/ || true
+          gsutil -m cp -r Model_Development/models/* gs://charlie-mbta-data/models/
 
       # 1️⃣4️⃣ Upload reports to GCS
       - name: Upload reports to GCS
         run: |
-          gsutil -m cp -r Model_Development/reports/* gs://charlie-mbta-data/reports/ || true
+          gsutil -m cp -r Model_Development/reports/* gs://charlie-mbta-data/reports/
 
-      # 1️⃣5️⃣ Upload processed datasets
-      - name: Upload processed datasets
-        run: |
-          if [ -d "Data_Pipeline/data/processed" ]; then
-            gsutil -m cp -r Data_Pipeline/data/processed/* gs://charlie-mbta-data/datasets/
-          else
-            echo "ℹ️ No processed dataset found."
-          fi
-
-      # 1️⃣6️⃣ Pipeline completed
-      - name: Pipeline Completed
-        run: echo "🎉 Charlie MBTA Model CI/CD completed successfully!"
+      # 1️⃣5️⃣ Done
+      - name: Pipeline Complete
+        run: echo "🎉 CI/CD Completed Successfully!"

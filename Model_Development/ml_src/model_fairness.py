@@ -1,66 +1,142 @@
-# ml_src/model_fairness.py
-import joblib, yaml, pandas as pd, numpy as np, mlflow, matplotlib.pyplot as plt
+# Model_Development/ml_src/model_fairness.py
+
+import os
+import yaml
+import joblib
+import mlflow
+import pandas as pd
+import matplotlib.pyplot as plt
+from pathlib import Path
+from fairlearn.metrics import (
+    MetricFrame,
+    selection_rate,
+    demographic_parity_difference,
+)
 from sklearn.metrics import accuracy_score, recall_score
-from fairlearn.metrics import MetricFrame, selection_rate, demographic_parity_difference
-from ml_src.data_loader import DataPaths
-from ml_src.utils.logging import get_logger
+
+from Model_Development.ml_src.data_loader import DataPaths
+from Model_Development.ml_src.model_train import prepare_data
+from Model_Development.ml_src.utils.logging import get_logger
 
 logger = get_logger("model_fairness")
 
-def evaluate_fairness(cfg_path="configs/config.yaml", model_path="models/best_logreg_tuned.joblib"):
-    # 1️⃣ Load config + data + model
-    with open(cfg_path) as f:
+
+def evaluate_fairness():
+
+    # ------------------------------
+    # Load config & MLflow settings
+    # ------------------------------
+    with open("configs/config.yaml") as f:
         cfg = yaml.safe_load(f)
+
+    mlflow.set_tracking_uri(cfg["experiment"]["tracking_uri"])
+    mlflow.set_experiment(cfg["experiment"]["name"])
+
+    # ------------------------------
+    # Load predictions → prepare_data()
+    # ------------------------------
     paths = DataPaths("ml_configs/paths.yaml")
     df_pred = paths.load_all()["predictions"]
 
-    df = df_pred.copy()
-    for col in ["arrival_time", "departure_time"]:
-        df[col] = pd.to_datetime(df[col], errors="coerce")
-    df = df.dropna(subset=["arrival_time", "departure_time"])
-    df["delay_minutes"] = (df["departure_time"] - df["arrival_time"]).dt.total_seconds() / 60
-    df["delayed"] = (df["delay_minutes"] > 5).astype(int)
+    X, y_true, *_ = prepare_data(df_pred)
 
-    X = df[["direction_id", "stop_sequence"]]
-    y_true = df["delayed"]
+    # ------------------------------
+    # Pick best available model
+    # ------------------------------
+    candidate_models = [
+        "Model_Development/models/final_model.joblib",
+        "Model_Development/models/model_lgbm.joblib",
+        "Model_Development/models/best_logreg_tuned.joblib",
+    ]
+
+    model_path = next((m for m in candidate_models if os.path.exists(m)), None)
+    if not model_path:
+        raise FileNotFoundError("❌ No model found in Model_Development/models/")
+
     model = joblib.load(model_path)
+    logger.info(f"Loaded model → {model_path}")
+
     y_pred = model.predict(X)
 
-    # 2️⃣ Choose slicing feature
-    sensitive_feature = df["direction_id"]
+    # ------------------------------
+    # Sensitive feature (slicing)
+    # ------------------------------
+    if "direction_id" not in X.columns:
+        raise ValueError("❌ direction_id column missing for fairness analysis.")
 
-    # 3️⃣ Build MetricFrame
+    sensitive_feature = X["direction_id"]
+
+    # ------------------------------
+    # Build MetricFrame
+    # ------------------------------
     metrics = {
         "accuracy": accuracy_score,
         "recall": recall_score,
         "selection_rate": selection_rate,
     }
-    mf = MetricFrame(metrics=metrics, y_true=y_true, y_pred=y_pred, sensitive_features=sensitive_feature)
 
-    logger.info("Fairness metrics by direction_id:")
-    logger.info(f"\n{mf.by_group}")
+    mf = MetricFrame(
+        metrics=metrics,
+        y_true=y_true,
+        y_pred=y_pred,
+        sensitive_features=sensitive_feature,
+    )
 
-    # 4️⃣ Plot disparities
-    plt.figure(figsize=(8, 4))
+    logger.info(f"\nFairness metrics by direction_id:\n{mf.by_group}")
+
+    # ------------------------------
+    # Output directory
+    # ------------------------------
+    report_dir = Path("Model_Development/reports")
+    report_dir.mkdir(exist_ok=True)
+
+    # ------------------------------
+    # Plot fairness metrics
+    # ------------------------------
+    fairness_plot_path = report_dir / "fairness_by_direction.png"
+    fairness_csv_path = report_dir / "fairness_metrics.csv"
+
+    plt.figure(figsize=(9, 4))
     mf.by_group.plot(kind="bar")
     plt.title("Fairness Metrics by Direction ID")
     plt.ylabel("Metric Value")
     plt.tight_layout()
-    plt.savefig("models/fairness_by_direction.png", dpi=300)
-    logger.info("Saved fairness plot → models/fairness_by_direction.png")
+    plt.savefig(fairness_plot_path, dpi=300)
+    plt.close()
 
-    # 5️⃣ Compute bias measure (demographic parity diff)
-    dp_diff = demographic_parity_difference(y_true=y_true, y_pred=y_pred, sensitive_features=sensitive_feature)
-    logger.info(f"Demographic parity difference: {dp_diff:.4f}")
+    logger.info(f"Saved fairness plot → {fairness_plot_path}")
 
-    # 6️⃣ Log to MLflow
-    mlflow.set_tracking_uri(cfg["experiment"]["tracking_uri"])
-    mlflow.set_experiment(cfg["experiment"]["name"])
-    with mlflow.start_run(run_name="model_fairness"):
-        mlflow.log_artifact("models/fairness_by_direction.png")
-        mlflow.log_metric("demographic_parity_difference", dp_diff)
-        mf.by_group.to_csv("models/fairness_metrics.csv")
-        mlflow.log_artifact("models/fairness_metrics.csv")
+    # Save fairness metrics
+    mf.by_group.to_csv(fairness_csv_path)
+    logger.info(f"Saved fairness metrics → {fairness_csv_path}")
+
+    # ------------------------------
+    # Compute demographic parity difference
+    # ------------------------------
+    dp_diff = demographic_parity_difference(
+        y_true=y_true,
+        y_pred=y_pred,
+        sensitive_features=sensitive_feature,
+    )
+
+    logger.info(f"Demographic Parity Difference = {dp_diff:.4f}")
+
+    # ------------------------------
+    # Log artifacts to MLflow
+    # ------------------------------
+    try:
+        with mlflow.start_run(run_name="model_fairness"):
+            mlflow.log_artifact(str(fairness_plot_path))
+            mlflow.log_artifact(str(fairness_csv_path))
+            mlflow.log_metric("demographic_parity_difference", dp_diff)
+
+        logger.info("🎯 Fairness artifacts logged to MLflow.")
+
+    except Exception as e:
+        logger.warning(f"⚠️ MLflow logging failed: {e}")
+
+    logger.info("✅ Fairness Evaluation Completed!")
+
 
 if __name__ == "__main__":
     evaluate_fairness()

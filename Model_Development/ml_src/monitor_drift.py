@@ -1,17 +1,21 @@
+# Model_Development/ml_src/monitor_drift.py
+
 import os
 import json
 import pandas as pd
 import numpy as np
 from scipy.stats import ks_2samp
 import mlflow
-from ml_src.utils.logging import get_logger
-from ml_src.data_loader import DataPaths
+
+from Model_Development.ml_src.utils.logging import get_logger
+from Model_Development.ml_src.data_loader import DataPaths
 
 logger = get_logger("monitor_drift")
 
-REFERENCE_FILE = "models/reference_stats.json"
-DRIFT_REPORT_JSON = "reports/drift_report.json"
-DRIFT_REPORT_HTML = "reports/drift_report.html"
+# Correct folder-safe paths
+REFERENCE_FILE = "Model_Development/models/reference_stats.json"
+DRIFT_REPORT_JSON = "Model_Development/reports/drift_report.json"
+DRIFT_REPORT_HTML = "Model_Development/reports/drift_report.html"
 
 
 # ----------------------------------------------------
@@ -37,7 +41,7 @@ def calculate_psi(expected, actual, buckets=10):
 # ----------------------------------------------------
 def load_reference_array(ref_entry):
     """
-    Handles both:
+    Handles both formats:
     1) {"values": [...]}
     2) [...]
     """
@@ -60,14 +64,15 @@ def run_drift_monitoring():
         logger.error("❌ Reference stats missing. Run model_train.py first.")
         return
 
+    # Load reference distributions
     with open(REFERENCE_FILE, "r") as f:
         reference_stats = json.load(f)
 
-    # Load processed predictions
+    # Load processed prediction dataset
     paths = DataPaths("ml_configs/paths.yaml")
     df_pred = paths.load_all()["predictions"]
 
-    # Prepare target
+    # Create target column
     df_pred["arrival_time"] = pd.to_datetime(df_pred["arrival_time"], errors="coerce")
     df_pred["departure_time"] = pd.to_datetime(df_pred["departure_time"], errors="coerce")
     df_pred["delay_minutes"] = (df_pred["departure_time"] - df_pred["arrival_time"]).dt.total_seconds() / 60
@@ -75,18 +80,18 @@ def run_drift_monitoring():
 
     report = {"feature_drift": {}, "target_drift": {}, "psi_scores": {}}
 
-    # Feature drift
+    # ----------------------------------------------------
+    # Feature Drift Analysis
+    # ----------------------------------------------------
     for feature in ["direction_id", "stop_sequence"]:
         if feature not in reference_stats:
             continue
 
-        # FIXED: auto-detect structure
         ref = load_reference_array(reference_stats[feature])
         cur = df_pred[feature].dropna().astype(float).values
 
         ks_stat, ks_p = ks_2samp(ref, cur)
         drift_detected = bool(ks_p < 0.05)
-
         psi = calculate_psi(ref, cur)
 
         report["feature_drift"][feature] = {
@@ -97,7 +102,9 @@ def run_drift_monitoring():
 
         report["psi_scores"][feature] = float(psi)
 
-    # Target drift
+    # ----------------------------------------------------
+    # Target Drift Analysis
+    # ----------------------------------------------------
     if "delayed" in reference_stats:
         ref_target = load_reference_array(reference_stats["delayed"])
         cur_target = df_pred["delayed"].astype(float).values
@@ -111,21 +118,25 @@ def run_drift_monitoring():
                 "drift_detected": bool(ks_p < 0.05)
             }
 
-    # Save JSON
-    os.makedirs("reports", exist_ok=True)
+    # ----------------------------------------------------
+    # Save Reports
+    # ----------------------------------------------------
+    os.makedirs("Model_Development/reports", exist_ok=True)
+
     with open(DRIFT_REPORT_JSON, "w") as f:
         json.dump(report, f, indent=4)
 
     logger.info(f"📄 Drift report saved: {DRIFT_REPORT_JSON}")
 
-    # HTML
     html = "<h1>MBTA Drift Monitoring Report</h1><pre>" + json.dumps(report, indent=4) + "</pre>"
     with open(DRIFT_REPORT_HTML, "w") as f:
         f.write(html)
 
     logger.info(f"📊 Drift HTML saved: {DRIFT_REPORT_HTML}")
 
-    # Log to MLflow
+    # ----------------------------------------------------
+    # MLflow Logging
+    # ----------------------------------------------------
     mlflow.set_tracking_uri("file:./mlruns")
     mlflow.set_experiment("MBTA-Model-Drift")
 
@@ -133,6 +144,7 @@ def run_drift_monitoring():
         mlflow.log_artifact(DRIFT_REPORT_JSON)
         mlflow.log_artifact(DRIFT_REPORT_HTML)
 
+        # Log PSI for each feature
         for feat, psi in report["psi_scores"].items():
             mlflow.log_metric(f"psi_{feat}", psi)
 

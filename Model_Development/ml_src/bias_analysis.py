@@ -1,79 +1,93 @@
-# ml_src/bias_analysis.py
+# Model_Development/ml_src/bias_analysis.py
+
 from __future__ import annotations
 import os
+from pathlib import Path
 import pandas as pd
 import joblib
-from pathlib import Path
-from fairlearn.metrics import MetricFrame, selection_rate
+
+from fairlearn.metrics import MetricFrame
 from sklearn.metrics import accuracy_score
-from ml_src.model_train import prepare_data
-from ml_src.data_loader import DataPaths
-from ml_src.utils.logging import get_logger
+
+from Model_Development.ml_src.model_train import prepare_data
+from Model_Development.ml_src.data_loader import DataPaths
+from Model_Development.ml_src.utils.logging import get_logger
 
 logger = get_logger("bias_analysis")
 
 
 def main():
-    Path("reports").mkdir(exist_ok=True)
 
-    # -----------------------
-    # Load model
-    # -----------------------
+    # ------------------------------------------------
+    # Create reports directory
+    # ------------------------------------------------
+    reports_dir = Path("Model_Development/reports")
+    reports_dir.mkdir(exist_ok=True, parents=True)
+
+    # ------------------------------------------------
+    # Locate model
+    # ------------------------------------------------
     model_path_candidates = [
-        "models/model_lgbm.joblib",
-        "models/best_model.joblib",
-        "models/baseline_logreg.joblib",
+        "Model_Development/models/model_lgbm.joblib",
+        "Model_Development/models/final_model.joblib",
+        "Model_Development/models/best_logreg_tuned.joblib",
     ]
 
     model_path = next((p for p in model_path_candidates if os.path.exists(p)), None)
+
     if not model_path:
         logger.warning("⚠️ No model found. Skipping bias analysis.")
         return
 
     model = joblib.load(model_path)
+    logger.info(f"📦 Loaded model from {model_path}")
 
-    # -----------------------
-    # Load processed data
-    # -----------------------
-    paths = DataPaths("ml_configs/paths.yaml")
+    # ------------------------------------------------
+    # Load processed predictions data
+    # ------------------------------------------------
     try:
+        paths = DataPaths("ml_configs/paths.yaml")
         df_pred = paths.load_all()["predictions"]
     except Exception as e:
-        logger.warning(f"⚠️ Data missing. Skipping bias analysis. {e}")
+        logger.warning(f"⚠️ Could not load processed predictions. Skipping bias analysis. Error: {e}")
         return
 
-    # -----------------------
+    # ------------------------------------------------
     # Prepare data
-    # -----------------------
-    X, y = prepare_data(df_pred)
+    # ------------------------------------------------
+    try:
+        X, y = prepare_data(df_pred)
+    except Exception as e:
+        logger.error(f"❌ prepare_data() failed: {e}")
+        return
 
     if "direction_id" not in X.columns:
-        logger.warning("⚠️ direction_id missing. Skipping bias.")
+        logger.warning("⚠️ direction_id missing — cannot run fairness slicing.")
         return
 
-    # Example sensitive attribute: direction_id
-    sensitive = X["direction_id"]
-
+    sensitive_feature = X["direction_id"]
     y_pred = model.predict(X)
 
-    # -----------------------
-    # MetricFrame
-    # -----------------------
+    # ------------------------------------------------
+    # Fairness analysis
+    # ------------------------------------------------
     mf = MetricFrame(
         metrics={"accuracy": accuracy_score},
         y_true=y,
         y_pred=y_pred,
-        sensitive_features=sensitive,
+        sensitive_features=sensitive_feature,
     )
 
-    results = {
-        "overall_accuracy": accuracy_score(y, y_pred),
-        "group_accuracy": mf.by_group.to_dict(),
-        "difference": mf.difference(),
+    bias_results = {
+        "overall_accuracy": [accuracy_score(y, y_pred)],
+        "difference_between_groups": [mf.difference()],
+        "group_accuracy": [mf.by_group.to_dict()],
     }
 
-    pd.DataFrame.from_dict(results).to_csv("reports/bias_report.csv", index=False)
-    logger.info("Bias report saved to reports/bias_report.csv")
+    out_csv = reports_dir / "bias_report.csv"
+    pd.DataFrame(bias_results).to_csv(out_csv, index=False)
+
+    logger.info(f"📄 Bias report saved to {out_csv}")
 
 
 if __name__ == "__main__":

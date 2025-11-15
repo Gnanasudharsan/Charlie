@@ -1,84 +1,80 @@
-# ml_src/model_tuning.py
-import os, yaml, joblib, mlflow, mlflow.sklearn, numpy as np, pandas as pd
+# Model_Development/ml_src/model_tuning.py
+
+from __future__ import annotations
+import os
+import yaml
+import joblib
+import mlflow
+import mlflow.sklearn
+import numpy as np
+import pandas as pd
+
 from sklearn.model_selection import train_test_split, GridSearchCV
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score, f1_score, roc_auc_score
 from imblearn.over_sampling import SMOTE
-from ml_src.data_loader import DataPaths
-from ml_src.utils.logging import get_logger
+
+from Model_Development.ml_src.data_loader import DataPaths
+from Model_Development.ml_src.utils.logging import get_logger
+from Model_Development.ml_src.model_train import prepare_data
 
 logger = get_logger("model_tuning")
 
 
-def prepare_data(df):
-    """Prepare features + target for tuning."""
-
-    df = df.copy()
-
-    df["arrival_time"] = pd.to_datetime(df["arrival_time"], errors="coerce")
-    df["departure_time"] = pd.to_datetime(df["departure_time"], errors="coerce")
-    df = df.dropna(subset=["arrival_time", "departure_time"])
-
-    df.loc[:, "delay_minutes"] = (
-        df["departure_time"] - df["arrival_time"]
-    ).dt.total_seconds() / 60
-
-    df.loc[:, "delayed"] = (df["delay_minutes"] > 5).astype(int)
-
-    X = df[["direction_id", "stop_sequence"]].copy()
-    y = df["delayed"].copy()
-
-    return X, y
-
-
+# ============================================================
+# HYPERPARAMETER TUNING LOGISTIC REGRESSION + SMOTE
+# ============================================================
 def train_and_log():
     logger.info("🚀 Starting hyperparameter tuning...")
 
-    # Load processed data
+    # ------------------------------
+    # Load processed dataset
+    # ------------------------------
     paths = DataPaths("ml_configs/paths.yaml")
     try:
         df_pred = paths.load_all()["predictions"]
-    except FileNotFoundError as e:
-        logger.warning("⚠️ Processed data not found. Skipping tuning step.")
-        print(str(e))
-        import sys
-        sys.exit(0)
-
-    logger.info(f"✅ Loaded dataset for tuning: {df_pred.shape}")
-
-    # Prepare data
-    X, y = prepare_data(df_pred)
-
-    n_pos = (y == 1).sum()
-    logger.info(f"🔍 Positive (delayed) samples in dataset: {n_pos}")
-
-    # FIX: prevent SMOTE crash
-    if n_pos < 2:
-        logger.warning("❌ Not enough minority samples for SMOTE! Skipping tuning safely.")
+    except Exception as e:
+        logger.error(f"❌ Cannot load processed data: {e}")
         return
 
-    # Use SMOTE with k_neighbors=1 to avoid crash
-    smote = SMOTE(k_neighbors=1, random_state=42)
+    logger.info(f"📥 Loaded dataset: {df_pred.shape}")
 
+    # ------------------------------
+    # Prepare features
+    # ------------------------------
+    _, X, y = prepare_data(df_pred)
+
+    n_pos = (y == 1).sum()
+    logger.info(f"🔍 # of delayed (positive) samples = {n_pos}")
+
+    # ------------------------------
+    # SMOTE safety check
+    # ------------------------------
+    if n_pos < 2:
+        logger.warning("❌ Too few positive samples for SMOTE (need ≥ 2). Skipping tuning.")
+        return
+
+    smote = SMOTE(k_neighbors=1, random_state=42)
     X_res, y_res = smote.fit_resample(X, y)
-    logger.info(f"📈 After SMOTE oversampling: {X_res.shape}")
+
+    logger.info(f"📈 After SMOTE: {X_res.shape}")
 
     X_train, X_val, y_train, y_val = train_test_split(
-        X_res,
-        y_res,
-        test_size=0.2,
-        random_state=42,
-        stratify=y_res
+        X_res, y_res, test_size=0.2, random_state=42, stratify=y_res
     )
 
+    # ------------------------------
     # Load MLflow config
+    # ------------------------------
     with open("configs/config.yaml") as f:
         cfg = yaml.safe_load(f)
 
     mlflow.set_tracking_uri(cfg["experiment"]["tracking_uri"])
     mlflow.set_experiment(cfg["experiment"]["name"])
 
-    # Hyperparameter tuning
+    # ------------------------------
+    # Define tuning grid
+    # ------------------------------
     params = {
         "C": [0.01, 0.1, 1, 10],
         "solver": ["lbfgs", "liblinear"]
@@ -88,36 +84,45 @@ def train_and_log():
         LogisticRegression(max_iter=2000),
         params,
         cv=5,
-        scoring="roc_auc"
+        scoring="roc_auc",
+        n_jobs=-1
     )
 
     grid.fit(X_train, y_train)
-
     best_model = grid.best_estimator_
-    logger.info(f"🏆 Best params: {grid.best_params_}")
 
-    # Evaluate
+    logger.info(f"🏆 Best params found → {grid.best_params_}")
+
+    # ------------------------------
+    # Evaluate tuned model
+    # ------------------------------
     y_pred = best_model.predict(X_val)
     y_prob = best_model.predict_proba(X_val)[:, 1]
 
     metrics = {
         "accuracy": accuracy_score(y_val, y_pred),
         "f1": f1_score(y_val, y_pred),
-        "roc_auc": roc_auc_score(y_val, y_prob),
+        "roc_auc": roc_auc_score(y_val, y_prob)
     }
 
-    # Log results
+    logger.info(f"📊 Metrics: {metrics}")
+
+    # ------------------------------
+    # Log to MLflow
+    # ------------------------------
     with mlflow.start_run(run_name="logreg_tuned"):
         mlflow.log_params(grid.best_params_)
         mlflow.log_metrics(metrics)
-        mlflow.sklearn.log_model(best_model, artifact_path="tuned_model")
+        mlflow.sklearn.log_model(best_model, artifact_path="tuned_logreg")
 
-        os.makedirs("models", exist_ok=True)
-        joblib.dump(best_model, "models/logreg_tuned.joblib")
+        # Save to correct folder
+        os.makedirs("Model_Development/models", exist_ok=True)
+        model_path = "Model_Development/models/logreg_tuned.joblib"
+        joblib.dump(best_model, model_path)
 
-        logger.info("💾 Tuned model saved to models/logreg_tuned.joblib")
+        logger.info(f"💾 Tuned model saved → {model_path}")
 
-    logger.info(f"🎯 Tuning complete. Metrics: {metrics}")
+    logger.info("🎯 Hyperparameter tuning completed successfully!")
 
 
 if __name__ == "__main__":

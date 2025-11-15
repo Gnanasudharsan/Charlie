@@ -1,4 +1,4 @@
-# ml_src/model_select.py
+# Model_Development/ml_src/model_select.py
 
 import os
 import json
@@ -6,27 +6,28 @@ import joblib
 import yaml
 import pandas as pd
 import matplotlib.pyplot as plt
+from pathlib import Path
 import mlflow
 import mlflow.sklearn
 from sklearn.metrics import accuracy_score, f1_score, roc_auc_score
 
-from ml_src.data_loader import DataPaths
-from ml_src.model_train import prepare_data
-from ml_src.utils.logging import get_logger
+from Model_Development.ml_src.data_loader import DataPaths
+from Model_Development.ml_src.model_train import prepare_data
+from Model_Development.ml_src.utils.logging import get_logger
 
 logger = get_logger("model_select")
 
 
 def load_model_safe(path):
-    """Load model safely, return None if missing."""
+    """Load a model safely. Return None if missing."""
     if not os.path.exists(path):
-        logger.warning(f"⚠️ Model not found: {path}")
+        logger.warning(f"⚠️ Missing model: {path}")
         return None
     return joblib.load(path)
 
 
 def evaluate_model(model, X, y):
-    """Return metrics for the model."""
+    """Return metrics dictionary for model."""
     y_prob = model.predict_proba(X)[:, 1]
     y_pred = model.predict(X)
 
@@ -38,101 +39,131 @@ def evaluate_model(model, X, y):
 
 
 def main():
-    logger.info("🚀 Starting model comparison & final model selection...")
+    logger.info("🚀 Starting Model Comparison & Final Model Selection...")
 
-    # ------------------------------
-    # Load data
-    # ------------------------------
+    # -----------------------------------------------------
+    # 1️⃣ Load prediction dataset → prepare_data()
+    # -----------------------------------------------------
     paths = DataPaths("ml_configs/paths.yaml")
     df_pred = paths.load_all()["predictions"]
-    X, y = prepare_data(df_pred)
+    X, y, *_ = prepare_data(df_pred)
 
-    # ------------------------------
-    # Load models
-    # ------------------------------
-    models_to_compare = {
-        "baseline_lgbm": "models/model_lgbm.joblib",
-        "logreg_tuned": "models/logreg_tuned.joblib",
-        "baseline_logreg": "models/baseline_logreg.joblib",
+    # -----------------------------------------------------
+    # 2️⃣ Load ALL models found in Model_Development/models/
+    # -----------------------------------------------------
+    model_dir = Path("Model_Development/models")
+    if not model_dir.exists():
+        raise FileNotFoundError("❌ Model directory missing: Model_Development/models")
+
+    model_candidates = {
+        "final_lgbm": model_dir / "model_lgbm.joblib",
+        "best_logreg_tuned": model_dir / "best_logreg_tuned.joblib",
+        "baseline_logreg": model_dir / "baseline_logreg.joblib",
+        "final_model": model_dir / "final_model.joblib",
     }
 
-    loaded_models = {}
-    for name, path in models_to_compare.items():
-        model = load_model_safe(path)
-        if model:
-            loaded_models[name] = model
+    loaded_models = {
+        name: load_model_safe(str(path))
+        for name, path in model_candidates.items()
+        if load_model_safe(str(path)) is not None
+    }
 
     if not loaded_models:
-        logger.error("❌ No models found to compare.")
-        return
+        raise RuntimeError("❌ No models available for comparison.")
 
-    # ------------------------------
-    # Evaluate models
-    # ------------------------------
+    logger.info(f"📦 Loaded models: {list(loaded_models.keys())}")
+
+    # -----------------------------------------------------
+    # 3️⃣ Evaluate all models
+    # -----------------------------------------------------
     results = {}
     for name, model in loaded_models.items():
         metrics = evaluate_model(model, X, y)
         results[name] = metrics
         logger.info(f"📊 {name} → {metrics}")
 
-    # ------------------------------
-    # Select best model (highest AUC)
-    # ------------------------------
+    # -----------------------------------------------------
+    # 4️⃣ Choose best model by ROC-AUC
+    # -----------------------------------------------------
     best_model_name = max(results, key=lambda k: results[k]["roc_auc"])
     best_model = loaded_models[best_model_name]
-    logger.info(f"🏆 Best Model Selected: {best_model_name}")
 
-    # ------------------------------
-    # Save final model
-    # ------------------------------
-    final_path = "models/final_model.joblib"
-    joblib.dump(best_model, final_path)
-    logger.info(f"💾 Final model saved to {final_path}")
+    logger.info(f"🏆 Best model selected: {best_model_name}")
 
-    # ------------------------------
-    # Save comparison report
-    # ------------------------------
-    os.makedirs("reports", exist_ok=True)
-    comparison_path = "reports/model_comparison.json"
-    with open(comparison_path, "w") as f:
-        json.dump({"results": results, "best_model": best_model_name}, f, indent=4)
+    # -----------------------------------------------------
+    # 5️⃣ Save final model
+    # -----------------------------------------------------
+    model_dir.mkdir(exist_ok=True)
+    final_model_path = model_dir / "final_model.joblib"
+    joblib.dump(best_model, final_model_path)
+    logger.info(f"💾 Final model saved → {final_model_path}")
 
-    logger.info(f"📑 Model comparison saved to {comparison_path}")
+    # -----------------------------------------------------
+    # 6️⃣ Save JSON report
+    # -----------------------------------------------------
+    report_dir = Path("Model_Development/reports")
+    report_dir.mkdir(exist_ok=True)
 
-    # ------------------------------
-    # Save comparison PLOT
-    # ------------------------------
+    comparison_json = report_dir / "model_comparison.json"
+    with open(comparison_json, "w") as f:
+        json.dump(
+            {"results": results, "best_model": best_model_name},
+            f,
+            indent=4,
+        )
+    logger.info(f"📑 Saved comparison report → {comparison_json}")
+
+    # -----------------------------------------------------
+    # 7️⃣ Save PNG comparison plot
+    # -----------------------------------------------------
     plt.figure(figsize=(8, 5))
     model_names = list(results.keys())
     auc_scores = [results[m]["roc_auc"] for m in model_names]
 
-    plt.bar(model_names, auc_scores)
-    plt.title("Model Comparison (AUC Score)")
+    plt.bar(model_names, auc_scores, color="skyblue")
+    plt.title("Model Comparison (ROC-AUC)")
     plt.ylabel("ROC-AUC")
     plt.xticks(rotation=20)
-
-    plot_path = "reports/model_comparison.png"
     plt.tight_layout()
-    plt.savefig(plot_path)
-    logger.info(f"📊 Model comparison plot saved to {plot_path}")
 
-    # ------------------------------
-    # Log to MLflow
-    # ------------------------------
+    comparison_plot = report_dir / "model_comparison.png"
+    plt.savefig(comparison_plot, dpi=300)
+    plt.close()
+
+    logger.info(f"📊 Saved comparison plot → {comparison_plot}")
+
+    # -----------------------------------------------------
+    # 8️⃣ Log everything to MLflow
+    # -----------------------------------------------------
     with open("configs/config.yaml") as f:
         cfg = yaml.safe_load(f)
 
     mlflow.set_tracking_uri(cfg["experiment"]["tracking_uri"])
     mlflow.set_experiment(cfg["experiment"]["name"])
 
-    with mlflow.start_run(run_name="model_selection"):
-        mlflow.log_metrics({f"{m}_auc": results[m]["roc_auc"] for m in results})
-        mlflow.log_param("selected_model", best_model_name)
-        mlflow.log_artifact(comparison_path)
-        mlflow.log_artifact(plot_path)
-        mlflow.sklearn.log_model(best_model, "final_model")
+    try:
+        with mlflow.start_run(run_name="model_selection"):
+            # Log metrics
+            for name, metrics in results.items():
+                mlflow.log_metric(f"{name}_auc", metrics["roc_auc"])
+                mlflow.log_metric(f"{name}_accuracy", metrics["accuracy"])
+                mlflow.log_metric(f"{name}_f1", metrics["f1"])
 
-    logger.info("✅ Model selection completed and logged to MLflow.")
+            mlflow.log_param("selected_model", best_model_name)
+
+            mlflow.log_artifact(str(comparison_json))
+            mlflow.log_artifact(str(comparison_plot))
+
+            mlflow.sklearn.log_model(
+                sk_model=best_model,
+                artifact_path="final_model"
+            )
+
+        logger.info("📌 Model selection results logged to MLflow.")
+    except Exception as e:
+        logger.warning(f"⚠️ MLflow logging failed: {e}")
+
+    logger.info("🎯 Model Selection Completed Successfully!")
 
 
 if __name__ == "__main__":
