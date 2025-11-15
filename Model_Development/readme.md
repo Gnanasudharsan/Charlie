@@ -46,7 +46,7 @@ Model_Development/
 ### 2. Overview
 
 This module trains a machine-learning model to predict whether an MBTA bus trip will be delayed based on MBTA real-time API features (direction_id, stop_sequence, etc.).
-
+```bash
 The pipeline follows production-grade ML engineering practices:
 	•	Reproducible training
 	•	MLflow experiment tracking
@@ -56,7 +56,7 @@ The pipeline follows production-grade ML engineering practices:
 	•	Explainability (SHAP/LIME)
 	•	Drift monitoring
 	•	GCP Artifact Registry deployment
-
+```
 ⸻
 
 ### 3. Data Loading
@@ -68,18 +68,22 @@ The loader automatically fetches:
 Data_Pipeline/data/processed/latest.parquet
 
 Code:
+```bash
 src/data_loader.py
-
+```
 ⸻
 
 ### 4. Model Training
-
+```bash
 Training is executed using:
 	•	Logistic Regression (baseline)
 	•	Random Forest
 	•	LightGBM (final best model)
+```
+
 
 Key file:
+```bash
 src/model_train.py
 
 Each model logs:
@@ -89,7 +93,7 @@ Each model logs:
 	•	predictions
 
 Tracking: MLflow
-
+```
 ⸻
 
 ### 5. Hyperparameter Tuning
@@ -97,6 +101,7 @@ Tracking: MLflow
 Performed using GridSearchCV and RandomizedSearchCV.
 
 Code:
+```bash
 src/model_tuning.py
 
 Outputs:
@@ -106,11 +111,11 @@ Outputs:
 	•	comparison plots
 
 All tuning results are stored inside reports/model_comparison.*.
-
+```
 ⸻
 
 ### 6. Model Selection
-
+```bash
 After training & tuning, models are compared on:
 	•	Accuracy
 	•	F1-score
@@ -124,12 +129,12 @@ Code: src/model_select.py
 The final chosen model is saved as:
 
 Model_Development/models/final_model.joblib
-
+```
 
 ⸻
 
 ### 7. Model Validation
-
+```bash
 Validation includes:
 	•	Hold-out validation
 	•	Cross-validation (k=5)
@@ -138,11 +143,11 @@ Validation includes:
 	•	Precision/Recall trade-offs
 
 Metrics are logged via MLflow.
-
+```
 ⸻
 
 ### 8. Bias Analysis (Fairness)
-
+```bash
 We perform fairness checks across slices such as:
 	•	Direction ID (0 → inbound, 1 → outbound)
 	•	Stop sequence ranges
@@ -158,7 +163,7 @@ Artifacts:
 	•	bias_report.csv
 	•	fairness plots
 	•	disparity metrics
-
+```
 ⸻
 
 ### 9. Explainability (SHAP + LIME)
@@ -168,19 +173,20 @@ To understand feature importance:
 	•	LIME (sample-level decision interpretation)
 
 Code:
+```bash
 src/explainability.py
 
 Outputs:
 	•	shap_summary.png
 	•	shap_importance.csv
 	•	lime_explanation.html
-
+```
 ⸻
 
 ### 10. Drift Detection
 
 Uses historical baseline stats from:
-
+```bash
 models/reference_stats.json
 
 Drift check steps:
@@ -194,12 +200,12 @@ src/monitor_drift.py
 
 Reports stored in:
 reports/drift_report.*
-
+```
 ⸻
 ### 11. Model Registry – Pushing to GCP
 
 After selection, the model is uploaded to Google Cloud Artifact Registry.
-
+```bash
 Code:
 src/register_model.py
 
@@ -210,14 +216,14 @@ Steps automated:
 
 us-central1-docker.pkg.dev/<PROJECT-ID>/ml-models/
 
-
+```
 
 ⸻
 
 ### 12. CI/CD for Model Development
 
 This module integrates with GitHub Actions + Cloud Build:
-
+```bash
 ✔ Train model on every push
 ✔ Validate performance thresholds
 ✔ Run bias checks
@@ -227,11 +233,11 @@ This module integrates with GitHub Actions + Cloud Build:
 
 Pipeline file:
 .github/workflows/mlops_pipeline.yml
-
+```
 ⸻
 
 ### 13. How to Run Locally
-
+```bash
 1. Activate environment
 
 pip install -r requirements.txt
@@ -259,7 +265,7 @@ python Model_Development/src/explainability.py
 7. Push final model to GCP
 
 python Model_Development/src/register_model.py
-
+```
 
 ⸻
 
