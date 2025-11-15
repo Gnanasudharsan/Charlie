@@ -8,7 +8,7 @@ It includes model training, tuning, selection, sensitivity analysis, bias detect
 ⸻
 
  1. Folder Structure
-
+```bash
 Model_Development/
 │
 ├── src/                     # All ML training, tuning & analysis code
@@ -40,8 +40,7 @@ Model_Development/
 │   └── drift_report.html
 │
 └── screenshots/              # (Optional) Visuals for submission
-
-
+```
 ⸻
 
  2. Overview
