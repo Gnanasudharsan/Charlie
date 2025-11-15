@@ -39,7 +39,7 @@ Model_Development/
 │   ├── drift_report.json
 │   └── drift_report.html
 │
-└── screenshots/              # (Optional) Visuals for submission
+└── screenshots/              # Visuals for submission
 ```
 ⸻
 
