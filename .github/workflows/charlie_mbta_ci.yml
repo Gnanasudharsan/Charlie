@@ -18,7 +18,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # 2️⃣ Python setup
+      # 2️⃣ Setup Python
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
@@ -37,50 +37,45 @@ jobs:
       - name: DVC pull
         run: |
           if [ -f "dvc.yaml" ]; then
-            dvc pull || echo "No DVC remote found."
+            dvc pull || echo "No DVC remote configured."
           fi
 
-      # 5️⃣ Train Model
-      - name: Train model
-        run: |
-          python -m Model_Development.ml_src.model_train
+      # 5️⃣ Train model
+      - name: Train Model
+        run: python -m Model_Development.ml_src.model_train
 
       # 6️⃣ Hyperparameter tuning
       - name: Hyperparameter Tuning
-        run: |
-          python -m Model_Development.ml_src.model_tuning || echo "Skipping tuning."
+        run: python -m Model_Development.ml_src.model_tuning || echo "Skipping tuning."
 
       # 7️⃣ Bias Analysis
       - name: Bias Analysis
-        run: |
-          python -m Model_Development.ml_src.bias_analysis || echo "Skipping bias analysis."
+        run: python -m Model_Development.ml_src.bias_analysis || echo "Skipping bias analysis."
 
       # 8️⃣ Explainability
       - name: Explainability
-        run: |
-          python -m Model_Development.ml_src.explainability || echo "Skipping explainability."
+        run: python -m Model_Development.ml_src.explainability || echo "Skipping explainability."
 
       # 9️⃣ Drift Monitoring
       - name: Drift Monitoring
-        run: |
-          python -m Model_Development.ml_src.monitor_drift || echo "Skipping drift monitoring."
+        run: python -m Model_Development.ml_src.monitor_drift || echo "Skipping drift monitoring."
 
-      # 🔟 Upload artifacts to GitHub
-      - name: Upload artifacts (models + reports)
+      # 🔟 Upload artifacts
+      - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
           name: model-development-outputs
           path: |
-            Model_Development/models/
-            Model_Development/reports/
+            models/
+            reports/
 
-      # 1️⃣1️⃣ Authenticate to GCP
+      # 1️⃣1️⃣ Authenticate GCP
       - name: Authenticate to Google Cloud
         uses: google-github-actions/auth@v2
         with:
           credentials_json: ${{ secrets.GCP_SA_KEY }}
 
-      # 1️⃣2️⃣ Setup gcloud
+      # 1️⃣2️⃣ Setup Gcloud
       - name: Setup Google Cloud SDK
         uses: google-github-actions/setup-gcloud@v2
         with:
@@ -88,14 +83,12 @@ jobs:
 
       # 1️⃣3️⃣ Upload models to GCS
       - name: Upload models to GCS
-        run: |
-          gsutil -m cp -r Model_Development/models/* gs://charlie-mbta-data/models/
+        run: gsutil -m cp -r models/* gs://charlie-mbta-data/models/
 
       # 1️⃣4️⃣ Upload reports to GCS
       - name: Upload reports to GCS
-        run: |
-          gsutil -m cp -r Model_Development/reports/* gs://charlie-mbta-data/reports/
+        run: gsutil -m cp -r reports/* gs://charlie-mbta-data/reports/
 
-      # 1️⃣5️⃣ Done
+      # 1️⃣5️⃣ Finish
       - name: Pipeline Complete
         run: echo "🎉 CI/CD Completed Successfully!"

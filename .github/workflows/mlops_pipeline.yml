@@ -14,23 +14,17 @@ jobs:
       PYTHONPATH: "${{ github.workspace }}"
 
     steps:
-      # -----------------------------------------------------
       # 1) Checkout repo
-      # -----------------------------------------------------
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      # -----------------------------------------------------
       # 2) Python setup
-      # -----------------------------------------------------
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.12"
 
-      # -----------------------------------------------------
       # 3) Install dependencies
-      # -----------------------------------------------------
       - name: Install Dependencies
         run: |
           python -m pip install --upgrade pip
@@ -40,88 +34,51 @@ jobs:
                      imbalanced-learn pandas numpy lightgbm \
                      google-cloud-storage google-cloud-artifact-registry google-auth
 
-      # -----------------------------------------------------
       # 4) Pull DVC data
-      # -----------------------------------------------------
       - name: Pull DVC Data
         run: |
           if [ -f "dvc.yaml" ]; then
-            echo "📦 Pulling data from DVC..."
             dvc pull || echo "⚠️ No DVC remote available."
-          else
-            echo "ℹ️ No dvc.yaml found. Skipping data pull."
           fi
 
-      # -----------------------------------------------------
       # 5) Train Model
-      # -----------------------------------------------------
       - name: Train Model
-        run: |
-          echo "🚀 Training model..."
-          python -m Model_Development.ml_src.model_train || echo "⚠️ Skipping training."
+        run: python -m Model_Development.ml_src.model_train
 
-      # -----------------------------------------------------
       # 6) Hyperparameter Tuning
-      # -----------------------------------------------------
       - name: Hyperparameter Tuning
-        run: |
-          echo "🔧 Running tuning..."
-          python -m Model_Development.ml_src.model_tuning || echo "⚠️ Skipping tuning."
+        run: python -m Model_Development.ml_src.model_tuning || echo "Skipping tuning."
 
-      # -----------------------------------------------------
       # 7) Bias Analysis
-      # -----------------------------------------------------
       - name: Bias & Fairness Check
-        run: |
-          echo "📊 Running bias analysis..."
-          python -m Model_Development.ml_src.bias_analysis || echo "⚠️ Skipping bias analysis."
+        run: python -m Model_Development.ml_src.bias_analysis || echo "Skipping bias analysis."
 
-      # -----------------------------------------------------
       # 8) Explainability
-      # -----------------------------------------------------
       - name: Explainability (SHAP + LIME)
-        run: |
-          echo "🧩 Running explainability..."
-          python -m Model_Development.ml_src.explainability || echo "⚠️ Skipping explainability."
+        run: python -m Model_Development.ml_src.explainability || echo "Skipping explainability."
 
-      # -----------------------------------------------------
       # 9) Model Selection
-      # -----------------------------------------------------
       - name: Select Best Model
-        run: |
-          echo "🏆 Selecting best model..."
-          python -m Model_Development.ml_src.model_select || echo "⚠️ Skipping model selection."
+        run: python -m Model_Development.ml_src.model_select || echo "Skipping model selection."
 
-      # -----------------------------------------------------
       # 10) Model Registry (Local MLflow)
-      # -----------------------------------------------------
       - name: Register Model
-        run: |
-          echo "🏷️ Registering model..."
-          python -m Model_Development.ml_src.register_model || echo "⚠️ Skipping model registry."
+        run: python -m Model_Development.ml_src.register_model || echo "Skipping model registry."
 
-      # -----------------------------------------------------
       # 11) Drift Monitoring
-      # -----------------------------------------------------
       - name: Drift Monitoring
-        run: |
-          echo "📈 Running drift monitoring..."
-          python -m Model_Development.ml_src.monitor_drift || echo "⚠️ Skipping drift monitoring."
+        run: python -m Model_Development.ml_src.monitor_drift || echo "Skipping drift monitoring."
 
-      # -----------------------------------------------------
-      # 12) Upload artifacts to GitHub
-      # -----------------------------------------------------
+      # 12) Upload artifacts
       - name: Upload Reports
         uses: actions/upload-artifact@v4
         with:
           name: model-reports
           path: |
-            Model_Development/models/
-            Model_Development/reports/
+            models/
+            reports/
 
-      # -----------------------------------------------------
       # 13) Push Model to GCP Artifact Registry
-      # -----------------------------------------------------
       - name: Push Model to GCP Artifact Registry
         env:
           GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }}
@@ -129,12 +86,8 @@ jobs:
           echo "$GCP_SA_KEY" > key.json
           gcloud auth activate-service-account --key-file=key.json
           gcloud config set project charlie-478223
+          python -m Model_Development.ml_src.gcp_registry || echo "Upload skipped."
 
-          echo "☁️ Uploading model to GCP Artifact Registry..."
-          python -m Model_Development.ml_src.gcp_registry || echo "⚠️ Model registry upload skipped."
-
-      # -----------------------------------------------------
       # 14) Final Completion
-      # -----------------------------------------------------
       - name: Pipeline Completed
         run: echo "🎉 Pipeline execution finished!"
