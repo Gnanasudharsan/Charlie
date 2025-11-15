@@ -7,7 +7,7 @@ It includes model training, tuning, selection, sensitivity analysis, bias detect
 
 ⸻
 
- 1. Folder Structure
+### 1. Folder Structure
 ```bash
 Model_Development/
 │
@@ -43,7 +43,7 @@ Model_Development/
 ```
 ⸻
 
- 2. Overview
+### 2. Overview
 
 This module trains a machine-learning model to predict whether an MBTA bus trip will be delayed based on MBTA real-time API features (direction_id, stop_sequence, etc.).
 
@@ -59,7 +59,7 @@ The pipeline follows production-grade ML engineering practices:
 
 ⸻
 
-3. Data Loading
+### 3. Data Loading
 
 Data used for training comes from the Data_Pipeline module and is version-controlled with DVC.
 
@@ -72,7 +72,7 @@ src/data_loader.py
 
 ⸻
 
- 4. Model Training
+### 4. Model Training
 
 Training is executed using:
 	•	Logistic Regression (baseline)
@@ -92,7 +92,7 @@ Tracking: MLflow
 
 ⸻
 
- 5. Hyperparameter Tuning
+### 5. Hyperparameter Tuning
 
 Performed using GridSearchCV and RandomizedSearchCV.
 
@@ -109,7 +109,7 @@ All tuning results are stored inside reports/model_comparison.*.
 
 ⸻
 
- 6. Model Selection
+### 6. Model Selection
 
 After training & tuning, models are compared on:
 	•	Accuracy
@@ -128,7 +128,7 @@ Model_Development/models/final_model.joblib
 
 ⸻
 
- 7. Model Validation
+### 7. Model Validation
 
 Validation includes:
 	•	Hold-out validation
@@ -141,7 +141,7 @@ Metrics are logged via MLflow.
 
 ⸻
 
- 8. Bias Analysis (Fairness)
+### 8. Bias Analysis (Fairness)
 
 We perform fairness checks across slices such as:
 	•	Direction ID (0 → inbound, 1 → outbound)
@@ -161,7 +161,7 @@ Artifacts:
 
 ⸻
 
-9. Explainability (SHAP + LIME)
+### 9. Explainability (SHAP + LIME)
 
 To understand feature importance:
 	•	SHAP (global + local explanations)
@@ -177,7 +177,7 @@ Outputs:
 
 ⸻
 
- 10. Drift Detection
+### 10. Drift Detection
 
 Uses historical baseline stats from:
 
@@ -196,7 +196,7 @@ Reports stored in:
 reports/drift_report.*
 
 ⸻
- 11. Model Registry – Pushing to GCP
+### 11. Model Registry – Pushing to GCP
 
 After selection, the model is uploaded to Google Cloud Artifact Registry.
 
@@ -214,7 +214,7 @@ us-central1-docker.pkg.dev/<PROJECT-ID>/ml-models/
 
 ⸻
 
-12. CI/CD for Model Development
+### 12. CI/CD for Model Development
 
 This module integrates with GitHub Actions + Cloud Build:
 
@@ -230,7 +230,7 @@ Pipeline file:
 
 ⸻
 
-▶️ 13. How to Run Locally
+### 13. How to Run Locally
 
 1. Activate environment
 
