@@ -2,13 +2,16 @@ name: MLOps Automated Pipeline
 
 on:
   push:
-    branches: [ main, master ]
+    branches: [ main ]
   pull_request:
-    branches: [ main, master ]
+    branches: [ main ]
 
 jobs:
   train_and_validate:
     runs-on: ubuntu-latest
+
+    env:
+      PYTHONPATH: "${{ github.workspace }}"
 
     steps:
       # -----------------------------------------------------
@@ -55,7 +58,7 @@ jobs:
       - name: Train Model
         run: |
           echo "🚀 Training model..."
-          python -m ml_src.model_train || echo "⚠️ Skipping training."
+          python -m Model_Development.ml_src.model_train || echo "⚠️ Skipping training."
 
       # -----------------------------------------------------
       # 6) Hyperparameter Tuning
@@ -63,7 +66,7 @@ jobs:
       - name: Hyperparameter Tuning
         run: |
           echo "🔧 Running tuning..."
-          python -m ml_src.model_tuning || echo "⚠️ Skipping tuning."
+          python -m Model_Development.ml_src.model_tuning || echo "⚠️ Skipping tuning."
 
       # -----------------------------------------------------
       # 7) Bias Analysis
@@ -71,7 +74,7 @@ jobs:
       - name: Bias & Fairness Check
         run: |
           echo "📊 Running bias analysis..."
-          python -m ml_src.bias_analysis || echo "⚠️ Skipping bias analysis."
+          python -m Model_Development.ml_src.bias_analysis || echo "⚠️ Skipping bias analysis."
 
       # -----------------------------------------------------
       # 8) Explainability
@@ -79,7 +82,7 @@ jobs:
       - name: Explainability (SHAP + LIME)
         run: |
           echo "🧩 Running explainability..."
-          python -m ml_src.explainability || echo "⚠️ Skipping explainability."
+          python -m Model_Development.ml_src.explainability || echo "⚠️ Skipping explainability."
 
       # -----------------------------------------------------
       # 9) Model Selection
@@ -87,7 +90,7 @@ jobs:
       - name: Select Best Model
         run: |
           echo "🏆 Selecting best model..."
-          python -m ml_src.model_select || echo "⚠️ Skipping model selection."
+          python -m Model_Development.ml_src.model_select || echo "⚠️ Skipping model selection."
 
       # -----------------------------------------------------
       # 10) Model Registry (Local MLflow)
@@ -95,7 +98,7 @@ jobs:
       - name: Register Model
         run: |
           echo "🏷️ Registering model..."
-          python -m ml_src.register_model || echo "⚠️ Skipping model registry."
+          python -m Model_Development.ml_src.register_model || echo "⚠️ Skipping model registry."
 
       # -----------------------------------------------------
       # 11) Drift Monitoring
@@ -103,7 +106,7 @@ jobs:
       - name: Drift Monitoring
         run: |
           echo "📈 Running drift monitoring..."
-          python -m ml_src.monitor_drift || echo "⚠️ Skipping drift monitoring."
+          python -m Model_Development.ml_src.monitor_drift || echo "⚠️ Skipping drift monitoring."
 
       # -----------------------------------------------------
       # 12) Upload artifacts to GitHub
@@ -113,11 +116,11 @@ jobs:
         with:
           name: model-reports
           path: |
-            models/
-            reports/
+            Model_Development/models/
+            Model_Development/reports/
 
       # -----------------------------------------------------
-      # 13) Push Model to GCP Artifact Registry (FINAL STEP)
+      # 13) Push Model to GCP Artifact Registry
       # -----------------------------------------------------
       - name: Push Model to GCP Artifact Registry
         env:
@@ -128,10 +131,10 @@ jobs:
           gcloud config set project charlie-478223
 
           echo "☁️ Uploading model to GCP Artifact Registry..."
-          python -m ml_src.gcp_registry || echo "⚠️ Model registry upload skipped."
+          python -m Model_Development.ml_src.gcp_registry || echo "⚠️ Model registry upload skipped."
 
       # -----------------------------------------------------
-      # 14) Final completion
+      # 14) Final Completion
       # -----------------------------------------------------
       - name: Pipeline Completed
         run: echo "🎉 Pipeline execution finished!"
