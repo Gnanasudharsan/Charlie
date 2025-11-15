@@ -1,256 +1,219 @@
+Project Overview
 
-# Data Pipeline 
+This project implements a fully automated end-to-end MLOps pipeline to predict train delay probabilities for Boston’s MBTA transit system. The system ingests real-time transit data, processes it, trains multiple ML models, performs bias and drift checks, registers the final model, deploys it as an API using Google Cloud Run, and exposes predictions to users via a Streamlit web application.
 
-### **Author:** Group_22
-### **Course:** IE 7374 — MLOps (Fall 2025)  
+This repository demonstrates industry-level MLOps including:
+	•	Automated Data Pipelines (Airflow + DVC)
+	•	Model Training, Tuning, and Versioning
+	•	Bias & Drift Monitoring
+	•	CI/CD Pipeline with GitHub Actions
+	•	Deployment to Google Cloud Run
+	•	Streamlit Frontend
+	•	Artifact Registry Model Storage
+	•	Experiment Tracking (MLflow)
 
----
+⸻
 
-## 📘 Project Overview
-This project implements a **modular, reproducible, and automated MLOps Data Pipeline** using **Apache Airflow** and **DVC**.  
-The pipeline orchestrates the entire data lifecycle — from **data acquisition** to **bias detection**, including **schema validation**, **testing**, **versioning**, and **alerting**.  
+ System Architecture
 
-All stages are integrated into Airflow DAGs to ensure reproducibility, traceability, and automation.
+     MBTA API → Airflow Data Pipeline → DVC Versioning → Feature Store
+                        ↓
+              Model Training (MLflow)
+                        ↓
+      Bias + Drift Analysis (Fairlearn, Evidently)
+                        ↓
+       Best Model Selection + Registry (GCP Artifact Registry)
+                        ↓
+        FastAPI Model Serving (Cloud Run Deployment)
+                        ↓
+              Streamlit UI for Real-Time Queries
 
----
 
-## ⚙️ Pipeline Stages
+⸻
 
-| Stage | Description | Key Scripts |
-|-------|--------------|--------------|
-| **1. Data Acquisition** | Fetches MBTA API data (routes, vehicles, alerts). | `fetch_all_routes.py`, `fetch_data.py` |
-| **2. Data Preprocessing** | Cleans raw JSON, structures into CSVs. | `preprocess_data.py` |
-| **3. Schema Validation** | Validates data structure & schema. | `validate_schema.py`, `validate_schema_tfdv.py` |
-| **4. Data Quality & Anomaly Detection** | Detects missing values/outliers, raises alerts. | `detect_anomalies.py`, `run_quality_checks.py` |
-| **5. Bias Detection** | Performs fairness checks using `Fairlearn`. | `detect_bias.py`, `visualize_bias_report.py` |
-| **6. Data Versioning (DVC)** | Tracks all data versions and pipeline stages. | `dvc.yaml`, `dvc.lock` |
-| **7. Orchestration (Airflow)** | Manages dependencies and execution flow. | `data_collection_dag.py`, `data_processing_dag.py`, `data_quality_dag.py`, `mbta_final_data_pipeline.py` |
+ Key Components
 
----
+1. Data Pipeline (Apache Airflow)
 
-## 🧱 Folder Structure
+Includes 4 DAGs:
 
-```
-/Charlie-main
-│
-├── dags/                               ← Top-level DAG definitions for Airflow orchestration
-│
-├── Data_Pipeline/
-│   ├── dags/                            ← Stage-specific DAGs (data_collection, processing, quality, final)
-│   ├── scripts/                         ← Python scripts for each pipeline stage
-│   │   ├── fetch_all_routes.py          ← Fetches MBTA routes via API
-│   │   ├── fetch_data.py                ← Collects vehicle and alert data
-│   │   ├── preprocess_data.py           ← Cleans and structures data
-│   │   ├── validate_schema_tfdv.py      ← Performs schema validation with TFDV
-│   │   ├── detect_anomalies.py          ← Detects missing/outlier data and triggers alerts
-│   │   ├── run_quality_checks.py        ← Performs automated quality tests
-│   │   ├── detect_bias.py               ← Runs bias and fairness analysis
-│   │   ├── visualize_bias_report.py     ← Visualizes bias metrics
-│   │   └── utils.py                     ← Helper functions
-│   │
-│   ├── data/                            ← Dataset directory
-│   │   ├── raw/                         ← Raw MBTA API responses
-│   │   ├── processed/                   ← Cleaned & preprocessed datasets
-│   │   ├── validation/                  ← Schema and anomaly reports
-│   │   ├── all_routes.json              ← Sample fetched route data
-│   │   └── all_routes.yaml              ← Route metadata
-│   │
-│   ├── tests/                           ← Unit testing modules (pytest)
-│   │   ├── test_preprocess.py
-│   │   └── test_utils.py
-│   │
-│   ├── logs/                            ← Airflow & custom Python script logs
-│   ├── output/                          ← Generated data artifacts and final outputs
-│   ├── params.yaml                      ← Central config for directories, thresholds, and schema
-│   └── __init__.py
-│
-├── screenshots/                         ← Visual documentation (Airflow DAG Graphs & Gantt Charts)
-│   ├── Airflow_Homepage.png
-│   ├── Data_Collection_Dag_Graph.png
-│   ├── Data_Collection_Dag_Gantt.png
-│   ├── Data_Processing_Dag_Graph.png
-│   ├── Data_Processing_Dag_Gantt.png
-│   ├── Data_Quality_Dag_Graph.png
-│   ├── Data_Quality_Dag_Gantt.png
-│   ├── Final_Data_Pipeline_Graph.png
-│   └── Final_Data_Pipeline_Gantt.png
-│
-├── docker-compose.yaml                  ← Multi-container orchestration for Airflow + Postgres
-├── dockerfile                           ← Custom Airflow image build instructions
-├── dvc.yaml & dvc.lock                  ← Data Version Control tracking files
-├── .gitignore                           ← Git exclusion rules (includes .env, logs, data, etc.)
-├── LICENSE                              ← License info (open-source compliance)
-├── folder_structure.txt                 ← Exported tree structure for submission
-├── requirements.txt                     ← Python dependency list
-└── README.md                            ← Full project documentation
-```
+DAG	Purpose
+data_collection_dag	Fetch live MBTA data periodically
+data_processing_dag	Preprocess & structure the data
+data_quality_dag	Apply schema checks, anomaly detection
+mbta_final_data_pipeline	Full end-to-end execution & DVC integration
 
----
 
-## 🧩 Airflow DAG Architecture
+⸻
 
-### 1️⃣ `data_collection_dag`
-- Fetches MBTA routes, vehicles, and alerts every hour.  
-- Triggers next DAG: `data_processing_dag`.
+2. Data Versioning (DVC)
 
-### 2️⃣ `data_processing_dag`
-- Preprocesses raw JSON → structured CSVs.  
-- Runs schema validation and triggers quality DAG.
+All datasets and feature outputs are tracked via DVC for:
 
-### 3️⃣ `data_quality_dag`
-- Detects anomalies, schema mismatches, and data drift.  
-- Sends **email alerts** if issues cross thresholds.
+✔ reproducibility
+✔ data lineage
+✔ connection with CI/CD
 
-### 4️⃣ `mbta_final_data_pipeline`
-- Unifies all three DAGs using DVC for complete orchestration.
+Remote storage can be GCP bucket or local.
 
----
+⸻
 
-## ✉️ Email Alerts Configuration
+3. Model Development Pipeline
 
-Configured in `docker-compose.yaml` under all Airflow services:
-```yaml
-env_file:
-  - .env
-environment:
-  - AIRFLOW__EMAIL__EMAIL_BACKEND=airflow.utils.email.send_email_smtp
-  - AIRFLOW__SMTP__SMTP_HOST=smtp.gmail.com
-  - AIRFLOW__SMTP__SMTP_STARTTLS=True
-  - AIRFLOW__SMTP__SMTP_SSL=False
-  - AIRFLOW__SMTP__SMTP_PORT=587
-  - AIRFLOW__SMTP__SMTP_USER=${EMAIL_USER}
-  - AIRFLOW__SMTP__SMTP_PASSWORD=${EMAIL_PASSWORD}
-  - AIRFLOW__SMTP__SMTP_MAIL_FROM=${EMAIL_USER}
-```
+Includes:
+	•	Baseline Logistic Regression
+	•	Hyperparameter Tuning (GridSearch + SMOTE)
+	•	LightGBM Model
+	•	Best Model Selection
+	•	Explainability (SHAP, LIME)
+	•	Bias Detection across groups
+	•	Drift Monitoring during new data arrival
 
-### Airflow Default Args
-```python
-default_args = {
-    'owner': 'charlie',
-    'depends_on_past': False,
-    'email': ['ashokumar.g@northeastern.edu'],
-    'email_on_failure': True,
-    'email_on_retry': False,
-    'retries': 1,
-    'retry_delay': timedelta(minutes=5),
-}
-```
+Results stored in /models/ and /reports/.
 
----
+⸻
 
-## 🧮 Data Version Control (DVC)
-The pipeline uses **DVC** for full reproducibility of data and intermediate artifacts.
+4. CI/CD Pipeline (GitHub Actions)
 
-Run any stage individually:
-```bash
-dvc repro fetch_routes
-dvc repro preprocess
-dvc repro validate
-dvc repro anomalies
-```
+Automatically runs on each push:
 
----
+✔ Install dependencies
+✔ Run DVC pull
+✔ Train & Tune model
+✔ Bias & Drift Checks
+✔ Register best model
+✔ Push final model to GCP Artifact Registry
+✔ Upload reports as artifacts
 
-## 🧠 Bias Detection
-Implemented via **Fairlearn**:
-- Measures **Demographic Parity Difference** and **Equal Opportunity Difference**.
+File: .github/workflows/mlops_pipeline.yml
 
----
+⸻
 
-## 🧪 Testing
-Unit tests implemented via **pytest**:
+5. Model Registry (GCP Artifact Registry)
 
-```bash
-pytest -v
-```
+All final models are versioned using:
 
-Tests cover:
-- Data preprocessing validity  
-- Schema compliance  
-- Utility functions integrity
+charlie-model-registry / charlie-mbta-model:version
 
----
+Uploaded via gcloud and from CI/CD.
 
-## 🪵 Logging & Monitoring
-- Centralized logging through Python’s `logging` module.  
-- Airflow UI logs for DAG-level tracking.  
-- Local logs stored in `Data_Pipeline/logs/`.
+⸻
 
----
+6. Model Deployment (Google Cloud Run)
 
-## 🧰 Setup & Execution
+The FastAPI service is deployed to:
 
-### 1️⃣ Clone the Repository
-```bash
-git clone https://github.com/yourusername/Charlie-main.git
-cd Charlie-main
-```
+https://charlie-mbta-api-XXXXXXXXXX.run.app
 
-### 2️⃣ Build and Launch Dockerized Airflow
-```bash
-docker compose build --no-cache
-docker compose up -d
-```
+Runs the best model version.
 
-### 3️⃣ Access Airflow UI
-Open: [http://localhost:8081](http://localhost:8081)
+⸻
 
-**Login:** `airflow / airflow`
+7. Streamlit Frontend (User Interface)
 
-### 4️⃣ Trigger the DAGs
-Manually trigger `mbta_final_data_pipeline`.
+Simple UI that calls the Cloud Run API and displays:
+	•	Probability of Delay
+	•	Predicted Outcome
+	•	Model Version
+	•	Confidence Score
 
----
+⸻
 
-## Screenshot (Airflow DAGs & Gantt Views)
+ Project Structure
 
-Below are screenshots of the Airflow UI demonstrating the successful execution of each pipeline stage and the unified final DAG.
+.
+├── Data_Pipeline/        → Airflow DAGs, scripts, data
+├── ml_src/               → ML training, tuning, bias, drift, API
+│   ├── api/              → FastAPI app
+│   ├── model_train.py
+│   ├── model_tuning.py
+│   ├── model_select.py
+│   ├── bias_analysis.py
+│   ├── monitor_drift.py
+│   ├── gcp_registry.py
+│   └── deploy_model.py
+├── models/               → trained models
+├── reports/              → SHAP, LIME, drift, bias reports
+├── dvc.yaml              → data versioning
+├── Dockerfile            → Cloud Run API container
+├── docker-compose.yaml   → Airflow local setup
+├── README.md             → (this file)
+└── streamlit_app.py      → User interface
 
-### Airflow Homepage
-![Airflow Homepage](screenshots/Airflow_Homepage.png)
 
----
+⸻
 
-### Data Collection DAG
-**Graph View:**
-![Data Collection DAG Graph](screenshots/Data_Collection_Dag_Graph.png)
+Technologies Used
 
-**Gantt View:**
-![Data Collection DAG Gantt](screenshots/Data_Collection_Dag_Gantt.png)
+MLOps
+	•	Apache Airflow
+	•	DVC
+	•	MLflow
+	•	GitHub Actions
+	•	GCP Artifact Registry
+	•	Google Cloud Run
 
----
+Modeling
+	•	Scikit-learn
+	•	LightGBM
+	•	SMOTE
+	•	SHAP, LIME
+	•	Fairlearn (Bias detection)
+	•	EvidentlyAI (Drift monitoring)
 
-### Data Processing DAG
-**Graph View:**
-![Data Processing DAG Graph](screenshots/Data_Processing_Dag_Graph.png)
+Deployment
+	•	FastAPI
+	•	Docker
+	•	Cloud Run
+	•	Streamlit
 
-**Gantt View:**
-![Data Processing DAG Gantt](screenshots/Data_Processing_Dag_Gantt.png)
+⸻
 
----
+ Running the Project Locally
 
-### Data Quality DAG
-**Graph View:**
-![Data Quality DAG Graph](screenshots/Data_Quality_Dag_Graph.png)
+1. Clone the repository
 
-**Gantt View:**
-![Data Quality DAG Gantt](screenshots/Data_Quality_Dag_Gantt.png)
+git clone https://github.com/your-repo/charlie-mbta.git
+cd charlie-mbta
 
----
+2. Create virtual environment
 
-### Final Unified Pipeline
-**Graph View:**
-![Final Data Pipeline Graph](screenshots/Final_Data_Pipeline_Graph.png)
+python -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
 
-**Gantt View:**
-![Final Data Pipeline Gantt](screenshots/Final_Data_Pipeline_Gantt.png)
- ---
+3. Run Model Training
 
-## 🧾 References
-- [Apache Airflow Documentation](https://airflow.apache.org/docs/)
-- [DVC Documentation](https://dvc.org/doc)
-- [Fairlearn Documentation](https://fairlearn.org/)
-- [MBTA Developer API](https://api-v3.mbta.com/)
+python -m ml_src.model_train
 
----
+4. Run API locally
+
+uvicorn ml_src.api.app:app --reload
+
+5. Run Streamlit UI
+
+streamlit run streamlit_app.py
+
+
+⸻
+
+ Cloud Run Deployment
+
+gcloud builds submit --tag gcr.io/<project>/charlie-mbta-api
+gcloud run deploy charlie-mbta-api \
+    --image gcr.io/<project>/charlie-mbta-api \
+    --platform managed \
+    --region us-central1 \
+    --allow-unauthenticated
+
+
+⸻
+ API Test (Local or Cloud Run)
+
+curl -X POST "https://<cloud-run-url>/predict" \
+  -H "Content-Type: application/json" \
+  -d '{"direction_id": 0, "stop_sequence": 10}'
+
+
+⸻
 
