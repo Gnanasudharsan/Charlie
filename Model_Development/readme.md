@@ -16,7 +16,7 @@ This module contains the entire machine learning lifecycle for the **MBTA Delay 
 
 ---
 
-# 📁 1. Folder Structure
+### 📁 1. Folder Structure
 
 ```bash
 Model_Development/
@@ -52,7 +52,7 @@ Model_Development/
 
 ⸻
 
-🖼 2. Screenshots Included
+### 🖼 2. Screenshots Included
 ``` bash
 Model_Development/screenshots/
 │
@@ -69,7 +69,7 @@ Model_Development/screenshots/
 ```
 ⸻
 
-📦 3. Data Loading
+### 📦 3. Data Loading
 
 All ML scripts automatically load DVC-tracked processed data:
 ``` bash
@@ -84,7 +84,7 @@ src/data_loader.py
 
 ⸻
 
-🤖 4. Model Training
+### 🤖 4. Model Training
 
 Models trained:
 	•	Logistic Regression
@@ -105,7 +105,7 @@ roc_auc
 
 ⸻
 
-🔧 5. Hyperparameter Tuning (SMOTE + GridSearch)
+### 🔧 5. Hyperparameter Tuning (SMOTE + GridSearch)
 
 python -m Model_Development.ml_src.model_tuning
 
@@ -118,7 +118,7 @@ reports/model_comparison.png
 ``` 
 ⸻
 
-🏆 6. Model Selection
+### 🏆 6. Model Selection
 
 Compares:
 
@@ -137,7 +137,7 @@ models/final_model.joblib
 ``` 
 ⸻
 
-✔ 7. Model Validation
+### ✔ 7. Model Validation
 
 Validation includes:
 
@@ -150,7 +150,7 @@ Precision/Recall
 
 ⸻
 
-⚖ 8. Bias & Fairness Analysis (Fairlearn)
+### ⚖ 8. Bias & Fairness Analysis (Fairlearn)
 
 Run:
 ``` bash
@@ -164,7 +164,7 @@ reports/fairness_metrics.csv
 ``` 
 ⸻
 
-🧠 9. Explainability (SHAP + LIME)
+### 🧠 9. Explainability (SHAP + LIME)
 
 Run:
 ``` bash
@@ -179,7 +179,7 @@ reports/lime_explanation.html
 ``` 
 ⸻
 
-📉 10. Drift Monitoring
+### 📉 10. Drift Monitoring
 
 Run:
 ``` bash
@@ -200,7 +200,7 @@ reports/drift_report.html
 
 ⸻
 
-☁ 11. Deployment – GCP Artifact Registry
+### ☁ 11. Deployment – GCP Artifact Registry
 
 Run:
 ``` bash
@@ -218,7 +218,7 @@ artifactregistry.googleapis.com/projects/charlie-478223/...
 ```
 ⸻
 
-🔁 12. CI/CD (GitHub Actions)
+### 🔁 12. CI/CD (GitHub Actions)
 
 Pipeline file:
 ``` bash
@@ -238,7 +238,7 @@ Automated steps:
 
 ⸻
 
-🧪 13. Run Everything Locally
+### 🧪 13. Run Everything Locally
 ``` bash
 # Install dependencies
 pip install -r requirements.txt
