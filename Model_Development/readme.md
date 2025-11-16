@@ -1,32 +1,41 @@
-# Model Development – README.md
 
-Model Development Module
+# 🚆 Model Development – Charlie MBTA Delay Prediction  
+Full End-to-End Machine Learning Development Pipeline
 
-This directory contains the full end-to-end Machine Learning development workflow for the Charlie MBTA Delay Prediction System.
-It includes model training, tuning, selection, sensitivity analysis, bias detection, drift monitoring, experiment tracking, and pushing the final model to Google Cloud Artifact Registry.
+This module contains the entire machine learning lifecycle for the **MBTA Delay Prediction System**, including:
 
-⸻
+- Model Training  
+- Hyperparameter Tuning  
+- Model Selection  
+- SHAP + LIME Explainability  
+- Bias & Fairness Analysis  
+- Drift Monitoring  
+- MLflow Tracking  
+- Deployment to GCP Artifact Registry  
+- CI/CD Automation  
 
-### 1. Folder Structure
+---
+
+# 📁 1. Folder Structure
+
 ```bash
 Model_Development/
 │
-├── src/                     # All ML training, tuning & analysis code
-│   ├── model_train.py       # Training scripts for all ML models
-│   ├── model_tuning.py      # Hyperparameter tuning (Grid/Random Search)
-│   ├── model_select.py      # Model comparison & selection logic
-│   ├── bias_analysis.py     # Fairness, slicing, disparate impact
-│   ├── model_explain.py     # SHAP & LIME explainability
-│   ├── explainability.py    # Feature importance & sensitivity analysis
-│   ├── monitor_drift.py     # Drift detection using reference stats
-│   ├── register_model.py    # Push model to GCP Artifact Registry
-│   ├── gcp_registry.py      # Authentication + upload helper
-│   └── utils/               # Shared utilities (logging, helpers)
+├── src/
+│   ├── model_train.py
+│   ├── model_tuning.py
+│   ├── model_select.py
+│   ├── bias_analysis.py
+│   ├── explainability.py
+│   ├── monitor_drift.py
+│   ├── register_model.py
+│   ├── gcp_registry.py
+│   └── utils/
 │
 ├── models/
-│   ├── final_model.joblib       # Deployed model
-│   ├── best_logreg_tuned.joblib # Tuned Logistic Regression
-│   ├── model_lgbm.joblib        # LightGBM candidate
+│   ├── final_model.joblib
+│   ├── logreg_tuned.joblib
+│   ├── model_lgbm.joblib
 │
 ├── reports/
 │   ├── model_comparison.json
@@ -34,238 +43,232 @@ Model_Development/
 │   ├── shap_importance.csv
 │   ├── shap_summary.png
 │   ├── lime_explanation.html
-│   ├── bias_report.csv
-│   ├── bias_plot.html
+│   ├── fairness_by_direction.png
 │   ├── drift_report.json
 │   └── drift_report.html
 │
-└── screenshots/              # Visuals for submission
+└── screenshots/
+```
+
+⸻
+
+🖼 2. Screenshots Included
+``` bash
+Model_Development/screenshots/
+│
+├── model_train_output.png
+├── model_tuning_output.png
+├── model_fairness.png
+├── model_explainability.png
+├── drift_monitoring_output.png
+├── mlflow_home.png
+├── mlflow_all_runs.png
+├── mlflow_drift_run.png
+└── mlflow_registry.png
+
 ```
 ⸻
 
-### 2. Overview
+📦 3. Data Loading
 
-This module trains a machine-learning model to predict whether an MBTA bus trip will be delayed based on MBTA real-time API features (direction_id, stop_sequence, etc.).
-```bash
-The pipeline follows production-grade ML engineering practices:
-	•	Reproducible training
-	•	MLflow experiment tracking
-	•	Hyperparameter tuning
-	•	Model comparison
-	•	Fairness & bias detection
-	•	Explainability (SHAP/LIME)
-	•	Drift monitoring
-	•	GCP Artifact Registry deployment
-```
-⸻
+All ML scripts automatically load DVC-tracked processed data:
+``` bash
+Data_Pipeline/data/processed/predictions.csv
+Data_Pipeline/data/processed/vehicles.csv
+Data_Pipeline/data/processed/alerts.csv
 
-### 3. Data Loading
+Loader script:
 
-Data used for training comes from the Data_Pipeline module and is version-controlled with DVC.
-
-The loader automatically fetches:
-
-Data_Pipeline/data/processed/latest.parquet
-
-Code:
-```bash
 src/data_loader.py
-```
+``` 
+
 ⸻
 
-### 4. Model Training
-```bash
-Training is executed using:
-	•	Logistic Regression (baseline)
-	•	Random Forest
-	•	LightGBM (final best model)
-```
+🤖 4. Model Training
+
+Models trained:
+	•	Logistic Regression
+	•	LightGBM (Final Winner)
+
+Command:
+``` bash
+python -m Model_Development.ml_src.model_train
+``` 
+Logged to MLflow:
+
+accuracy  
+precision  
+recall  
+f1  
+roc_auc  
 
 
-Key file:
-```bash
-src/model_train.py
-
-Each model logs:
-	•	metrics (accuracy, f1, AUC)
-	•	confusion matrices
-	•	model artifacts
-	•	predictions
-
-Tracking: MLflow
-```
 ⸻
 
-### 5. Hyperparameter Tuning
+🔧 5. Hyperparameter Tuning (SMOTE + GridSearch)
 
-Performed using GridSearchCV and RandomizedSearchCV.
-
-Code:
-```bash
-src/model_tuning.py
+python -m Model_Development.ml_src.model_tuning
 
 Outputs:
-	•	best params
-	•	best estimator
-	•	tuning logs
-	•	comparison plots
+``` bash
+models/logreg_tuned.joblib
+reports/model_comparison.json
+reports/model_comparison.png
 
-All tuning results are stored inside reports/model_comparison.*.
-```
+``` 
 ⸻
 
-### 6. Model Selection
-```bash
-After training & tuning, models are compared on:
-	•	Accuracy
-	•	F1-score
-	•	ROC-AUC
-	•	Inference speed
-	•	Robustness
-	•	Drift impact
+🏆 6. Model Selection
 
-Code: src/model_select.py
+Compares:
 
-The final chosen model is saved as:
+accuracy  
+f1  
+roc_auc  
 
-Model_Development/models/final_model.joblib
-```
+Run:
+``` bash
+python -m Model_Development.ml_src.model_select
 
+Final model saved as:
+
+models/final_model.joblib
+
+``` 
 ⸻
 
-### 7. Model Validation
-```bash
+✔ 7. Model Validation
+
 Validation includes:
-	•	Hold-out validation
-	•	Cross-validation (k=5)
-	•	AUC-ROC curves
-	•	Confusion matrix
-	•	Precision/Recall trade-offs
 
-Metrics are logged via MLflow.
-```
+Hold-out split  
+5-fold CV  
+AUC-ROC  
+Confusion matrix  
+Precision/Recall  
+
+
 ⸻
 
-### 8. Bias Analysis (Fairness)
-```bash
-We perform fairness checks across slices such as:
-	•	Direction ID (0 → inbound, 1 → outbound)
-	•	Stop sequence ranges
-	•	Route type grouping
-	•	Time-based segments (AM/PM)
+⚖ 8. Bias & Fairness Analysis (Fairlearn)
 
-Tool used: Fairlearn Metrics
-
-Code:
-src/bias_analysis.py
-
-Artifacts:
-	•	bias_report.csv
-	•	fairness plots
-	•	disparity metrics
-```
-⸻
-
-### 9. Explainability (SHAP + LIME)
-
-To understand feature importance:
-	•	SHAP (global + local explanations)
-	•	LIME (sample-level decision interpretation)
-
-Code:
-```bash
-src/explainability.py
+Run:
+``` bash
+python -m Model_Development.ml_src.model_fairness
 
 Outputs:
-	•	shap_summary.png
-	•	shap_importance.csv
-	•	lime_explanation.html
+
+reports/fairness_by_direction.png
+reports/fairness_metrics.csv
+
+``` 
+⸻
+
+🧠 9. Explainability (SHAP + LIME)
+
+Run:
+``` bash
+python -m Model_Development.ml_src.model_explain
+
+Outputs:
+
+reports/shap_summary.png
+reports/shap_importance.csv
+reports/lime_explanation.html
+
+``` 
+⸻
+
+📉 10. Drift Monitoring
+
+Run:
+``` bash
+python -m Model_Development.ml_src.monitor_drift
+
+Checks:
+
+Feature drift  
+Target drift  
+Population Stability Index (PSI)  
+Distribution shifts  
+
+Outputs:
+
+reports/drift_report.json
+reports/drift_report.html
+```
+
+⸻
+
+☁ 11. Deployment – GCP Artifact Registry
+
+Run:
+``` bash
+python -m Model_Development.ml_src.gcp_registry
+
+Uploads:
+
+models/final_model.joblib
+models/model_metadata.json
+
+Destination:
+
+artifactregistry.googleapis.com/projects/charlie-478223/...
+
 ```
 ⸻
 
-### 10. Drift Detection
-
-Uses historical baseline stats from:
-```bash
-models/reference_stats.json
-
-Drift check steps:
-	•	Feature distribution drift
-	•	Population stability index
-	•	Prediction drift
-	•	Anomaly detection thresholds
-
-Code:
-src/monitor_drift.py
-
-Reports stored in:
-reports/drift_report.*
-```
-⸻
-### 11. Model Registry – Pushing to GCP
-
-After selection, the model is uploaded to Google Cloud Artifact Registry.
-```bash
-Code:
-src/register_model.py
-
-Steps automated:
-	1.	Authenticate with service account
-	2.	Tag model with version ID
-	3.	Upload to:
-
-us-central1-docker.pkg.dev/<PROJECT-ID>/ml-models/
-
-```
-
-⸻
-
-### 12. CI/CD for Model Development
-
-This module integrates with GitHub Actions + Cloud Build:
-```bash
-✔ Train model on every push
-✔ Validate performance thresholds
-✔ Run bias checks
-✔ Run drift checks
-✔ Push new model if performance improves
-✔ Rollback if degraded
+🔁 12. CI/CD (GitHub Actions)
 
 Pipeline file:
+``` bash
 .github/workflows/mlops_pipeline.yml
-```
+``` 
+Automated steps:
+
+✔ Train model
+✔ Tune model
+✔ Bias analysis
+✔ Explainability
+✔ Drift monitoring
+✔ Upload artifacts
+✔ Register model
+✔ Push to GCP
+
+
 ⸻
 
-### 13. How to Run Locally
-```bash
-1. Activate environment
-
+🧪 13. Run Everything Locally
+``` bash
+# Install dependencies
 pip install -r requirements.txt
 
-2. Train all models
+# Train baseline model
+python -m Model_Development.ml_src.model_train
 
-python Model_Development/src/model_train.py
+# Run tuning
+python -m Model_Development.ml_src.model_tuning
 
-3. Run hyperparameter tuning
+# Select best model
+python -m Model_Development.ml_src.model_select
 
-python Model_Development/src/model_tuning.py
+# Bias analysis
+python -m Model_Development.ml_src.model_fairness
 
-4. Compare models
+# Explainability
+python -m Model_Development.ml_src.model_explain
 
-python Model_Development/src/model_select.py
+# Drift monitoring
+python -m Model_Development.ml_src.monitor_drift
 
-5. Run bias check
+# Push to GCP
+python -m Model_Development.ml_src.register_model
+``` 
 
-python Model_Development/src/bias_analysis.py
 
-6. Run explainability
 
-python Model_Development/src/explainability.py
+git commit -m "Updated Model Development README with screenshots"
+git push origin main
 
-7. Push final model to GCP
-
-python Model_Development/src/register_model.py
-```
 
 ⸻
-
