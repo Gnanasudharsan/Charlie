@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>MBTA Live Transit Dashboard</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Leaflet CSS for Map -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+</head>
+<body>
+    <div class="app">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-left">
+                <div class="logo">
+                    <span class="logo-t">T</span>
+                </div>
+                <div class="header-title">
+                    <h1>MBTA Live</h1>
+                    <div class="status-indicator">
+                        <span class="pulse"></span>
+                        <span class="status-text" id="status-text">Real-time data</span>
+                    </div>
+                </div>
+            </div>
+            <div class="header-right">
+                <button class="location-btn" onclick="requestLocation()" id="location-btn" title="Share your location">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20">
+                        <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+                    </svg>
+                </button>
+                <div class="last-update">
+                    Updated: <span id="last-update-time">--:--</span>
+                </div>
+                <button class="refresh-btn" onclick="refreshAll()">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M23 4v6h-6M1 20v-6h6M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/>
+                    </svg>
+                </button>
+            </div>
+        </header>
+
+        <!-- Location Banner (shows when location is detected) -->
+        <div class="location-banner" id="location-banner" style="display: none;">
+            <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16">
+                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+            </svg>
+            <span id="location-text">Detecting location...</span>
+            <button onclick="hideLocationBanner()" class="location-close-btn">&times;</button>
+        </div>
+
+        <!-- Navigation Tabs -->
+        <nav class="nav-tabs">
+            <button class="tab active" data-tab="overview" onclick="switchTab('overview')">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+                <span>Overview</span>
+            </button>
+            <button class="tab" data-tab="chat" onclick="switchTab('chat')">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                <span>Chat</span>
+                <span class="chat-badge">AI</span>
+            </button>
+            <button class="tab" data-tab="map" onclick="switchTab('map')">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/>
+                    <line x1="8" y1="2" x2="8" y2="18"/>
+                    <line x1="16" y1="6" x2="16" y2="22"/>
+                </svg>
+                <span>Map</span>
+            </button>
+            <button class="tab" data-tab="subway" onclick="switchTab('subway')">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M8 12h8M12 8v8"/></svg>
+                <span>Subway</span>
+            </button>
+            <button class="tab" data-tab="bus" onclick="switchTab('bus')">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 16V6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v10"/><path d="M6 20h12"/><circle cx="7" cy="16" r="1"/><circle cx="17" cy="16" r="1"/></svg>
+                <span>Bus</span>
+            </button>
+            <button class="tab" data-tab="commuter" onclick="switchTab('commuter')">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 11V6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v5"/><path d="M4 11h16"/><circle cx="7.5" cy="15.5" r="1.5"/><circle cx="16.5" cy="15.5" r="1.5"/></svg>
+                <span>Rail</span>
+            </button>
+            <button class="tab" data-tab="ferry" onclick="switchTab('ferry')">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 21c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2s2.5 2 5 2 2.5-2 5-2c1.3 0 1.9.5 2.5 1"/><path d="M12 2v10"/></svg>
+                <span>Ferry</span>
+            </button>
+            <button class="tab" data-tab="alerts" onclick="switchTab('alerts')">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                <span>Alerts</span>
+                <span class="alert-badge" id="alert-count">0</span>
+            </button>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Overview Tab -->
+            <section class="tab-content active" id="overview-content">
+                <!-- Trip Planner Section -->
+                <div class="section trip-planner-section">
+                    <h2 class="section-title">🗺️ Trip Planner</h2>
+                    <div class="trip-planner">
+                        <div class="trip-inputs">
+                            <div class="trip-input-row">
+                                <div class="trip-input-icon origin-icon">
+                                    <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+                                        <circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="2" fill="none"/>
+                                        <circle cx="12" cy="12" r="3" fill="currentColor"/>
+                                    </svg>
+                                </div>
+                                <div class="trip-input-wrapper">
+                                    <input type="text" id="trip-origin" placeholder="Enter starting point" autocomplete="off">
+                                    <div class="trip-autocomplete" id="origin-autocomplete"></div>
+                                </div>
+                                <button class="trip-location-btn" onclick="useCurrentLocationForTrip()" title="Use my location">
+                                    <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+                                        <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+                                    </svg>
+                                </button>
+                            </div>
+                            <button class="trip-swap-btn" onclick="swapTripInputs()" title="Swap origin and destination">
+                                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M7 16V4M7 4L3 8M7 4L11 8M17 8V20M17 20L21 16M17 20L13 16"/>
+                                </svg>
+                            </button>
+                            <div class="trip-input-row">
+                                <div class="trip-input-icon dest-icon">
+                                    <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+                                        <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/>
+                                    </svg>
+                                </div>
+                                <div class="trip-input-wrapper">
+                                    <input type="text" id="trip-destination" placeholder="Enter destination" autocomplete="off">
+                                    <div class="trip-autocomplete" id="dest-autocomplete"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="trip-search-btn" onclick="searchTrip()">
+                            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="11" cy="11" r="8"/>
+                                <path d="M21 21l-4.35-4.35"/>
+                            </svg>
+                            Get Directions
+                        </button>
+                    </div>
+                    <div class="trip-results" id="trip-results"></div>
+                </div>
+                
+                <div class="section">
+                    <h2 class="section-title">System Status</h2>
+                    <div class="line-status-grid" id="line-status-grid"></div>
+                </div>
+                <div class="section">
+                    <h2 class="section-title">Active Service Alerts</h2>
+                    <div class="alerts-container" id="overview-alerts">
+                        <div class="loading-skeleton">Loading alerts...</div>
+                    </div>
+                </div>
+                <div class="section">
+                    <h2 class="section-title">Station Lookup</h2>
+                    <div class="search-box">
+                        <input type="text" id="station-search" placeholder="Search for a station..." autocomplete="off">
+                        <div class="search-results" id="search-results"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Chat Tab -->
+            <section class="tab-content" id="chat-content">
+                <div class="chat-container">
+                    <div class="chat-header">
+                        <div class="chat-header-icon">🤖</div>
+                        <div class="chat-header-info">
+                            <h2>MBTA Assistant</h2>
+                            <span class="chat-status" id="chat-location-status">AI-powered • Ask anything about transit</span>
+                        </div>
+                    </div>
+                    <div class="chat-messages" id="chat-messages">
+                        <div class="chat-message bot">
+                            <div class="message-avatar">🚇</div>
+                            <div class="message-content">
+                                <div class="message-bubble">
+                                    👋 Hello! I'm your MBTA transit assistant. I can help you with:
+                                    <ul>
+                                        <li>🚇 Train & bus arrival times</li>
+                                        <li>⚠️ Service alerts & delays</li>
+                                        <li>🗺️ Route information</li>
+                                        <li>📍 Location-based directions</li>
+                                    </ul>
+                                    Try asking: <em>"When is the next Red Line train at Harvard?"</em>
+                                    <br><br>
+                                    💡 <strong>Tip:</strong> Click the 📍 button to share your location, then just ask <em>"Next train to Boston College"</em> - I'll know where you are!
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="chat-input-container">
+                        <div class="chat-suggestions">
+                            <button class="suggestion-chip" onclick="sendSuggestion('Next Red Line at Park Street')">🔴 Red Line at Park St</button>
+                            <button class="suggestion-chip" onclick="sendSuggestion('Any delays on the Orange Line?')">🟠 Orange Line delays</button>
+                            <button class="suggestion-chip" onclick="sendSuggestion('Green Line status')">🟢 Green Line status</button>
+                            <button class="suggestion-chip" onclick="sendSuggestion('Show all alerts')">⚠️ All alerts</button>
+                        </div>
+                        <div class="chat-input-wrapper">
+                            <button class="chat-location-btn" onclick="requestLocation()" title="Use my location">
+                                <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18">
+                                    <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+                                </svg>
+                            </button>
+                            <input type="text" id="chat-input" placeholder="Ask about trains, buses, delays..." autocomplete="off">
+                            <button class="chat-mic-btn" onclick="toggleVoiceInput()" id="chat-mic-btn" title="Voice input">
+                                <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18" id="mic-icon">
+                                    <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
+                                    <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
+                                </svg>
+                            </button>
+                            <button class="chat-send-btn" onclick="sendChatMessage()" id="chat-send-btn">
+                                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+                            </button>
+                        </div>
+                        <div class="voice-status" id="voice-status" style="display: none;">
+                            <span class="voice-pulse"></span>
+                            <span id="voice-status-text">Listening...</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Map Tab -->
+            <section class="tab-content" id="map-content">
+                <div class="section">
+                    <div class="map-header-bar">
+                        <h2 class="section-title">🗺️ MBTA Stations Map</h2>
+                        <button class="map-locate-btn" onclick="requestLocation()">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
+                                <circle cx="12" cy="12" r="10"/>
+                                <circle cx="12" cy="12" r="3"/>
+                                <line x1="12" y1="2" x2="12" y2="6"/>
+                                <line x1="12" y1="18" x2="12" y2="22"/>
+                                <line x1="2" y1="12" x2="6" y2="12"/>
+                                <line x1="18" y1="12" x2="22" y2="12"/>
+                            </svg>
+                            Find Me
+                        </button>
+                    </div>
+                    <div class="map-container" id="map-container">
+                        <div id="map"></div>
+                    </div>
+                    <div class="map-legend">
+                        <span class="legend-item"><span class="legend-dot red"></span>Red Line</span>
+                        <span class="legend-item"><span class="legend-dot orange"></span>Orange Line</span>
+                        <span class="legend-item"><span class="legend-dot blue"></span>Blue Line</span>
+                        <span class="legend-item"><span class="legend-dot green"></span>Green Line</span>
+                        <span class="legend-item"><span class="legend-dot user"></span>You</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Subway Tab -->
+            <section class="tab-content" id="subway-content">
+                <div class="section">
+                    <h2 class="section-title">Subway Lines</h2>
+                    <div class="subway-lines">
+                        <button class="line-btn red" onclick="loadLineDetails('Red')">
+                            <span class="line-name">Red Line</span>
+                            <span class="line-dest">Alewife ↔ Ashmont/Braintree</span>
+                        </button>
+                        <button class="line-btn orange" onclick="loadLineDetails('Orange')">
+                            <span class="line-name">Orange Line</span>
+                            <span class="line-dest">Oak Grove ↔ Forest Hills</span>
+                        </button>
+                        <button class="line-btn blue" onclick="loadLineDetails('Blue')">
+                            <span class="line-name">Blue Line</span>
+                            <span class="line-dest">Wonderland ↔ Bowdoin</span>
+                        </button>
+                        <button class="line-btn green" onclick="loadLineDetails('Green-B')">
+                            <span class="line-name">Green Line B</span>
+                            <span class="line-dest">Boston College ↔ Government Center</span>
+                        </button>
+                        <button class="line-btn green" onclick="loadLineDetails('Green-C')">
+                            <span class="line-name">Green Line C</span>
+                            <span class="line-dest">Cleveland Circle ↔ Government Center</span>
+                        </button>
+                        <button class="line-btn green" onclick="loadLineDetails('Green-D')">
+                            <span class="line-name">Green Line D</span>
+                            <span class="line-dest">Riverside ↔ Union Square</span>
+                        </button>
+                        <button class="line-btn green" onclick="loadLineDetails('Green-E')">
+                            <span class="line-name">Green Line E</span>
+                            <span class="line-dest">Heath Street ↔ Medford/Tufts</span>
+                        </button>
+                        <button class="line-btn mattapan" onclick="loadLineDetails('Mattapan')">
+                            <span class="line-name">Mattapan Trolley</span>
+                            <span class="line-dest">Ashmont ↔ Mattapan</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="section" id="line-details-section" style="display: none;">
+                    <div class="line-details-header">
+                        <h2 class="section-title" id="line-details-title">Line Details</h2>
+                        <button class="close-btn" onclick="closeLineDetails()">×</button>
+                    </div>
+                    <div id="line-details-content"></div>
+                </div>
+            </section>
+
+            <!-- Bus Tab -->
+            <section class="tab-content" id="bus-content">
+                <div class="section">
+                    <h2 class="section-title">Bus Routes</h2>
+                    <div class="search-box">
+                        <input type="text" id="bus-search" placeholder="Search bus route (e.g., 1, 66, 77)" autocomplete="off">
+                    </div>
+                    <div class="bus-routes-grid" id="bus-routes">
+                        <div class="loading-skeleton">Loading bus routes...</div>
+                    </div>
+                </div>
+                <div class="section" id="bus-details-section" style="display: none;">
+                    <div class="line-details-header">
+                        <h2 class="section-title" id="bus-details-title">Bus Details</h2>
+                        <button class="close-btn" onclick="closeBusDetails()">×</button>
+                    </div>
+                    <div id="bus-details-content"></div>
+                </div>
+            </section>
+
+            <!-- Commuter Rail Tab -->
+            <section class="tab-content" id="commuter-content">
+                <div class="section">
+                    <h2 class="section-title">Commuter Rail Lines</h2>
+                    <div class="commuter-lines" id="commuter-lines">
+                        <div class="loading-skeleton">Loading commuter rail...</div>
+                    </div>
+                </div>
+                <div class="section" id="commuter-details-section" style="display: none;">
+                    <div class="line-details-header">
+                        <h2 class="section-title" id="commuter-details-title">Line Details</h2>
+                        <button class="close-btn" onclick="closeCommuterDetails()">×</button>
+                    </div>
+                    <div id="commuter-details-content"></div>
+                </div>
+            </section>
+
+            <!-- Ferry Tab -->
+            <section class="tab-content" id="ferry-content">
+                <div class="section">
+                    <h2 class="section-title">Ferry Routes</h2>
+                    <div class="ferry-routes" id="ferry-routes">
+                        <div class="loading-skeleton">Loading ferry routes...</div>
+                    </div>
+                </div>
+                <div class="section" id="ferry-details-section" style="display: none;">
+                    <div class="line-details-header">
+                        <h2 class="section-title" id="ferry-details-title">Ferry Details</h2>
+                        <button class="close-btn" onclick="closeFerryDetails()">×</button>
+                    </div>
+                    <div id="ferry-details-content"></div>
+                </div>
+            </section>
+
+            <!-- Alerts Tab -->
+            <section class="tab-content" id="alerts-content">
+                <div class="section">
+                    <h2 class="section-title">All Service Alerts</h2>
+                    <div class="alert-filters">
+                        <button class="filter-btn active" onclick="filterAlerts('all')">All</button>
+                        <button class="filter-btn" onclick="filterAlerts('subway')">Subway</button>
+                        <button class="filter-btn" onclick="filterAlerts('bus')">Bus</button>
+                        <button class="filter-btn" onclick="filterAlerts('commuter')">Rail</button>
+                        <button class="filter-btn" onclick="filterAlerts('ferry')">Ferry</button>
+                    </div>
+                    <div class="all-alerts" id="all-alerts">
+                        <div class="loading-skeleton">Loading alerts...</div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Station Modal -->
+        <div class="modal" id="station-modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 id="modal-station-name">Station</h2>
+                    <button class="close-btn" onclick="closeModal()">×</button>
+                </div>
+                <div class="modal-body" id="modal-body"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Leaflet JS for Map -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="/static/script.js"></script>
+</body>
+</html>
