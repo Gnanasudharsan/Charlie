@@ -150,7 +150,7 @@ Deployment
 
 1. Clone the repository
 
-git clone [https://github.com/your-repo/charlie-mbta.git](https://github.com/Gnanasudharsan/Charlie)
+git clone (https://github.com/Gnanasudharsan/Charlie)
 cd charlie-mbta
 
 2. Create virtual environment
