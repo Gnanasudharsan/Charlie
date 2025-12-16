@@ -94,7 +94,7 @@ git --version       # Git 2.0+
 ### Required Accounts
 - [Google Cloud Platform](https://console.cloud.google.com/) account with billing enabled
 - [OpenAI](https://platform.openai.com/) API key
-- [MBTA](https://api-v3.mbta.com/register) API key (free)
+- [MBTA](https://api-v3.mbta.com/register) API key 
 - [GitHub](https://github.com/) account
 
 ### GCP Setup
@@ -545,7 +545,6 @@ Your deployment video (5-10 minutes) should demonstrate:
 |----------|-----|
 | **Live Application** | https://charlie-mbta-chatbot-588293495748.us-east1.run.app |
 | **GitHub Repository** | https://github.com/Gnanasudharsan/Charlie |
-| **GCP Console** | https://console.cloud.google.com/run?project=charlie-478223 |
 | **MBTA API Docs** | https://api-v3.mbta.com/docs/swagger |
 | **OpenAI API** | https://platform.openai.com |
 
