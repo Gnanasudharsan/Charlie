@@ -1,20 +1,5 @@
 # 🚀 Charlie MBTA Model Deployment Guide
 
-## Table of Contents
-1. [Overview](#overview)
-2. [Architecture](#architecture)
-3. [Prerequisites](#prerequisites)
-4. [Quick Start](#quick-start)
-5. [Cloud Deployment (GCP)](#cloud-deployment-gcp)
-6. [CI/CD Pipeline](#cicd-pipeline)
-7. [Model Monitoring & Retraining](#model-monitoring--retraining)
-8. [API Endpoints](#api-endpoints)
-9. [Environment Variables](#environment-variables)
-10. [Troubleshooting](#troubleshooting)
-11. [Video Demo](#video-demo)
-
----
-
 ## Overview
 
 Charlie is an AI-powered MBTA transit assistant that provides real-time predictions, alerts, and natural language interaction for Boston's public transportation system.
