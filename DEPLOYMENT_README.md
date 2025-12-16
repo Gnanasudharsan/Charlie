@@ -247,33 +247,7 @@ Configure these in `Settings > Secrets > Actions`:
 | `MBTA_API_KEY` | MBTA API key |
 | `SLACK_WEBHOOK_URL` | (Optional) Slack notifications |
 
-### Creating GCP Service Account Key
 
-```bash
-# Create service account
-gcloud iam service-accounts create github-actions \
-  --display-name="GitHub Actions"
-
-# Grant permissions
-gcloud projects add-iam-policy-binding charlie-478223 \
-  --member="serviceAccount:github-actions@charlie-478223.iam.gserviceaccount.com" \
-  --role="roles/run.admin"
-
-gcloud projects add-iam-policy-binding charlie-478223 \
-  --member="serviceAccount:github-actions@charlie-478223.iam.gserviceaccount.com" \
-  --role="roles/storage.admin"
-
-gcloud projects add-iam-policy-binding charlie-478223 \
-  --member="serviceAccount:github-actions@charlie-478223.iam.gserviceaccount.com" \
-  --role="roles/iam.serviceAccountUser"
-
-# Create key
-gcloud iam service-accounts keys create key.json \
-  --iam-account=github-actions@charlie-478223.iam.gserviceaccount.com
-
-# Copy contents of key.json to GitHub secret GCP_SA_KEY
-cat key.json
-```
 
 ---
 
@@ -361,24 +335,6 @@ Local: http://localhost:5001
 | GET | `/api/line/<line_id>` | Line status |
 | GET | `/api/station/<stop_id>` | Station info |
 
-### Example Requests
-
-```bash
-# Health check
-curl https://charlie-mbta-chatbot-588293495748.us-east1.run.app/health
-
-# Chat with AI
-curl -X POST \
-  -H "Content-Type: application/json" \
-  -d '{"message": "Next train from Harvard to Park Street"}' \
-  https://charlie-mbta-chatbot-588293495748.us-east1.run.app/api/chat
-
-# Get alerts
-curl https://charlie-mbta-chatbot-588293495748.us-east1.run.app/api/alerts
-
-# Get predictions
-curl "https://charlie-mbta-chatbot-588293495748.us-east1.run.app/api/predictions?stop=place-harsq"
-```
 
 ---
 
@@ -440,63 +396,6 @@ Charlie/
 
 ---
 
-## Troubleshooting
-
-### Common Issues
-
-#### 1. Container fails to start
-```
-Error: The user-provided container failed to start and listen on the port
-```
-**Solution:** Ensure Dockerfile uses `$PORT` environment variable:
-```dockerfile
-CMD sh -c "gunicorn --bind 0.0.0.0:${PORT} app:app"
-```
-
-#### 2. OpenAI API key error
-```
-Error: Incorrect API key provided
-```
-**Solution:** Verify API key is correct and has credits:
-```bash
-gcloud run services update charlie-mbta-chatbot \
-  --region us-east1 \
-  --update-env-vars "OPENAI_API_KEY=sk-your-new-key"
-```
-
-#### 3. Docker build fails on M1/M2 Mac
-```
-Error: exec format error
-```
-**Solution:** Build with platform flag:
-```bash
-docker build --platform linux/amd64 -t your-image .
-```
-
-#### 4. Permission denied on GCP
-```
-Error: Permission denied
-```
-**Solution:** Grant required roles:
-```bash
-gcloud projects add-iam-policy-binding charlie-478223 \
-  --member="user:your-email@gmail.com" \
-  --role="roles/run.admin"
-```
-
-### View Logs
-
-```bash
-# Cloud Run logs
-gcloud run services logs read charlie-mbta-chatbot \
-  --region us-east1 \
-  --limit 100
-
-# Or view in console
-# https://console.cloud.google.com/run/detail/us-east1/charlie-mbta-chatbot/logs
-```
-
----
 
 ## Video Demo
 
@@ -559,10 +458,3 @@ Your deployment video (5-10 minutes) should demonstrate:
 
 ---
 
-## License
-
-This project is for educational purposes as part of the MLOps course submission.
-
----
-
-*Last Updated: December 2024*
