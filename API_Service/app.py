@@ -1582,7 +1582,12 @@ def plan_trip():
     
     # Call Google Maps Directions API
     routes = get_google_directions(origin_coords, dest_coords, origin, destination)
-    
+
+    # Fallback: free open-source transit router (Transitous / MOTIS, uses MBTA GTFS)
+    # when Google Maps is unavailable (e.g. key disabled / billing off).
+    if not routes:
+        routes = get_transitous_directions(origin_coords, dest_coords)
+
     return jsonify({
         "origin": origin,
         "destination": destination,
@@ -1803,6 +1808,170 @@ def estimate_fare(steps):
         return "$1.70"
     
     return "$2.40"
+
+
+TRANSITOUS_URL = "https://api.transitous.org/api"
+TRANSITOUS_HEADERS = {"User-Agent": "charlie-mbta-trip-planner"}
+
+
+def _resolve_place(place):
+    """Return 'lat,lon' for a coordinate string or geocode free text via Transitous."""
+    parts = [p.strip() for p in str(place).split(',')]
+    if len(parts) == 2:
+        try:
+            float(parts[0]); float(parts[1])
+            return f"{parts[0]},{parts[1]}"
+        except ValueError:
+            pass
+    try:
+        text = str(place).replace(', Boston, MA', '').strip()
+        resp = requests.get(f"{TRANSITOUS_URL}/v1/geocode",
+                            params={"text": f"{text} Boston", "place": "42.3601,-71.0589"},
+                            headers=TRANSITOUS_HEADERS, timeout=15)
+        results = resp.json()
+        if results:
+            return f"{results[0]['lat']},{results[0]['lon']}"
+    except Exception as e:
+        print(f"Transitous geocode error: {e}")
+    return None
+
+
+def _fmt_time(iso_str):
+    try:
+        return parser.isoparse(iso_str).astimezone(BOSTON_TZ).strftime('%-I:%M %p')
+    except Exception:
+        return ''
+
+
+def _fmt_minutes(minutes):
+    if minutes >= 60:
+        return f"{minutes // 60} hr {minutes % 60} min"
+    return f"{minutes} min"
+
+
+TRANSITOUS_MODE_MAP = {
+    "SUBWAY": "SUBWAY", "METRO": "SUBWAY", "TRAM": "TRAM", "BUS": "BUS", "COACH": "BUS",
+    "FERRY": "FERRY", "RAIL": "COMMUTER_TRAIN", "REGIONAL_RAIL": "COMMUTER_TRAIN",
+    "REGIONAL_FAST_RAIL": "COMMUTER_TRAIN", "SUBURBAN": "COMMUTER_TRAIN",
+    "LONG_DISTANCE": "LONG_DISTANCE_TRAIN", "HIGHSPEED_RAIL": "LONG_DISTANCE_TRAIN",
+}
+
+
+def get_transitous_directions(origin, destination):
+    """Get transit itineraries from the free Transitous (MOTIS) API, in the same shape as Google results."""
+    try:
+        from_place = _resolve_place(origin)
+        to_place = _resolve_place(destination)
+        if not from_place or not to_place:
+            return []
+
+        resp = requests.get(f"{TRANSITOUS_URL}/v5/plan",
+                            params={"fromPlace": from_place, "toPlace": to_place, "numItineraries": 6},
+                            headers=TRANSITOUS_HEADERS, timeout=20)
+        data = resp.json()
+
+        routes = []
+        seen = set()
+        for it in data.get('itineraries', []):
+            steps, detailed_steps = [], []
+            walk_time = 0
+            for leg in it.get('legs', []):
+                mode = leg.get('mode', '')
+                leg_minutes = round(leg.get('duration', 0) / 60)
+                from_name = leg.get('from', {}).get('name', '')
+                to_name = leg.get('to', {}).get('name', '')
+
+                if mode == 'WALK':
+                    if leg_minutes < 1 and (leg.get('distance') or 0) < 50:
+                        continue
+                    walk_time += leg_minutes
+                    dist = leg.get('distance') or 0
+                    dist_text = f"{dist / 1609.34:.1f} mi" if dist >= 160 else f"{int(dist * 3.281)} ft"
+                    target = to_name if to_name != 'END' else 'destination'
+                    detailed_steps.append({
+                        "type": "walk",
+                        "instruction": f"Walk {dist_text}",
+                        "details": f"Walk to {target}",
+                        "duration": _fmt_minutes(max(1, leg_minutes))
+                    })
+                    continue
+
+                vehicle_type = TRANSITOUS_MODE_MAP.get(mode, 'BUS')
+                short = leg.get('routeShortName') or ''
+                long_name = leg.get('routeLongName') or ''
+                line_name = short or long_name
+                color = f"#{leg['routeColor']}" if leg.get('routeColor') else '#666666'
+                headsign = leg.get('headsign', '')
+                num_stops = len(leg.get('intermediateStops') or []) + 1
+
+                if vehicle_type == 'BUS' and short and ' ' in short:
+                    display = short  # e.g. "Green Line C Shuttle"
+                elif vehicle_type == 'BUS' and short and not short.upper().startswith('SL'):
+                    display = f"Bus {short}"
+                elif short.upper().startswith('SL'):
+                    display = f"Silver Line {short[2:]}".strip()
+                elif vehicle_type == 'COMMUTER_TRAIN':
+                    display = long_name if long_name.endswith('Line') else f"{line_name} Line"
+                elif long_name:
+                    display = long_name
+                else:
+                    display = get_display_name(line_name, vehicle_type)
+
+                steps.append({
+                    "type": get_transit_type(vehicle_type, line_name),
+                    "name": display,
+                    "short_name": short or (long_name.split()[0] if long_name else vehicle_type[:3]),
+                    "color": color,
+                    "vehicle_type": vehicle_type
+                })
+                detailed_steps.append({
+                    "type": "transit",
+                    "instruction": f"Take {display}",
+                    "details": f"Board at {from_name}" + (f" toward {headsign}" if headsign else ""),
+                    "time": _fmt_time(leg.get('startTime', '')),
+                    "duration": _fmt_minutes(leg_minutes),
+                    "color": color,
+                    "num_stops": num_stops
+                })
+                detailed_steps.append({
+                    "type": "transit",
+                    "instruction": f"Get off at {to_name}",
+                    "details": f"{num_stops} stop{'s' if num_stops != 1 else ''}",
+                    "time": _fmt_time(leg.get('endTime', '')),
+                    "color": color
+                })
+
+            if not steps:
+                continue
+
+            duration = round(it.get('duration', 0) / 60)
+            depart = _fmt_time(it.get('startTime', ''))
+            arrive = _fmt_time(it.get('endTime', ''))
+            key = (depart, arrive, tuple(s['name'] for s in steps))
+            if key in seen:
+                continue
+            seen.add(key)
+
+            routes.append({
+                "duration": duration,
+                "duration_text": _fmt_minutes(duration),
+                "transfers": it.get('transfers', max(0, len(steps) - 1)),
+                "depart_time": depart,
+                "arrive_time": arrive,
+                "time_range": f"{depart}—{arrive}" if depart and arrive else _fmt_minutes(duration),
+                "walk_time": walk_time,
+                "fare": estimate_fare(steps),
+                "steps": steps,
+                "detailed_steps": detailed_steps,
+                "warnings": [],
+                "summary": " → ".join(s['name'] for s in steps)
+            })
+
+        return routes[:6]
+
+    except Exception as e:
+        print(f"Transitous API error: {e}")
+        return []
 
 
 def find_station_data(query):
