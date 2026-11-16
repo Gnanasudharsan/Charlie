@@ -233,6 +233,9 @@ body.is-locating [data-locate-global] .icon { animation: spin 1s linear infinite
 @keyframes pop { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: none; } }
 .combo__opt { display: flex; align-items: center; gap: var(--s3); min-height: 44px; padding: 6px var(--s3); border-radius: var(--r-sm); cursor: pointer; }
 .combo__opt[aria-selected="true"], .combo__opt:hover { background: var(--surface-3); }
+/* The "no matches" hint is informational: clicks pass through to what's underneath
+   (e.g. Plan journey), so one click submits instead of only dismissing the menu. */
+.combo__list--empty { pointer-events: none; }
 .combo__empty { padding: var(--s3); color: var(--text-3); font-size: var(--fs-sm); }
 .opt-icon { color: var(--text-3); display: inline-flex; flex: none; }
 .opt-name { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: 500; }

@@ -220,13 +220,46 @@ def test_destination_closure_notice_and_named_final_walk(client, monkeypatch):
     assert all(r["alerts"] == [] for r in data["routes"])        # neither itinerary uses the closed stop
 
 
-def test_itinerary_through_closed_stop_is_flagged_at_stop_scope(client, monkeypatch):
-    plan = {"itineraries": [itin(0, 20, [leg("SUBWAY", "Green-E", ("Northeastern", "70244"), ("Copley", "70155"), 1, 9,
-                                             direction=1, stops=[("Symphony", "70242"), ("Prudential", "70241")])])]}
+GREEN_E_DELAY = {"id": "delay", "attributes": {
+    "effect": "DELAY", "severity": 5, "header": "Green Line E delays of about 10 minutes.",
+    "active_period": [], "informed_entity": [{"route": "Green-E"}]}}
+
+
+def test_passing_a_closed_station_is_not_flagged_but_route_wide_delays_are(client, monkeypatch):
+    # 360 Huntington Ave → Harvard: Green Line E boards at Northeastern, passes Symphony,
+    # gets off at Park Street. The rider never uses Symphony.
+    plan = {"itineraries": [itin(0, 30, [
+        walk("START", "Northeastern University", 1, distance=60),
+        leg("SUBWAY", "Green-E", ("Northeastern University", "70244"), ("Park Street", "70200"), 1, 14, direction=1,
+            stops=[("Symphony", "70242"), ("Prudential", "70240"), ("Copley", "70154")]),
+        leg("SUBWAY", "Red", ("Park Street", "70076"), ("Harvard", "70068"), 16, 27, direction=1, stops=[("Charles/MGH", "70074")]),
+        walk("Harvard", "END", 3)], transfers=1)]}
+    plan_with_alerts(monkeypatch, plan, [SYMPHONY_CLOSED, GREEN_E_DELAY])
+    data = client.post("/api/trip-planner", json={"origin": "360 Huntington Ave, Boston", "destination": "Harvard",
+                                                   "origin_coords": "42.339,-71.087"}).get_json()
+    alerts = data["routes"][0]["alerts"]
+    assert [(a["id"], a["scope"]) for a in alerts] == [("delay", "route")]
+    assert data["notices"] == []
+
+
+def test_closure_at_a_stop_the_rider_uses_is_flagged(client, monkeypatch):
+    plan = {"itineraries": [itin(0, 20, [leg("SUBWAY", "Green-E", ("Park Street", "70200"), ("Symphony", "70242"), 1, 14,
+                                             direction=0, stops=[("Copley", "70155")])])]}
     plan_with_alerts(monkeypatch, plan, [SYMPHONY_CLOSED])
-    data = client.post("/api/trip-planner", json={"origin": "Northeastern", "destination": "Copley"}).get_json()
+    data = client.post("/api/trip-planner", json={"origin": "Park Street", "destination": "Copley"}).get_json()
     [a] = data["routes"][0]["alerts"]
-    assert a["scope"] == "stop" and a["stop_names"] == ["Prudential", "Symphony"]
+    assert a["scope"] == "stop" and a["stop_names"] == ["Symphony"]
+
+
+def test_suspension_through_a_passed_stop_is_described_as_affecting_the_ride():
+    suspended = {"id": "s", "attributes": {"effect": "SUSPENSION", "severity": 7, "header": "No E service at Symphony.",
+                                           "active_period": [], "informed_entity": [{"route": "Green-E", "stop": "70242"}]}}
+    now = charlie.get_now()
+    leg_through = {"route_id": "Green-E", "direction_id": 1, "stop_ids": {"70244", "70200"}, "passed_stop_ids": {"70242", "70240"},
+                   "start": now, "end": now + timedelta(minutes=12)}
+    assert [(m["id"], m["scope"], m["stops"]) for m in transit.match_leg_alerts([suspended, SYMPHONY_CLOSED], leg_through)] == [("s", "segment", ["70242"])]
+    elsewhere = {**leg_through, "passed_stop_ids": {"70154"}}
+    assert transit.match_leg_alerts([suspended, SYMPHONY_CLOSED], elsewhere) == []
 
 
 def test_direction_specific_bypass_and_route_wide_alerts():
@@ -238,7 +271,8 @@ def test_direction_specific_bypass_and_route_wide_alerts():
                                          "active_period": [{"start": "2020-01-01T00:00:00Z", "end": "2020-01-02T00:00:00Z"}],
                                          "informed_entity": [{"route": "Orange"}]}}
     now = charlie.get_now()
-    southbound = {"route_id": "Orange", "direction_id": 0, "stop_ids": {"70022", "70020"}, "start": now, "end": now + timedelta(minutes=9)}
+    southbound = {"route_id": "Orange", "direction_id": 0, "stop_ids": {"70022", "70020"}, "passed_stop_ids": set(),
+                  "start": now, "end": now + timedelta(minutes=9)}
     northbound = {**southbound, "direction_id": 1}
     unaffected = {**southbound, "route_id": "Red"}
     assert [m["id"] for m in transit.match_leg_alerts([bypass, wide, expired], southbound)] == ["w"]

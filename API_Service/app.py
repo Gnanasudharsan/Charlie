@@ -2323,7 +2323,9 @@ def get_transitous_directions(from_place, to_place, dest_name=None):
                 "name": display,
                 "route_id": transit.mbta_id(leg.get('routeId')),
                 "direction_id": int(leg['directionId']) if str(leg.get('directionId', '')).isdigit() else None,
-                "stop_ids": {transit.mbta_id(s.get('stopId')) for s in stops if s.get('stopId')},
+                # Stops the rider uses (board/alight) vs. stops the vehicle only passes.
+                "stop_ids": {transit.mbta_id(s.get('stopId')) for s in (leg.get('from', {}), leg.get('to', {})) if s.get('stopId')},
+                "passed_stop_ids": {transit.mbta_id(s.get('stopId')) for s in (leg.get('intermediateStops') or []) if s.get('stopId')},
                 "stop_names": {transit.mbta_id(s.get('stopId')): s.get('name', '') for s in stops if s.get('stopId')},
                 "start": transit.parse_time(leg.get('startTime')),
                 "end": transit.parse_time(leg.get('endTime')),

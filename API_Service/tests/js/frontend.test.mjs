@@ -145,6 +145,7 @@ test('badges: text color keeps WCAG contrast on every line color', () => {
 });
 
 import { sortTrips, arrivalNote, tripAlertText, SORTS } from '../../static/js/views/trip.js';
+import { createRequestGate } from '../../static/js/core/request-gate.js';
 import { tripClock, arrivalRow } from '../../static/js/ui/components.js';
 import { searchResults, parseRouteQuery } from '../../static/js/core/search.js';
 import { groupHeading, modesPresent } from '../../static/js/ui/station-panel.js';
@@ -167,12 +168,38 @@ test('trip: immediate trips default to earliest arrival, not duration', () => {
   assert.deepEqual(sortTrips(TRIPS, 'walking').map(x => x.id), ['mid', 'later-short', 'first-arrival']);
 });
 
-test('trip: ties fall through arrival → duration → transfers → walking → API order', () => {
-  const r = [{ id: 'a', arrive_ts: 100, duration: 20, transfers: 1, walk_time: 4 }, { id: 'b', arrive_ts: 100, duration: 20, transfers: 0, walk_time: 9 },
-    { id: 'c', arrive_ts: 100, duration: 15, transfers: 2, walk_time: 1 }, { id: 'd', arrive_ts: 100, duration: 20, transfers: 0, walk_time: 9 }];
-  assert.deepEqual(sortTrips(r).map(x => x.id), ['c', 'b', 'd', 'a']);
-  // Without timestamps, earliest arrival falls back to duration rather than guessing.
-  assert.deepEqual(sortTrips([{ id: 'x', duration: 30 }, { id: 'y', duration: 12 }]).map(x => x.id), ['y', 'x']);
+test('trip: same arrival time ties fall through transfers → walking → exact time → duration → API order', () => {
+  const r = [{ id: 'a', arrive_ts: 6000, duration: 20, transfers: 1, walk_time: 4 }, { id: 'b', arrive_ts: 6000, duration: 20, transfers: 0, walk_time: 9 },
+    { id: 'c', arrive_ts: 6000, duration: 15, transfers: 2, walk_time: 1 }, { id: 'd', arrive_ts: 6000, duration: 20, transfers: 0, walk_time: 9 }];
+  assert.deepEqual(sortTrips(r).map(x => x.id), ['b', 'd', 'a', 'c']);
+  // Without timestamps, earliest arrival falls back to transfers/walking/duration rather than guessing.
+  assert.deepEqual(sortTrips([{ id: 'x', duration: 30, transfers: 0 }, { id: 'y', duration: 12, transfers: 0 }]).map(x => x.id), ['y', 'x']);
+});
+
+test('trip: same displayed minute prefers fewer transfers; an earlier minute still wins', () => {
+  const m = Date.parse('2026-11-16T18:24:00Z') / 1000;               // 1:24 PM Boston
+  const oneTransfer = { id: 'transfer', arrive_ts: m + 5, duration: 13, transfers: 1, walk_time: 7 };
+  const direct = { id: 'direct', arrive_ts: m + 50, duration: 15, transfers: 0, walk_time: 10 };
+  assert.equal(tripClock(oneTransfer.arrive_ts, '', new Date(m * 1000)), tripClock(direct.arrive_ts, '', new Date(m * 1000)));
+  assert.deepEqual(sortTrips([oneTransfer, direct]).map(x => x.id), ['direct', 'transfer']);
+  assert.deepEqual(tripBadges([oneTransfer, direct])[1], ['Earliest arrival', 'Fewest transfers']);
+  // One displayed minute earlier beats fewer transfers.
+  const earlier = { ...oneTransfer, id: 'earlier', arrive_ts: m - 10 };    // 1:23:50 PM
+  assert.deepEqual(sortTrips([direct, earlier]).map(x => x.id), ['earlier', 'direct']);
+  assert.ok(tripBadges([direct, earlier])[1].includes('Earliest arrival'));
+  // Same minute, same transfers: less walking first.
+  const walkLess = { ...direct, id: 'walkless', arrive_ts: m + 58, walk_time: 3 };
+  assert.deepEqual(sortTrips([direct, walkLess]).map(x => x.id), ['walkless', 'direct']);
+  // Other sorts keep their own rules.
+  assert.deepEqual(sortTrips([oneTransfer, direct], 'duration').map(x => x.id), ['transfer', 'direct']);
+});
+
+test('trip: overnight arrivals sort by full timestamp across midnight', () => {
+  const late = Date.parse('2026-11-17T04:59:30Z') / 1000;            // 11:59:30 PM Boston
+  const beforeMidnight = { id: 'before', arrive_ts: late, duration: 30, transfers: 2, walk_time: 9 };
+  const afterMidnight = { id: 'after', arrive_ts: late + 60, duration: 10, transfers: 0, walk_time: 1 };  // 12:00:30 AM
+  assert.deepEqual(sortTrips([afterMidnight, beforeMidnight]).map(x => x.id), ['before', 'after']);
+  assert.equal(tripClock(afterMidnight.arrive_ts, '', new Date(late * 1000)), '12:00 AM tomorrow');
 });
 
 test('trip: midnight boundary sorts by timestamp and labels the next day', () => {
@@ -199,6 +226,7 @@ test('trip: alert text says the scope the feed supports', () => {
   assert.match(tripAlertText({ step: 'Green Line E', scope: 'stop', effect: 'STATION_CLOSURE', stop_names: ['Symphony', 'Symphony'], header: 'Symphony station is closed.' }), /^Green Line E · Station closed at Symphony: /);
   assert.match(tripAlertText({ step: 'Red Line', scope: 'route', header: 'Delays of about 10 minutes.' }), /^Red Line \(line-wide\): Delays/);
   assert.match(tripAlertText({ step: 'Orange Line', scope: 'direction', header: 'Northbound trains bypass State.' }), /\(this direction\)/);
+  assert.match(tripAlertText({ step: 'Green Line E', scope: 'segment', effect: 'SUSPENSION', stop_names: ['Symphony'], header: 'No service.' }), /Suspension at Symphony, which your ride passes through/);
 });
 
 test('search: plain and natural route queries find the exact route first', () => {
@@ -255,4 +283,18 @@ test('assistant: arrivals card keeps the station board shortcut and names each s
   assert.match(arrivalsCardHtml({ status: 'ambiguous', candidates: ['Park Street', 'Science Park'] }), /data-suggest="Next train at Science Park"/);
   assert.match(arrivalsCardHtml({ status: 'unavailable', station: { id: 'x', name: 'Harvard' } }), /unavailable/);
   assert.match(arrivalsCardHtml({ status: 'none', station: { id: 'x', name: 'Harvard' } }), /Service alerts/);
+});
+
+test('trip: an older or invalidated request can never overwrite newer state', () => {
+  const gate = createRequestGate();
+  const first = gate.start();
+  const second = gate.start();                       // rapid re-plan
+  assert.equal(first.signal.aborted, true);
+  assert.equal(gate.isCurrent(first.token), false);
+  assert.equal(gate.isCurrent(second.token), true);
+  gate.invalidate();                                 // rider edits the destination mid-flight
+  assert.equal(second.signal.aborted, true);
+  assert.equal(gate.isCurrent(second.token), false);
+  const third = gate.start();
+  assert.equal(gate.isCurrent(third.token), true);
 });

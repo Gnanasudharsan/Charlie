@@ -197,14 +197,26 @@ def mbta_id(value):
     return value.split("_", 1)[1] if value.startswith("us-ma-MBTA_") else value
 
 
+# Effects that only matter to riders who board, alight or transfer at the stop. When
+# trains simply pass a closed station, the rider's trip is not affected by them.
+STOP_ONLY_EFFECTS = {"STATION_CLOSURE", "STOP_CLOSURE", "STOP_MOVED"}
+
+SCOPE_RANK = {"stop": 0, "segment": 1, "direction": 2, "route": 3}
+
+
 def match_leg_alerts(alerts, leg, min_severity=STATUS_MIN_SEVERITY):
     """Service alerts that affect one transit leg, labelled with the scope the feed supports.
 
-    leg: {route_id, direction_id, stop_ids: set, start: datetime, end: datetime}
-    scope: 'stop' (a stop this leg serves), 'direction' (this direction of the route)
-           or 'route' (the feed names only the route)."""
+    leg: {route_id, direction_id, stop_ids: stops the rider uses (board/alight),
+          passed_stop_ids: stops the vehicle passes through, start, end}
+    scope: 'stop'      — a stop the rider boards, alights or transfers at;
+           'segment'   — disrupted service at a stop the vehicle passes (e.g. a suspension
+                         or shuttle on the rider's segment), never a mere station closure;
+           'direction' — this direction of the route (no stops named);
+           'route'     — the feed names only the route."""
     matches = []
-    stop_ids = set(leg.get("stop_ids") or [])
+    used = set(leg.get("stop_ids") or [])
+    passed = set(leg.get("passed_stop_ids") or []) - used
     for alert in alerts:
         attrs = alert.get("attributes", {})
         effect = attrs.get("effect") or ""
@@ -217,23 +229,24 @@ def match_leg_alerts(alerts, leg, min_severity=STATUS_MIN_SEVERITY):
         for ent in attrs.get("informed_entity", []):
             if ent.get("route") and ent["route"] != leg.get("route_id"):
                 continue
-            if not ent.get("route") and not ent.get("stop"):
-                continue
             if ent.get("direction_id") is not None and leg.get("direction_id") is not None \
                     and ent["direction_id"] != leg["direction_id"]:
                 continue
-            if ent.get("stop"):
-                if ent["stop"] not in stop_ids:
+            stop = ent.get("stop")
+            if stop:
+                if stop in used:
+                    scope = "stop"
+                elif stop in passed and effect not in STOP_ONLY_EFFECTS:
+                    scope = "segment"
+                else:
                     continue
-                hit_stops.add(ent["stop"])
-                scope = "stop"
-            elif not ent.get("route"):
-                continue
-            else:
+                hit_stops.add(stop)
+            elif ent.get("route"):
                 scope = "direction" if ent.get("direction_id") is not None else "route"
-            rank = {"stop": 0, "direction": 1, "route": 2}[scope]
-            if best is None or rank < best:
-                best = rank
+            else:
+                continue
+            if best is None or SCOPE_RANK[scope] < SCOPE_RANK[best]:
+                best = scope
         if best is None:
             continue
         matches.append({
@@ -242,10 +255,10 @@ def match_leg_alerts(alerts, leg, min_severity=STATUS_MIN_SEVERITY):
             "severity": attrs.get("severity") or 0,
             "header": attrs.get("header") or "",
             "service_effect": attrs.get("service_effect") or "",
-            "scope": ["stop", "direction", "route"][best],
+            "scope": best,
             "stops": sorted(hit_stops),
         })
-    matches.sort(key=lambda m: ({"stop": 0, "direction": 1, "route": 2}[m["scope"]], -m["severity"]))
+    matches.sort(key=lambda m: (SCOPE_RANK[m["scope"]], -m["severity"]))
     return matches
 
 

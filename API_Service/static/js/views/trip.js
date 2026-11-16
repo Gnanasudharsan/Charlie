@@ -7,8 +7,9 @@ import { alertsForRoutes, effectLabel } from '../core/alerts.js';
 import { tripFormHtml, bindTripForm } from '../ui/trip-form.js';
 import { tripOptionCard, emptyState, errorState, skeleton, sectionHeader } from '../ui/components.js';
 import { icon } from '../ui/icons.js';
+import { createRequestGate } from '../core/request-gate.js';
 
-let controller = null;
+const gate = createRequestGate();
 let lastQuery = null;
 let lastRoutes = null;
 let lastNotices = [];
@@ -42,16 +43,25 @@ const METRICS = {
 };
 const TIEBREAK = ['arrival', 'duration', 'transfers', 'walking'];
 
-/**
- * Sort itineraries by `by` (default: earliest arrival), then a fixed tiebreak chain
- * (arrival → duration → transfers → walking), then the routing service's order.
- */
+/** The arrival minute riders see (clock times drop seconds), from the full timestamp. */
+export const arrivalMinute = r => (Number.isFinite(r.arrive_ts) ? Math.floor(r.arrive_ts / 60) : Infinity);
+
+// Comparison chain per sort. Earliest arrival compares the displayed minute, then prefers
+// fewer transfers and less walking, then the exact timestamp and duration.
+const CHAINS = {
+  arrival: [arrivalMinute, METRICS.transfers, METRICS.walking, METRICS.arrival, METRICS.duration],
+  duration: [METRICS.duration, METRICS.arrival, METRICS.transfers, METRICS.walking],
+  transfers: [METRICS.transfers, METRICS.arrival, METRICS.duration, METRICS.walking],
+  walking: [METRICS.walking, METRICS.arrival, METRICS.duration, METRICS.transfers],
+};
+
+/** Sort itineraries by `by` (default: earliest arrival); the routing service's order breaks final ties. */
 export function sortTrips(routes, by = 'arrival') {
-  const chain = [by, ...TIEBREAK.filter(k => k !== by)].map(k => METRICS[k] || METRICS.arrival);
+  const chain = CHAINS[by] || CHAINS.arrival;
   return routes.map((r, i) => [r, i]).sort((a, b) => {
     for (const f of chain) {
       const d = f(a[0]) - f(b[0]);
-      if (d) return d;
+      if (d) return d;                 // NaN (both missing) counts as a tie
     }
     return a[1] - b[1];
   }).map(x => x[0]);
@@ -63,7 +73,10 @@ const BADGE_FOR = { arrival: 'Earliest arrival', duration: 'Shortest trip', tran
 export function tripBadges(routes) {
   const badges = routes.map(() => []);
   if (routes.length < 2) return badges;
-  for (const key of TIEBREAK) {
+  // "Earliest arrival" goes to the option that ranks first under that sort.
+  const top = sortTrips(routes, 'arrival')[0];
+  if (Number.isFinite(top.arrive_ts)) badges[routes.indexOf(top)].push(BADGE_FOR.arrival);
+  for (const key of TIEBREAK.filter(k => k !== 'arrival')) {
     const values = routes.map(METRICS[key]);
     const min = Math.min(...values);
     if (!Number.isFinite(min)) continue;
@@ -78,22 +91,23 @@ export function tripBadges(routes) {
  * later arrival for less time on board (no earliest-arriving option is as short).
  */
 export function arrivalNote(route, routes) {
-  const earliest = Math.min(...routes.map(METRICS.arrival));
+  const earliest = Math.min(...routes.map(arrivalMinute));
   if (!Number.isFinite(earliest) || !Number.isFinite(route.arrive_ts)) return '';
-  const later = Math.round((route.arrive_ts - earliest) / 60);
+  const later = arrivalMinute(route) - earliest;
   const shortest = Math.min(...routes.map(METRICS.duration));
   if (later <= 0 || route.duration !== shortest) return '';
-  if (routes.some(r => METRICS.arrival(r) === earliest && r.duration === shortest)) return '';
+  if (routes.some(r => arrivalMinute(r) === earliest && r.duration === shortest)) return '';
   return `Shortest ride, but leaves later and arrives ${later} min after the earliest option`;
 }
 
-const SCOPE_TEXT = { stop: 'at', direction: 'this direction', route: 'line-wide' };
+const SCOPE_TEXT = { stop: 'at', segment: 'on your ride', direction: 'this direction', route: 'line-wide' };
 
 /** One-line alert text for an itinerary, at the scope the MBTA feed supports. */
 export function tripAlertText(a) {
   const what = a.service_effect || a.header || 'Service alert';
   const short = what.length > 110 ? `${what.slice(0, 107)}…` : what;
   if (a.scope === 'stop' && a.stop_names?.length) return `${a.step} · ${effectLabel(a.effect)} at ${[...new Set(a.stop_names)].join(', ')}: ${short}`;
+  if (a.scope === 'segment' && a.stop_names?.length) return `${a.step} · ${effectLabel(a.effect)} at ${[...new Set(a.stop_names)].join(', ')}, which your ride passes through: ${short}`;
   return `${a.step} (${SCOPE_TEXT[a.scope] || 'line-wide'}): ${short}`;
 }
 
@@ -142,18 +156,19 @@ function renderResults(el, unsorted, notices = []) {
 
 async function search(resultsEl, q, formApi) {
   lastQuery = q;
-  controller?.abort();
-  controller = new AbortController();
+  const { token, signal } = gate.start();
   formApi?.clearErrors();
   resultsEl.innerHTML = `<div class="stack">${skeleton(3, { height: 112 })}</div>`;
   resultsEl.setAttribute('aria-busy', 'true');
+  resultsEl.setAttribute('data-has-results', '');
   const body = { origin: q.origin.name, destination: q.destination.name };
   if (q.origin.lat != null) body.origin_coords = `${q.origin.lat},${q.origin.lon}`;
   if (q.destination.lat != null) body.dest_coords = `${q.destination.lat},${q.destination.lon}`;
   if (q.origin.id) body.origin_id = q.origin.id;
   if (q.destination.id) body.dest_id = q.destination.id;
-  const { data, error, aborted } = await api.trip(body, { signal: controller.signal });
-  if (aborted) return;
+  const { data, error, aborted } = await api.trip(body, { signal });
+  // Never let an older or invalidated response overwrite the current endpoints' state.
+  if (aborted || !gate.isCurrent(token)) return;
   resultsEl.removeAttribute('aria-busy');
   if (error) {
     resultsEl.innerHTML = errorState({ title: 'The trip planner couldn’t be reached', body: error });
@@ -180,6 +195,18 @@ async function search(resultsEl, q, formApi) {
   renderResults(resultsEl, data.routes, lastNotices);
 }
 
+/** An endpoint changed: drop in-flight work and any results that no longer match the form. */
+function invalidateResults(resultsEl, form) {
+  gate.invalidate();
+  lastRoutes = null;
+  lastNotices = [];
+  if (!resultsEl.hasAttribute('data-has-results')) return;   // still the initial "Where to?" state
+  resultsEl.removeAttribute('data-has-results');
+  resultsEl.removeAttribute('aria-busy');
+  resultsEl.innerHTML = emptyState({ icon: 'route', title: 'Plan your updated trip',
+    body: 'Your starting point or destination changed. Select Plan journey to see options for this trip.' });
+}
+
 export const tripView = {
   enter(el) {
     const pending = store.get('pendingTrip') || {};
@@ -200,7 +227,7 @@ export const tripView = {
     const results = el.querySelector('[data-results]');
     const form = el.querySelector('[data-trip-form]');
     const initial = { origin: pending.origin || lastQuery?.origin, destination: pending.destination || lastQuery?.destination };
-    const formApi = bindTripForm(form, { initial, onSubmit: q => search(results, q, formApi) });
+    const formApi = bindTripForm(form, { initial, onSubmit: q => search(results, q, formApi), onChange: () => invalidateResults(results, form) });
     el.querySelectorAll('[data-recent]').forEach(btn => btn.addEventListener('click', () => {
       const t = recents[Number(btn.dataset.recent)];
       form.querySelector('[name="origin"]').value = t.origin.name;
@@ -211,7 +238,7 @@ export const tripView = {
     }));
     if (pending.origin && pending.destination) search(results, { origin: pending.origin, destination: pending.destination }, formApi);
     else if (pending.origin || pending.destination) form.querySelector(pending.origin ? '[name="destination"]' : '[name="origin"]').focus();
-    else if (lastQuery && lastRoutes) renderResults(results, lastRoutes, lastNotices);
+    else if (lastQuery && lastRoutes) { results.setAttribute('data-has-results', ''); renderResults(results, lastRoutes, lastNotices); }
   },
-  leave() { controller?.abort(); },
+  leave() { gate.abort(); },
 };

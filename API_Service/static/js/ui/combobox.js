@@ -48,6 +48,7 @@ export function combobox(input, { source, render, onSelect, emptyText = 'No matc
     const q = input.value.trim();
     if (q.length < minChars && !onOpenEmpty) { close(); return; }
     items = q.length < minChars ? await onOpenEmpty() : await source(q);
+    list.classList.toggle('combo__list--empty', !items || !items.length);
     if (!items || !items.length) {
       if (q.length < minChars) { close(); return; }
       list.innerHTML = `<li class="combo__empty" role="presentation">${emptyText}</li>`;
@@ -70,7 +71,11 @@ export function combobox(input, { source, render, onSelect, emptyText = 'No matc
   }
 
   input.addEventListener('input', update);
-  input.addEventListener('focus', () => { if (input.value.trim().length >= minChars || onOpenEmpty) update(); });
+  input.addEventListener('focus', () => {
+    // Programmatic focus (e.g. to show a field error) shouldn't cover the message with the menu.
+    if (input.dataset.noAutoOpen) { delete input.dataset.noAutoOpen; return; }
+    if (input.value.trim().length >= minChars || onOpenEmpty) update();
+  });
   input.addEventListener('blur', () => setTimeout(close, 120));
   input.addEventListener('keydown', ev => {
     if (ev.key === 'ArrowDown') {

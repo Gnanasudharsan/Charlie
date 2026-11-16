@@ -60,7 +60,7 @@ export function readPlace(input) {
   return place;
 }
 
-export function bindTripForm(form, { onSubmit, initial = {} } = {}) {
+export function bindTripForm(form, { onSubmit, onChange = () => {}, initial = {} } = {}) {
   const origin = form.querySelector('[name="origin"]');
   const dest = form.querySelector('[name="destination"]');
   const error = form.querySelector('[data-error]');
@@ -97,6 +97,7 @@ export function bindTripForm(form, { onSubmit, initial = {} } = {}) {
       delete input.dataset.lat; delete input.dataset.lon; delete input.dataset.id;
       error.hidden = true;
       fieldError(input === origin ? 'origin' : 'destination', '');
+      onChange();
     });
     combobox(input, {
       source: q => rank(stations(), q, s => s.name, 8),
@@ -106,10 +107,13 @@ export function bindTripForm(form, { onSubmit, initial = {} } = {}) {
       onSelect: item => {
         if (item.kind === 'recent-trip') {
           setValue(origin, item.trip.origin); setValue(dest, item.trip.destination);
+          onChange();
           form.requestSubmit();
           return;
         }
         setValue(input, item.kind === 'location' ? { name: 'Current location', lat: item.lat, lon: item.lon } : item);
+        fieldError(input === origin ? 'origin' : 'destination', '');
+        onChange();
         if (input === origin && !dest.value) dest.focus();
       },
     });
@@ -118,12 +122,15 @@ export function bindTripForm(form, { onSubmit, initial = {} } = {}) {
   form.querySelector('[data-swap]').addEventListener('click', () => {
     const a = readPlace(origin), b = readPlace(dest);
     setValue(origin, b); setValue(dest, a);
+    clearErrors();
+    onChange();
   });
 
   form.querySelector('[data-locate]').addEventListener('click', async () => {
     const loc = await requestLocation({ quiet: true });
     if (loc) {
       setValue(origin, { name: loc.station ? `Current location (near ${loc.station})` : 'Current location', lat: loc.lat, lon: loc.lon });
+      onChange();
       toast('Starting from your current location', { tone: 'success' });
     }
   });
@@ -143,6 +150,13 @@ export function bindTripForm(form, { onSubmit, initial = {} } = {}) {
 
   return {
     setOrigin: p => setValue(origin, p), setDestination: p => setValue(dest, p),
-    fieldError, clearErrors, focusField: name => fieldOf(name)?.focus(),
+    fieldError, clearErrors,
+    focusField: name => {
+      const input = fieldOf(name);
+      if (!input) return;
+      if (document.activeElement === input) { input.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' })); return; }
+      input.dataset.noAutoOpen = '1';
+      input.focus();
+    },
   };
 }
