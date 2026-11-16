@@ -181,3 +181,28 @@ def test_static_modules_are_versioned_and_never_served_stale(client):
     assert "immutable" in versioned.headers["Cache-Control"]
     plain = client.get("/static/js/main.js")
     assert plain.headers["Cache-Control"] == "no-store" and "ETag" not in plain.headers
+
+
+def test_mode_shapes_returns_typical_bus_paths_with_route_labels(client, monkeypatch):
+    routes = {"data": [{"id": "66", "attributes": {"short_name": "66", "long_name": "Harvard Square - Nubian Station", "color": "FFC72C"}}]}
+    patterns = {
+        "data": [
+            {"id": "66-9-0", "attributes": {"typicality": 1, "direction_id": 0},
+             "relationships": {"route": {"data": {"id": "66"}}, "representative_trip": {"data": {"id": "t1"}}}},
+            {"id": "66-5-0", "attributes": {"typicality": 3, "direction_id": 0},
+             "relationships": {"route": {"data": {"id": "66"}}, "representative_trip": {"data": {"id": "t2"}}}},
+        ],
+        "included": [
+            {"type": "trip", "id": "t1", "attributes": {"headsign": "Nubian"}, "relationships": {"shape": {"data": {"id": "s1"}}}},
+            {"type": "trip", "id": "t2", "attributes": {"headsign": "Dudley"}, "relationships": {"shape": {"data": {"id": "s2"}}}},
+            {"type": "shape", "id": "s1", "attributes": {"polyline": "abc"}},
+            {"type": "shape", "id": "s2", "attributes": {"polyline": "def"}},
+        ],
+    }
+    route_mbta(monkeypatch, {"/routes": routes, "/route_patterns": patterns})
+    data = client.get("/api/mode-shapes?mode=bus").get_json()
+    assert data["count"] == 1                       # atypical pattern skipped
+    shape = data["shapes"][0]
+    assert shape["route_id"] == "66" and shape["short_name"] == "66" and shape["color"] == "#FFC72C"
+    assert shape["polyline"] == "abc" and shape["headsign"] == "Nubian"
+    assert client.get("/api/mode-shapes?mode=ferry").status_code == 400

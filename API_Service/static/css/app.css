@@ -512,6 +512,20 @@ body.route-map .view { display: none; }
 .is-selected .veh svg { fill: #fff; }
 .me { display: block; width: 16px; height: 16px; margin: 1px; border-radius: 50%; background: var(--accent); border: 3px solid #fff; box-shadow: 0 0 0 4px rgba(76, 141, 246, 0.3); }
 
+/* Bus paths are drawn beneath the rail/subway layers but must still get the pointer,
+   so the non-interactive layers above them let events pass through. */
+.leaflet-railRoutes-pane canvas, .leaflet-routes-pane svg, .leaflet-overlay-pane svg { pointer-events: none; }
+.leaflet-tooltip.bus-tip { background: var(--surface-2); color: var(--text); border: 1px solid var(--border-strong); border-radius: var(--r-md); box-shadow: var(--shadow-2); padding: 10px 12px; font: 400 var(--fs-sm)/1.45 var(--font); min-width: 220px; max-width: 280px; white-space: normal; }
+.leaflet-tooltip.bus-tip::before { border-top-color: var(--border-strong); }
+.bus-tip__head { display: flex; align-items: center; gap: 8px; font-weight: 600; }
+.bus-tip__badge { display: inline-flex; align-items: center; justify-content: center; min-width: 30px; height: 22px; padding: 0 6px; border-radius: 6px; background: #FFC72C; color: #1A1A1A; font-weight: 700; font-size: 11px; }
+.bus-tip__badge.is-silver { background: #7C878E; color: #fff; }
+.bus-tip__name { color: var(--text-2); font-size: var(--fs-xs); margin-top: 2px; }
+.bus-tip__live { margin-top: 6px; }
+.bus-tip__muted { color: var(--text-3); font-size: var(--fs-xs); }
+.bus-tip__alert { margin-top: 6px; color: #F7C887; font-size: var(--fs-xs); }
+.bus-tip__hint { margin-top: 6px; color: var(--text-3); font-size: 11px; }
+
 /* ==========================================================================
    Charlie AI
    ========================================================================== */

@@ -40,6 +40,7 @@ export async function request(path, { method = 'GET', body, signal, timeout = DE
 export const api = {
   stations: () => cachedOnce('stations', () => request('/api/stations')),
   routes: () => cachedOnce('routes', () => request('/api/routes')),
+  modeShapes: (mode) => cachedOnce(`mode:${mode}`, () => request(`/api/mode-shapes?mode=${mode}`, { timeout: 30000 })),
   shapes: (routes) => cachedOnce(`shapes:${routes}`, () => request(`/api/shapes?route=${encodeURIComponent(routes)}`, { timeout: 25000 })),
   dashboard: (opts) => request('/api/dashboard', opts),
   alerts: (opts) => request('/api/alerts', opts),

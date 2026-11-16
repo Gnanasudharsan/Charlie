@@ -42,7 +42,7 @@ class MBTAError(RuntimeError):
     pass
 
 
-_MBTA_TTL = {"/vehicles": 5, "/predictions": 8, "/alerts": 20, "/stops": 3600, "/shapes": 86400, "/routes": 3600}
+_MBTA_TTL = {"/vehicles": 5, "/predictions": 8, "/alerts": 20, "/stops": 3600, "/shapes": 86400, "/routes": 3600, "/route_patterns": 86400}
 _mbta_cache = {}
 
 
@@ -1735,6 +1735,57 @@ def get_shapes():
                 shapes.append({"route_id": route_id, "id": s['id'], "polyline": s['attributes']['polyline']})
 
         return cached(jsonify({"shapes": shapes, "count": len(shapes)}), 86400)
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route('/api/mode-shapes')
+def get_mode_shapes():
+    """Typical route paths for a whole mode (bus or commuter_rail) in one response,
+    labelled with route number/name and color, for the map's bus and Commuter Rail layers."""
+    try:
+        mode = request.args.get('mode', 'bus')
+        route_type = {"bus": 3, "commuter_rail": 2}.get(mode)
+        if route_type is None:
+            return jsonify({"error": "mode must be bus or commuter_rail"}), 400
+
+        routes = mbta_request(f"{BASE_URL}/routes", params={"filter[type]": route_type}).json().get('data', [])
+        meta = {r['id']: r['attributes'] for r in routes}
+        if not meta:
+            return jsonify({"shapes": [], "count": 0})
+
+        patterns = mbta_request(f"{BASE_URL}/route_patterns", timeout=30, params={
+            "filter[route]": ",".join(meta), "include": "representative_trip.shape",
+            "fields[route_pattern]": "direction_id,typicality,canonical,name",
+            "fields[shape]": "polyline",
+        }).json()
+        included = {f"{i['type']}_{i['id']}": i for i in patterns.get('included', [])}
+
+        shapes, seen = [], set()
+        for pat in patterns.get('data', []):
+            attrs = pat['attributes']
+            if attrs.get('typicality') != 1 and not attrs.get('canonical'):
+                continue
+            route_id = (pat['relationships'].get('route', {}).get('data') or {}).get('id')
+            trip_id = (pat['relationships'].get('representative_trip', {}).get('data') or {}).get('id')
+            trip = included.get(f"trip_{trip_id}", {})
+            shape_id = ((trip.get('relationships', {}).get('shape', {}) or {}).get('data') or {}).get('id')
+            shape = included.get(f"shape_{shape_id}")
+            if not route_id or route_id not in meta or not shape or shape_id in seen:
+                continue
+            seen.add(shape_id)
+            r = meta[route_id]
+            shapes.append({
+                "route_id": route_id,
+                "short_name": r.get('short_name') or "",
+                "long_name": r.get('long_name') or "",
+                "color": f"#{r.get('color') or '000000'}",
+                "direction_id": attrs.get('direction_id'),
+                "headsign": (trip.get('attributes') or {}).get('headsign', ''),
+                "polyline": shape['attributes']['polyline'],
+            })
+
+        return cached(jsonify({"mode": mode, "shapes": shapes, "count": len(shapes)}), 86400)
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 

@@ -5,7 +5,8 @@ import { api } from '../core/api.js';
 import { store } from '../core/store.js';
 import { LINES, LINE_GROUPS, SUBWAY_IDS, BOSTON, routeIdentity } from '../core/constants.js';
 import { decodePolyline } from '../core/polyline.js';
-import { escapeHtml as e } from '../core/format.js';
+import { escapeHtml as e, formatClockSeconds, vehicleStatusText } from '../core/format.js';
+import { alertsForRoutes } from '../core/alerts.js';
 
 const LEAFLET_VERSION = '1.9.4';
 const REFRESH_MS = 10000;
@@ -30,7 +31,13 @@ export function loadLeaflet() {
   return leafletPromise;
 }
 
-const groupOf = routeId => (LINES[routeId] ? LINES[routeId].group : null);
+const groupOf = routeId => (LINES[routeId] ? LINES[routeId].group : String(routeId || '').startsWith('CR-') ? 'CR' : null);
+
+// Map-only layers beyond the subway line groups.
+export const CR_COLOR = '#B05AA4';      // Commuter Rail purple, lifted for the dark map
+export const BUS_COLOR = '#FFC72C';     // MBTA bus yellow
+const SILVER_COLOR = '#A3ADB5';
+const BUS_STATUS_TTL = 10000;
 
 const VEHICLE_SVG = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5 19.5 20 12 16.2 4.5 20z"/></svg>';
 
@@ -43,7 +50,14 @@ export class LiveMap {
     this.vehicles = new Map();      // id -> { marker, data }
     this.stationMarkers = new Map();
     this.shapeLayers = new Map();   // routeId -> [polylines]
-    this.groups = new Set(LINE_GROUPS.map(g => g.id));
+    this.groups = new Set([...LINE_GROUPS.map(g => g.id), 'CR', 'Bus']);
+    this.modeLines = { CR: new Map(), Bus: new Map() };   // routeId -> [polylines]
+    this.busMeta = new Map();                             // routeId -> { short_name, long_name, color }
+    this.crRouteIds = [];
+    this.busStatus = new Map();                           // routeId -> { at, count, vehicles, error }
+    this.busVehicles = new Map();                         // id -> marker (hovered/pinned route only)
+    this.hoverBusId = null;
+    this.pinnedBusId = null;
     this.layers = { vehicles: true, stations: true, lines: true };
     this.focusRoute = null;
     this.selectedVehicle = null;
@@ -69,17 +83,201 @@ export class LiveMap {
     // placeholders, which made Leaflet stretch the z13 tile); the base layer has street names.
     L.tileLayer(`${ESRI}/World_Dark_Gray_Reference/MapServer/tile/{z}/{y}/{x}`, { maxZoom: 13, maxNativeZoom: 13, pane: 'overlayPane' }).addTo(map);
 
+    map.createPane('busRoutes').style.zIndex = 360;
+    map.createPane('railRoutes').style.zIndex = 370;
     map.createPane('routes').style.zIndex = 380;
+    // Canvas renderers keep 300+ bus paths fast; `tolerance` widens the hover target.
+    this.busRenderer = L.canvas({ pane: 'busRoutes', tolerance: 6 });
+    this.railRenderer = L.canvas({ pane: 'railRoutes' });
     map.createPane('stations').style.zIndex = 600;
     map.createPane('vehicles').style.zIndex = 650;
+    map.getPane('tooltipPane').style.zIndex = 700;   // keep hover cards above vehicle markers
     this.shapeGroup = L.layerGroup().addTo(map);
     this.stationGroup = L.layerGroup().addTo(map);
     this.vehicleGroup = L.layerGroup().addTo(map);
     this.userGroup = L.layerGroup().addTo(map);
+    this.crGroup = L.layerGroup().addTo(map);
+    this.busGroup = L.layerGroup().addTo(map);
+    this.busVehicleGroup = L.layerGroup().addTo(map);
+    this.busTip = L.tooltip({ direction: 'top', offset: [0, -10], className: 'bus-tip', opacity: 1 });
+    map.on('click', () => this.unpinBus());
 
     map.on('zoomend', () => this.applyZoomClass());
     this.applyZoomClass();
     await Promise.all([this.drawShapes(SUBWAY_IDS), this.drawStations()]);
+    // Commuter Rail and bus paths load after the subway is on screen.
+    this.drawModeShapes();
+  }
+
+  async drawModeShapes() {
+    const [cr, bus] = await Promise.all([api.modeShapes('commuter_rail'), api.modeShapes('bus')]);
+    if (cr.data) {
+      for (const s of cr.data.shapes) {
+        const line = this.L.polyline(decodePolyline(s.polyline), {
+          renderer: this.railRenderer, color: CR_COLOR, weight: 3, opacity: 0.8, lineCap: 'round', lineJoin: 'round', interactive: false,
+        });
+        if (!this.modeLines.CR.has(s.route_id)) this.modeLines.CR.set(s.route_id, []);
+        this.modeLines.CR.get(s.route_id).push(line);
+      }
+      this.crRouteIds = [...this.modeLines.CR.keys()];
+      if (this.timer) this.tick();   // start showing Commuter Rail trains
+    }
+    if (bus.data) {
+      for (const s of bus.data.shapes) {
+        const silver = /^SL/i.test(s.short_name);
+        const line = this.L.polyline(decodePolyline(s.polyline), {
+          renderer: this.busRenderer, color: silver ? SILVER_COLOR : BUS_COLOR, weight: 2, opacity: 0.22, lineCap: 'round', lineJoin: 'round',
+        });
+        line.on('mouseover', ev => this.hoverBus(s.route_id, ev.latlng));
+        line.on('mousemove', ev => { if (this.hoverBusId === s.route_id && !this.pinnedBusId) this.busTip.setLatLng(ev.latlng); });
+        line.on('mouseout', () => this.unhoverBus(s.route_id));
+        line.on('click', ev => { this.L.DomEvent.stopPropagation(ev); this.pinBus(s.route_id, ev.latlng); });
+        if (!this.modeLines.Bus.has(s.route_id)) this.modeLines.Bus.set(s.route_id, []);
+        this.modeLines.Bus.get(s.route_id).push(line);
+        this.busMeta.set(s.route_id, { short_name: s.short_name || s.route_id, long_name: s.long_name, silver });
+      }
+    }
+    this.refreshModeLayers();
+  }
+
+  refreshModeLayers() {
+    for (const [group, layer] of [['CR', this.crGroup], ['Bus', this.busGroup]]) {
+      layer.clearLayers();
+      if (this.focusRoute || !this.layers.lines || !this.groups.has(group)) continue;
+      for (const lines of this.modeLines[group].values()) lines.forEach(l => layer.addLayer(l));
+    }
+    if (!this.groups.has('Bus') || this.focusRoute) this.unpinBus(true);
+  }
+
+  // ---- Bus routes: hover (or tap) for route number + live status -------------
+  busTipHtml(routeId) {
+    const meta = this.busMeta.get(routeId) || { short_name: routeId, long_name: '' };
+    const status = this.busStatus.get(routeId);
+    const label = meta.silver ? `Silver Line ${meta.short_name.replace(/^SL/i, '')}` : `Route ${meta.short_name}`;
+    let live = '<span class="bus-tip__muted">Checking live buses…</span>';
+    if (status && status.error) live = '<span class="bus-tip__muted">Live status unavailable right now</span>';
+    else if (status) {
+      const n = status.count;
+      const moving = status.vehicles.filter(v => v.current_status === 'IN_TRANSIT_TO').length;
+      live = n
+        ? `<strong class="tabular">${n}</strong> bus${n === 1 ? '' : 'es'} running now${moving ? ` · ${moving} in transit` : ''}<br><span class="bus-tip__muted">Updated ${e(formatClockSeconds(status.at))}</span>`
+        : 'No buses reporting right now';
+    }
+    const alert = alertsForRoutes(store.get('alerts') || [], [routeId])[0];
+    const alertLine = alert ? `<div class="bus-tip__alert">⚠ ${e((alert.service_effect || alert.header || 'Service alert').slice(0, 90))}</div>` : '';
+    const hint = this.pinnedBusId === routeId ? 'Buses shown on the map · click the map to clear' : 'Click to keep this route’s buses on the map';
+    return `<div class="bus-tip__head"><span class="bus-tip__badge${meta.silver ? ' is-silver' : ''}">${e(meta.short_name)}</span><span>${e(label)}</span></div>
+      ${meta.long_name ? `<div class="bus-tip__name">${e(meta.long_name)}</div>` : ''}
+      <div class="bus-tip__live">${live}</div>${alertLine}<div class="bus-tip__hint">${hint}</div>`;
+  }
+
+  highlightBus(routeId, on) {
+    for (const l of this.modeLines.Bus.get(routeId) || []) {
+      l.setStyle(on ? { weight: 5, opacity: 1 } : { weight: 2, opacity: 0.22 });
+      if (on) l.bringToFront();
+    }
+  }
+
+  showBusTip(routeId, latlng) {
+    if (latlng) this.busTip.setLatLng(latlng);
+    this.busTip.setContent(this.busTipHtml(routeId));
+    if (!this.map.hasLayer(this.busTip)) this.busTip.addTo(this.map);
+  }
+
+  hoverBus(routeId, latlng) {
+    if (this.pinnedBusId && this.pinnedBusId !== routeId) return;
+    clearTimeout(this.busLeaveTimer);
+    if (this.hoverBusId && this.hoverBusId !== routeId) this.highlightBus(this.hoverBusId, false);
+    this.hoverBusId = routeId;
+    this.highlightBus(routeId, true);
+    this.showBusTip(routeId, latlng);
+    clearTimeout(this.busHoverTimer);
+    this.busHoverTimer = setTimeout(() => this.loadBusStatus(routeId), 250);   // skip routes merely crossed
+  }
+
+  unhoverBus(routeId) {
+    if (this.pinnedBusId === routeId || this.hoverBusId !== routeId) return;
+    clearTimeout(this.busHoverTimer);
+    this.busLeaveTimer = setTimeout(() => {
+      if (this.hoverBusId !== routeId || this.pinnedBusId) return;
+      this.highlightBus(routeId, false);
+      this.hoverBusId = null;
+      this.busTip.remove();
+      this.clearBusVehicles();
+    }, 250);
+  }
+
+  pinBus(routeId, latlng) {
+    if (this.pinnedBusId && this.pinnedBusId !== routeId) { this.highlightBus(this.pinnedBusId, false); this.clearBusVehicles(); }
+    this.pinnedBusId = routeId;
+    this.hoverBusId = routeId;
+    this.highlightBus(routeId, true);
+    this.showBusTip(routeId, latlng);
+    this.loadBusStatus(routeId);
+  }
+
+  unpinBus(silent = false) {
+    const id = this.pinnedBusId || (silent ? this.hoverBusId : null);
+    if (!id) return;
+    this.pinnedBusId = null;
+    this.hoverBusId = null;
+    this.highlightBus(id, false);
+    this.busTip.remove();
+    this.clearBusVehicles();
+  }
+
+  async loadBusStatus(routeId, { force = false } = {}) {
+    const cachedStatus = this.busStatus.get(routeId);
+    if (!force && cachedStatus && !cachedStatus.error && Date.now() - cachedStatus.fetchedAt < BUS_STATUS_TTL) {
+      this.renderBusVehicles(routeId);
+      return;
+    }
+    const { data, error } = await api.vehicles(routeId);
+    const status = error || !data
+      ? { error: error || 'unavailable', fetchedAt: Date.now() }
+      : { count: data.vehicles.length, vehicles: data.vehicles, at: data.updated_at, fetchedAt: Date.now() };
+    if (status.error && cachedStatus && !cachedStatus.error) return;   // keep the last good status
+    this.busStatus.set(routeId, status);
+    if (this.hoverBusId === routeId || this.pinnedBusId === routeId) {
+      if (this.map.hasLayer(this.busTip)) this.busTip.setContent(this.busTipHtml(routeId));
+      this.renderBusVehicles(routeId);
+    }
+  }
+
+  renderBusVehicles(routeId) {
+    if (this.hoverBusId !== routeId && this.pinnedBusId !== routeId) return;
+    const status = this.busStatus.get(routeId);
+    if (!status || status.error) return;
+    const seen = new Set();
+    const color = this.busMeta.get(routeId)?.silver ? SILVER_COLOR : BUS_COLOR;
+    for (const v of status.vehicles) {
+      if (v.latitude == null) continue;
+      seen.add(v.id);
+      const existing = this.busVehicles.get(v.id);
+      if (existing) {
+        existing.setLatLng([v.latitude, v.longitude]);
+        existing.getElement()?.querySelector('.veh')?.style.setProperty('--rot', `${Number(v.bearing) || 0}deg`);
+        continue;
+      }
+      const label = `Route ${this.busMeta.get(routeId)?.short_name || routeId} bus ${v.label || v.id}${v.headsign ? ` to ${v.headsign}` : ''}${v.current_status ? ` · ${vehicleStatusText(v.current_status, v.stop_name)}` : ''}`;
+      const marker = this.L.marker([v.latitude, v.longitude], {
+        pane: 'vehicles', keyboard: true, title: label,
+        icon: this.L.divIcon({ className: 'veh-icon veh-icon--bus', html: `<span class="veh" style="--c:${color};--rot:${Number(v.bearing) || 0}deg">${VEHICLE_SVG}</span>`, iconSize: [26, 26], iconAnchor: [13, 13] }),
+      });
+      marker.on('click', ev => { this.L.DomEvent.stopPropagation(ev); this.onVehicleSelect(v); });
+      marker.on('mouseover', () => clearTimeout(this.busLeaveTimer));
+      marker.on('add', () => { const el = marker.getElement(); if (el) { el.setAttribute('role', 'button'); el.setAttribute('aria-label', label); } });
+      marker.addTo(this.busVehicleGroup);
+      this.busVehicles.set(v.id, marker);
+    }
+    for (const [id, marker] of this.busVehicles) {
+      if (!seen.has(id)) { this.busVehicleGroup.removeLayer(marker); this.busVehicles.delete(id); }
+    }
+  }
+
+  clearBusVehicles() {
+    this.busVehicleGroup.clearLayers();
+    this.busVehicles.clear();
   }
 
   applyZoomClass() {
@@ -159,7 +357,7 @@ export class LiveMap {
     for (const v of list) {
       if (v.latitude == null || v.longitude == null) continue;
       seen.add(v.id);
-      const color = LINES[v.route?.id] ? LINES[v.route.id].bright : (v.route?.color || '#94A3B8');
+      const color = LINES[v.route?.id] ? LINES[v.route.id].bright : groupOf(v.route?.id) === 'CR' ? CR_COLOR : (v.route?.color || '#94A3B8');
       const existing = this.vehicles.get(v.id);
       if (existing) {
         existing.data = v;
@@ -234,7 +432,11 @@ export class LiveMap {
 
   getVehicle(id) { return this.vehicles.get(id)?.data || null; }
 
-  routesParam() { return this.focusRoute || SUBWAY_IDS.join(','); }
+  routesParam() {
+    if (this.focusRoute) return this.focusRoute;
+    const rail = this.groups.has('CR') ? this.crRouteIds : [];
+    return [...SUBWAY_IDS, ...rail].join(',');
+  }
 
   async tick() {
     if (document.hidden) return;
@@ -251,6 +453,7 @@ export class LiveMap {
     this.lastUpdate = data.updated_at || new Date().toISOString();
     this.renderVehicles(data.vehicles || []);
     this.onStatus({ updatedAt: this.lastUpdate, count: this.visibleVehicleCount() });
+    if (this.pinnedBusId) this.loadBusStatus(this.pinnedBusId, { force: true });
     if (this.selectedVehicle) {
       const v = this.vehicles.get(this.selectedVehicle);
       document.dispatchEvent(new CustomEvent('vehicle-updated', { detail: v ? v.data : null }));
@@ -271,13 +474,14 @@ export class LiveMap {
 
   setGroup(id, on) {
     if (on) this.groups.add(id); else this.groups.delete(id);
-    this.refreshShapes(); this.refreshStations(); this.refreshVehicles();
+    this.refreshShapes(); this.refreshStations(); this.refreshVehicles(); this.refreshModeLayers();
+    if (id === 'CR' && on && this.timer) this.tick();
     this.onStatus({ updatedAt: this.lastUpdate, count: this.visibleVehicleCount() });
   }
 
   setLayer(name, on) {
     this.layers[name] = on;
-    this.refreshShapes(); this.refreshStations(); this.refreshVehicles();
+    this.refreshShapes(); this.refreshStations(); this.refreshVehicles(); this.refreshModeLayers();
     this.onStatus({ updatedAt: this.lastUpdate, count: this.visibleVehicleCount() });
   }
 
@@ -288,7 +492,7 @@ export class LiveMap {
     for (const { marker } of this.vehicles.values()) this.vehicleGroup.removeLayer(marker);
     this.vehicles.clear();
     if (routeId && !this.shapeLayers.has(routeId)) await this.drawShapes([routeId]);
-    this.refreshShapes(); this.refreshStations();
+    this.refreshShapes(); this.refreshStations(); this.refreshModeLayers();
     if (routeId) this.fitRoute(routeId); else this.fitNetwork();
     if (this.timer) this.tick();
   }

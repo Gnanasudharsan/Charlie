@@ -6,7 +6,7 @@ import { navigate } from '../core/router.js';
 import { LINE_GROUPS, routeIdentity } from '../core/constants.js';
 import { escapeHtml as e, formatClockSeconds, relativeTime, vehicleStatusText } from '../core/format.js';
 import { rank } from '../core/search.js';
-import { LiveMap } from '../map/live-map.js';
+import { LiveMap, CR_COLOR, BUS_COLOR } from '../map/live-map.js';
 import { icon } from '../ui/icons.js';
 import { lineBadge } from '../ui/components.js';
 import { combobox } from '../ui/combobox.js';
@@ -40,7 +40,7 @@ function setStatus({ count = 0, updatedAt, error, loading }) {
   const chip = host.querySelector('[data-map-status]');
   if (!chip) return;
   const focus = liveMap?.focusRoute;
-  const what = focus ? routeIdentity(focus).name : 'subway';
+  const what = focus ? routeIdentity(focus).name : (liveMap?.groups.has('CR') && liveMap.crRouteIds.length ? 'subway & rail' : 'subway');
   chip.classList.toggle('is-error', Boolean(error));
   chip.classList.toggle('is-loading', Boolean(loading));
   const time = updatedAt ? formatClockSeconds(updatedAt) : '—';
@@ -78,6 +78,8 @@ function buildHost() {
     <div class="map-layers" id="map-layers" hidden>
       <fieldset><legend>Lines</legend>
         ${LINE_GROUPS.map(g => `<label class="check"><input type="checkbox" data-group="${g.id}" checked><span class="swatch" style="--c:${routeIdentity(g.routes[0]).bright}"></span>${e(g.name)}</label>`).join('')}
+        <label class="check"><input type="checkbox" data-group="CR" checked><span class="swatch" style="--c:${CR_COLOR}"></span>Commuter Rail</label>
+        <label class="check"><input type="checkbox" data-group="Bus" checked><span class="swatch" style="--c:${BUS_COLOR}"></span>Bus routes</label>
       </fieldset>
       <fieldset><legend>Show</legend>
         <label class="check"><input type="checkbox" data-layer="vehicles" checked>Live vehicles</label>
