@@ -171,11 +171,11 @@ python app.py        # → http://localhost:5001
 ```bash
 cd API_Service
 pip install pytest
-python -m pytest                          # 17 backend tests (MBTA mocked, no network)
+python -m pytest                          # 18 backend tests (MBTA mocked, no network)
 node --test tests/js/frontend.test.mjs    # 15 frontend logic tests (Node 20+)
 ```
 
-- **Backend tests** cover prediction timing and sorting (departure-only, null, tie, UTC-offset, departed and cancelled cases), alert classification and priority, the honest line status, and that MBTA errors surface as errors rather than empty lists. They also check the station, line, dashboard, alerts, stations-list, chat and trip-planner endpoints.
+- **Backend tests** cover prediction timing and sorting (departure-only, null, tie, UTC-offset, departed and cancelled cases), alert classification and priority, the honest line status, and that MBTA errors surface as errors rather than empty lists. They also check the station, line, dashboard, alerts, stations-list, chat and trip-planner endpoints, and that every module is served versioned (never stale).
 - **Frontend tests** cover station search (every one of the 126 stations is found by name, plus partial and fuzzy queries), countdown states, alert filters and counts, polyline decoding, the router, trip ordering and badges, station mentions in AI replies, arrival grouping, and badge text contrast.
 - **UI flows** were checked by hand in a real browser at 375, 390, 768, 1024 and 1440 px. These covered keyboard navigation, comboboxes, map selection and filters, the bottom sheet, and the error states.
 
