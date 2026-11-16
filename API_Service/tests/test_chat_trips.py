@@ -37,6 +37,8 @@ PHRASINGS = {
     "Chiswick Rd to Hynes": ("Chiswick Rd", "Hynes"),
     "Take me to the Airport": (None, "Airport"),
     "When should I leave Harvard to get to Fenway by 6?": ("Harvard", "Fenway"),
+    "I'm in Cambridge near Central and I need to be at Fenway Park for a game, what should I take?": ("Central", "Fenway Park"),
+    "yo whats the move to get from somerville to the seaport": ("somerville", "seaport"),
 }
 
 

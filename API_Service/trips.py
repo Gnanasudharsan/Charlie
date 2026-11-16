@@ -31,6 +31,9 @@ def _strip(place):
         prev = p
         p = LEAD_FILLER.sub("", p, count=1).strip()
     p = re.sub(r"^(?:my|our)\s+", "", p, flags=re.I)
+    # Purpose clauses aren't part of the place: "Fenway Park for a game", "MGH for an appointment".
+    p = re.sub(r"\s+for\s+(?:a|an|the|my|our|some)\s+\w+(?:\s+\w+)?$", "", p, flags=re.I)
+    p = re.sub(r"\s+(?:and|so|but)\s+(?:i|we)\b.*$", "", p, flags=re.I)
     return p.strip(" ,.?!\"'")
 
 
@@ -116,8 +119,16 @@ PREFIX = re.compile(
     r")\s*", re.I)
 
 
-def _pair(o, d):
-    o, d = _strip(o), _strip(d)
+def _near(place, is_place):
+    """"Cambridge near Central" -> "Central" when the part after "near" is a known place."""
+    m = re.match(r"^(?P<area>.+?)\s+(?:near|by|close to|next to)\s+(?P<spot>.+)$", place, re.I)
+    if m and is_place and is_place(m.group("spot")):
+        return m.group("spot")
+    return place
+
+
+def _pair(o, d, is_place=None):
+    o, d = _near(_strip(o), is_place), _near(_strip(d), is_place)
     return {"origin": o, "destination": d} if o and d and o.lower() != d.lower() else None
 
 
@@ -148,7 +159,7 @@ def parse_trip_question(text, is_place=None, now=None):
     for pat in patterns:
         m = re.search(pat, t, re.I)
         if m:
-            result = _pair(m.group("o"), m.group("d"))
+            result = _pair(m.group("o"), m.group("d"), is_place)
             if result:
                 break
 
@@ -156,7 +167,7 @@ def parse_trip_question(text, is_place=None, now=None):
         body = PREFIX.sub("", t, count=1) if asks_trip else t
         m = re.fullmatch(r"(?P<o>.+?)\s+to\s+(?P<d>.+)", body.strip(" ?.!"), re.I)
         if m and (asks_trip or (is_place and is_place(_strip(m.group("o"))) and is_place(_strip(m.group("d"))))):
-            result = _pair(m.group("o"), m.group("d"))
+            result = _pair(m.group("o"), m.group("d"), is_place)
 
     if not result and asks_trip:
         m = re.search(r"\b(?:to|reach|towards?)\s+(?P<d>.+)$", t, re.I)
