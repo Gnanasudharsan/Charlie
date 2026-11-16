@@ -143,3 +143,9 @@ test('badges: text color keeps WCAG contrast on every line color', () => {
   assert.equal(inkFor('#80276C'), '#FFFFFF');   // Commuter Rail
   assert.equal(inkFor('#00843D'), '#FFFFFF');   // Green Line
 });
+
+import { sortTrips } from '../../static/js/views/trip.js';
+test('trip: options are ordered by total travel time, ties keep API order', () => {
+  const r = [{ id: 'a', duration: 239 }, { id: 'b', duration: 214 }, { id: 'c', duration: 18 }, { id: 'd', duration: 18 }];
+  assert.deepEqual(sortTrips(r).map(x => x.id), ['c', 'd', 'b', 'a']);
+});

@@ -41,11 +41,17 @@ export function tripBadges(routes) {
   return badges;
 }
 
-function renderResults(el, routes) {
+/** Shortest total travel time first (stable, so ties keep the routing service's order). */
+export function sortTrips(routes) {
+  return routes.map((r, i) => [r, i]).sort((a, b) => (a[0].duration - b[0].duration) || (a[1] - b[1])).map(x => x[0]);
+}
+
+function renderResults(el, unsorted) {
+  const routes = sortTrips(unsorted);
   const alerts = store.get('alerts') || [];
   const badges = tripBadges(routes);
   el.innerHTML = `
-    ${sectionHeader(`${routes.length} option${routes.length === 1 ? '' : 's'}`)}
+    ${sectionHeader(`${routes.length} option${routes.length === 1 ? '' : 's'}`, { action: routes.length > 1 ? '<span class="muted small">Shortest travel time first</span>' : '' })}
     <div class="stack">${routes.map((r, i) => {
       const affected = [];
       for (const step of r.steps) {

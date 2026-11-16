@@ -221,7 +221,13 @@ export class LiveMap {
     const entry = id && this.stationMarkers.get(id);
     if (!entry) return;
     entry.marker.getElement()?.classList.add('is-selected');
-    if (fly) this.map.flyTo(entry.marker.getLatLng(), Math.max(this.map.getZoom(), 15), { duration: 0.6 });
+    if (fly) {
+      // On phones the bottom sheet covers the lower half, so aim the station above it.
+      const zoom = Math.max(this.map.getZoom(), 15);
+      const sheetOffset = window.matchMedia('(max-width: 767px)').matches ? this.el.clientHeight * 0.24 : 0;
+      const point = this.map.project(entry.marker.getLatLng(), zoom).add([0, sheetOffset]);
+      this.map.flyTo(this.map.unproject(point, zoom), zoom, { duration: 0.6 });
+    }
   }
 
   getVehicle(id) { return this.vehicles.get(id)?.data || null; }

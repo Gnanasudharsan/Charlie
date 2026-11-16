@@ -49,7 +49,7 @@ function render(data) {
     <div class="station-detail">
       <div class="station-detail__lines">${(station.lines || []).map(l => lineBadge(l)).join('')}${accessibilityText(station.wheelchair_boarding)}</div>
       <div class="btn-row">
-        <button class="btn btn--secondary btn--sm" data-act="map">${icon('map', { size: 16 })}View on map</button>
+        ${document.body.dataset.route === 'map' ? '' : `<button class="btn btn--secondary btn--sm" data-act="map">${icon('map', { size: 16 })}View on map</button>`}
         <button class="btn btn--secondary btn--sm" data-act="from">${icon('route', { size: 16 })}From here</button>
         <button class="btn btn--secondary btn--sm" data-act="to">To here</button>
       </div>

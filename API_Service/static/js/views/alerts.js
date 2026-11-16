@@ -28,7 +28,7 @@ function render(el, alerts) {
     body.innerHTML = emptyState({ icon: 'check', title: filter === 'accessibility' ? 'No accessibility alerts' : 'No alerts in this category', body: 'The MBTA isn’t reporting any alerts here right now.' });
   } else {
     body.innerHTML = `
-      ${now.length ? `<section><h2 class="subhead">Happening now <span class="muted">· ${now.length}</span></h2><div class="stack-sm">${now.map((a, i) => alertCard(a, { open: i === 0 && a.severity >= 7 })).join('')}</div></section>` : ''}
+      ${now.length ? `<section><h2 class="subhead">Happening now <span class="muted">· ${now.length}</span></h2><div class="stack-sm">${now.map(a => alertCard(a)).join('')}</div></section>` : ''}
       ${upcoming.length ? `<section><h2 class="subhead">Upcoming <span class="muted">· ${upcoming.length}</span></h2><div class="stack-sm">${upcoming.map(a => alertCard(a)).join('')}</div></section>` : ''}`;
   }
   el.querySelector('[data-updated]').textContent = updatedAt ? `Updated ${formatClockSeconds(updatedAt)}` : '';
