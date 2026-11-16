@@ -65,7 +65,9 @@ export class LiveMap {
       maxZoom: 16, maxNativeZoom: 16,
       attribution: 'Tiles &copy; <a href="https://www.esri.com" target="_blank" rel="noopener">Esri</a> &mdash; Esri, HERE, Garmin, FAO, NOAA, USGS, &copy; OpenStreetMap contributors · Data: <a href="https://www.mbta.com/developers" target="_blank" rel="noopener">MBTA</a>',
     }).addTo(map);
-    L.tileLayer(`${ESRI}/World_Dark_Gray_Reference/MapServer/tile/{z}/{y}/{x}`, { maxZoom: 16, maxNativeZoom: 16, pane: 'overlayPane' }).addTo(map);
+    // Place-name labels. Esri only serves real label tiles up to z13 here (higher levels are
+    // placeholders, which made Leaflet stretch the z13 tile); the base layer has street names.
+    L.tileLayer(`${ESRI}/World_Dark_Gray_Reference/MapServer/tile/{z}/{y}/{x}`, { maxZoom: 13, maxNativeZoom: 13, pane: 'overlayPane' }).addTo(map);
 
     map.createPane('routes').style.zIndex = 380;
     map.createPane('stations').style.zIndex = 600;
