@@ -1,8 +1,7 @@
 name: Deploy Charlie MBTA to GCP Cloud Run
 
+# Production now runs on Vercel; GCP billing is disabled, so this only runs manually.
 on:
-  push:
-    branches: [main]
   workflow_dispatch:
 
 env:

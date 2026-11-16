@@ -11,7 +11,7 @@ import os
 import json
 import math
 import requests
-from flask import Flask, jsonify, request, render_template
+from flask import Flask, jsonify, request, render_template, g
 from dotenv import load_dotenv
 from dateutil import parser
 from datetime import datetime, timedelta
@@ -33,11 +33,28 @@ BASE_URL = "https://api-v3.mbta.com"
 HEADERS = {"x-api-key": MBTA_API_KEY} if MBTA_API_KEY else {}
 BOSTON_TZ = pytz.timezone('America/New_York')
 
-# Store conversation history for context
-conversation_history = []
 
-# User's current location (updated via API)
-user_location = {"lat": None, "lon": None, "station": None, "stop_id": None, "lines": []}
+# Per-user state (chat history + location) is kept by the browser and sent with
+# each request, so users never share state and it survives serverless restarts.
+EMPTY_LOCATION = {"lat": None, "lon": None, "station": None, "stop_id": None, "lines": []}
+MAX_HISTORY = 10
+
+
+@app.before_request
+def load_client_state():
+    """Load this user's chat history and location from the request body."""
+    data = request.get_json(silent=True) if request.is_json else None
+    data = data if isinstance(data, dict) else {}
+
+    history = data.get('history') if isinstance(data.get('history'), list) else []
+    g.history = [
+        {"role": m["role"], "content": m["content"][:2000]}
+        for m in history
+        if isinstance(m, dict) and m.get("role") in ("user", "assistant") and isinstance(m.get("content"), str)
+    ][-MAX_HISTORY:]
+
+    location = data.get('location')
+    g.location = {**EMPTY_LOCATION, **location} if isinstance(location, dict) else dict(EMPTY_LOCATION)
 
 # Line Colors for UI
 LINE_COLORS = {
@@ -417,17 +434,16 @@ def find_common_route(origin_name, dest_name):
 
 def get_smart_intent(user_text):
     """Step 1: Understand what the user wants with Memory Logic and Location Awareness"""
-    global conversation_history, user_location
     
     current_message = {"role": "user", "content": user_text}
-    conversation_history.append(current_message)
-    if len(conversation_history) > 10:
-        conversation_history.pop(0)
+    g.history.append(current_message)
+    if len(g.history) > MAX_HISTORY:
+        g.history.pop(0)
 
     location_context = ""
-    if user_location.get("station"):
+    if g.location.get("station"):
         location_context = f"""
-    USER'S CURRENT LOCATION: The user is currently at or near '{user_location['station']}' station.
+    USER'S CURRENT LOCATION: The user is currently at or near '{g.location['station']}' station.
     If the user asks about "next train" or "going to [destination]" WITHOUT specifying origin, 
     you should set origin to "USE_CURRENT_LOCATION" to indicate we should use their GPS location.
     """
@@ -470,7 +486,7 @@ def get_smart_intent(user_text):
     VALID STATIONS: {json.dumps(VALID_STATIONS[:80])}
     """
 
-    messages = [{"role": "system", "content": system_prompt}] + conversation_history
+    messages = [{"role": "system", "content": system_prompt}] + g.history
 
     try:
         if not client: return None
@@ -826,7 +842,6 @@ def get_trip_directions_for_chat(origin, destination):
 
 def process_chat_message(user_msg):
     """Main chat processing function"""
-    global conversation_history, user_location
     
     intent = get_smart_intent(user_msg)
     
@@ -838,14 +853,14 @@ def process_chat_message(user_msg):
     data_context = {
         "intent_detected": intent_type,
         "user_query": user_msg,
-        "user_location": user_location.get("station"),
+        "user_location": g.location.get("station"),
         "data": {}
     }
 
     if intent_type in ['greeting', 'thanks', 'help', 'general']:
-        if user_location.get("station"):
-            data_context["data"]["user_near_station"] = user_location["station"]
-            data_context["data"]["available_lines"] = user_location.get("lines", [])
+        if g.location.get("station"):
+            data_context["data"]["user_near_station"] = g.location["station"]
+            data_context["data"]["available_lines"] = g.location.get("lines", [])
     
     elif intent_type == 'alerts':
         route = intent.get('specific_route')
@@ -862,8 +877,8 @@ def process_chat_message(user_msg):
         origin = intent.get('origin')
         dest = intent.get('destination')
         
-        if origin == "USE_CURRENT_LOCATION" and user_location.get("station"):
-            origin = user_location["station"]
+        if origin == "USE_CURRENT_LOCATION" and g.location.get("station"):
+            origin = g.location["station"]
             data_context["data"]["location_auto_detected"] = True
         
         if bus_route:
@@ -882,8 +897,8 @@ def process_chat_message(user_msg):
         origin = intent.get('origin')
         dest = intent.get('destination')
         
-        if origin == "USE_CURRENT_LOCATION" and user_location.get("station"):
-            origin = user_location["station"]
+        if origin == "USE_CURRENT_LOCATION" and g.location.get("station"):
+            origin = g.location["station"]
             data_context["data"]["location_auto_detected"] = True
             
         predictions, stop_name = get_commuter_rail_predictions(line, origin, dest)
@@ -900,13 +915,13 @@ def process_chat_message(user_msg):
         origin = intent.get('origin')
         dest = intent.get('destination')
         
-        if origin == "USE_CURRENT_LOCATION" and user_location.get("station"):
-            origin = user_location["station"]
+        if origin == "USE_CURRENT_LOCATION" and g.location.get("station"):
+            origin = g.location["station"]
             data_context["data"]["location_auto_detected"] = True
             data_context["data"]["detected_station"] = origin
-        elif origin == "USE_CURRENT_LOCATION" and user_location.get("lat"):
+        elif origin == "USE_CURRENT_LOCATION" and g.location.get("lat"):
             # Use coordinates directly
-            origin_coords = f"{user_location['lat']},{user_location['lon']}"
+            origin_coords = f"{g.location['lat']},{g.location['lon']}"
             data_context["data"]["location_auto_detected"] = True
             data_context["data"]["using_gps_coords"] = True
         
@@ -948,8 +963,8 @@ def process_chat_message(user_msg):
         specific_route = intent.get('specific_route')
         
         if origin == "USE_CURRENT_LOCATION":
-            if user_location.get("station"):
-                origin = user_location["station"]
+            if g.location.get("station"):
+                origin = g.location["station"]
                 data_context["data"]["location_auto_detected"] = True
                 data_context["data"]["detected_station"] = origin
             else:
@@ -959,7 +974,7 @@ def process_chat_message(user_msg):
                     "request_location": True
                 }
                 final_reply = generate_natural_response(user_msg, data_context)
-                conversation_history.append({"role": "assistant", "content": final_reply})
+                g.history.append({"role": "assistant", "content": final_reply})
                 return {"reply": final_reply, "request_location": True}
         
         if origin: origin = normalize_station_name(origin)
@@ -974,10 +989,10 @@ def process_chat_message(user_msg):
                 data_context["data"]["auto_deduced_route"] = deduced_route
 
         if not stop_id:
-            if user_location.get("station"):
+            if g.location.get("station"):
                 data_context["data"] = {
                     "error": "Unknown Origin", 
-                    "suggestion": f"Did you mean to start from {user_location['station']}?"
+                    "suggestion": f"Did you mean to start from {g.location['station']}?"
                 }
             else:
                 data_context["data"] = {"error": "Unknown Origin", "details": f"Could not find station '{origin}'"}
@@ -1051,7 +1066,7 @@ def process_chat_message(user_msg):
                     data_context["data"] = {"error": "API Connection Failed"}
 
     final_reply = generate_natural_response(user_msg, data_context)
-    conversation_history.append({"role": "assistant", "content": final_reply})
+    g.history.append({"role": "assistant", "content": final_reply})
     
     return {"reply": final_reply}
 
@@ -1077,7 +1092,6 @@ def health():
 
 @app.route('/api/set-location', methods=['POST'])
 def set_location():
-    global user_location
     
     data = request.get_json()
     lat = data.get('lat')
@@ -1089,7 +1103,7 @@ def set_location():
     nearest = find_nearest_station(lat, lon)
     
     if nearest:
-        user_location = {
+        g.location = {
             "lat": lat,
             "lon": lon,
             "station": nearest["name"],
@@ -1100,19 +1114,21 @@ def set_location():
         return jsonify({
             "success": True,
             "nearest_station": nearest,
+            "location": g.location,
             "message": f"📍 You're near {nearest['name']} ({nearest['distance']}m away)"
         })
     else:
-        user_location = {"lat": lat, "lon": lon, "station": None, "stop_id": None, "lines": []}
+        g.location = {"lat": lat, "lon": lon, "station": None, "stop_id": None, "lines": []}
         return jsonify({
             "success": False,
+            "location": g.location,
             "message": "No MBTA stations found within 2km of your location."
         })
 
 
 @app.route('/api/get-location')
 def get_location():
-    return jsonify(user_location)
+    return jsonify(g.location)
 
 
 @app.route('/api/stations')
@@ -1159,8 +1175,10 @@ def chat_post():
     data = request.get_json()
     user_msg = data.get('message', '').strip()
     if not user_msg:
-        return jsonify({"reply": "👀 Type something!"})
-    return jsonify(process_chat_message(user_msg))
+        return jsonify({"reply": "👀 Type something!", "history": g.history})
+    result = process_chat_message(user_msg)
+    result["history"] = g.history[-MAX_HISTORY:]
+    return jsonify(result)
 
 
 @app.route('/chat')
@@ -1489,7 +1507,7 @@ def get_dashboard():
             "severe_alerts": severe_alerts[:10],
             "total_alerts": len(alert_data.get('data', [])),
             "updated_at": get_now().isoformat(),
-            "user_location": user_location
+            "user_location": g.location
         })
     except Exception as e:
         return jsonify({"error": str(e)}), 500
@@ -1547,7 +1565,7 @@ def get_station_info(stop_id):
 # ==================== GOOGLE MAPS TRIP PLANNER API ====================
 # Uses Google Maps Directions API for accurate multi-modal routing
 
-GOOGLE_MAPS_API_KEY = os.environ.get('GOOGLE_MAPS_API_KEY', 'AIzaSyBZpsvc9e-tQE_i3VtKNUTP6aEnsKcCPK8')
+GOOGLE_MAPS_API_KEY = os.environ.get('GOOGLE_MAPS_API_KEY')
 
 
 @app.route('/api/trip-planner', methods=['POST'])
@@ -1600,6 +1618,8 @@ def get_google_directions(origin, destination, origin_name, dest_name):
     Get transit directions from Google Maps Directions API.
     Returns multiple route alternatives with all transit modes.
     """
+    if not GOOGLE_MAPS_API_KEY:
+        return []
     try:
         url = "https://maps.googleapis.com/maps/api/directions/json"
         params = {

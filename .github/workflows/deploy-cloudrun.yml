@@ -1,11 +1,7 @@
 name: Deploy to Cloud Run
 
+# Production now runs on Vercel; GCP billing is disabled, so this only runs manually.
 on:
-  push:
-    branches: [main]
-    paths:
-      - 'API_Service/**'
-      - 'Model_Development/models/final_model.joblib'
   workflow_dispatch:
 
 env:

@@ -14,6 +14,9 @@ const state = {
     stations: [],
     refreshInterval: null,
     chatHistory: [],
+    // Per-user AI context, kept in this browser and sent with each chat request
+    aiHistory: [],
+    serverLocation: null,
     // Location state
     userLocation: null,
     nearestStation: null,
@@ -70,12 +73,22 @@ async function initApp() {
 // Location Functions
 // ========================================
 
+function saveServerLocation(location) {
+    state.serverLocation = location || null;
+    try {
+        if (location) localStorage.setItem('charlie-location', JSON.stringify(location));
+    } catch (e) { /* storage unavailable */ }
+}
+
 async function checkSavedLocation() {
     try {
-        const response = await fetch('/api/get-location');
-        const data = await response.json();
-        
-        if (data.station) {
+        let data = null;
+        try {
+            data = JSON.parse(localStorage.getItem('charlie-location') || 'null');
+        } catch (e) { data = null; }
+
+        if (data && data.station) {
+            state.serverLocation = data;
             state.userLocation = { lat: data.lat, lon: data.lon };
             state.nearestStation = {
                 name: data.station,
@@ -125,7 +138,8 @@ function requestLocation() {
                 });
                 
                 const data = await response.json();
-                
+                saveServerLocation(data.location);
+
                 if (data.success && data.nearest_station) {
                     state.nearestStation = data.nearest_station;
                     updateLocationUI();
@@ -510,11 +524,16 @@ async function sendChatMessage() {
         const response = await fetch('/api/chat', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ message })
+            body: JSON.stringify({
+                message,
+                history: state.aiHistory,
+                location: state.serverLocation
+            })
         });
-        
+
         const data = await response.json();
-        
+        if (Array.isArray(data.history)) state.aiHistory = data.history;
+
         // Hide typing indicator
         hideTypingIndicator();
         
