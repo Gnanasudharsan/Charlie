@@ -1325,7 +1325,8 @@ def get_predictions():
 def get_vehicles():
     try:
         route_id = request.args.get('route')
-        params = {"include": "stop,route,trip", "page[limit]": 100}
+        limit = min(max(request.args.get('limit', 100, type=int), 1), 500)
+        params = {"include": "stop,route,trip", "page[limit]": limit}
         if route_id: params["filter[route]"] = route_id
         
         response = requests.get(f"{BASE_URL}/vehicles", headers=HEADERS, params=params)

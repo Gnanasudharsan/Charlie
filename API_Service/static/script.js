@@ -251,15 +251,23 @@ async function initMap() {
     // Initialize Leaflet map centered on Boston
     state.map = L.map('map').setView([42.3601, -71.0589], 12);
     
-    // Add dark-themed tile layer
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
-        subdomains: 'abcd',
-        maxZoom: 19
+    // Dark basemap (Esri, no API key required; CARTO tiles now need a key)
+    const esri = 'https://server.arcgisonline.com/ArcGIS/rest/services/Canvas';
+    L.tileLayer(`${esri}/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}`, {
+        attribution: 'Tiles &copy; <a href="https://www.esri.com">Esri</a> &mdash; Esri, HERE, Garmin, &copy; OpenStreetMap contributors',
+        maxZoom: 16
+    }).addTo(state.map);
+    L.tileLayer(`${esri}/World_Dark_Gray_Reference/MapServer/tile/{z}/{y}/{x}`, {
+        maxZoom: 16
     }).addTo(state.map);
     
     // Load and display stations
     await loadStationsOnMap();
+    
+    // Live vehicle positions, refreshed every 10 seconds while the map tab is open
+    state.vehicleLayer = L.layerGroup().addTo(state.map);
+    await loadVehiclesOnMap();
+    startVehicleRefresh();
     
     // Add user marker if location is known
     if (state.userLocation) {
@@ -306,6 +314,43 @@ async function loadStationsOnMap() {
     } catch (error) {
         console.error('Error loading stations:', error);
     }
+}
+
+const SUBWAY_ROUTE_IDS = 'Red,Orange,Blue,Green-B,Green-C,Green-D,Green-E,Mattapan';
+
+async function loadVehiclesOnMap() {
+    if (!state.map || !state.vehicleLayer) return;
+    const data = await fetchAPI(`/vehicles?route=${SUBWAY_ROUTE_IDS}&limit=300`);
+    if (!data || !Array.isArray(data.vehicles)) return;
+    
+    state.vehicleLayer.clearLayers();
+    data.vehicles.forEach(v => {
+        if (v.latitude == null || v.longitude == null) return;
+        const color = v.route?.color || lineColors[v.route?.id] || '#888888';
+        const bearing = Number(v.bearing) || 0;
+        const status = (v.current_status || '').replace(/_/g, ' ').toLowerCase();
+        const icon = L.divIcon({
+            className: 'vehicle-marker',
+            html: `<div class="vehicle-icon" style="transform: rotate(${bearing}deg)"><div class="vehicle-arrow" style="--vehicle-color: ${color}"></div></div>`,
+            iconSize: [22, 22],
+            iconAnchor: [11, 11]
+        });
+        L.marker([v.latitude, v.longitude], { icon, zIndexOffset: 1000 })
+            .bindPopup(`<div class="station-popup"><strong>${v.route?.name || v.route?.id || 'Train'}</strong><br>Train ${v.label || v.id}<br><span style="color: var(--text-secondary)">${status}</span></div>`)
+            .addTo(state.vehicleLayer);
+    });
+}
+
+function startVehicleRefresh() {
+    stopVehicleRefresh();
+    state.vehicleRefresh = setInterval(() => {
+        if (state.currentTab === 'map' && !document.hidden) loadVehiclesOnMap();
+    }, 10000);
+}
+
+function stopVehicleRefresh() {
+    if (state.vehicleRefresh) clearInterval(state.vehicleRefresh);
+    state.vehicleRefresh = null;
 }
 
 function updateUserMarker(lat, lon) {
@@ -658,6 +703,7 @@ function switchTab(tabName) {
                 setTimeout(() => {
                     state.map.invalidateSize();
                 }, 100);
+                loadVehiclesOnMap();
             }
             break;
     }
@@ -1102,19 +1148,23 @@ function setupStationSearch() {
             return;
         }
         
-        // Search stops
-        const data = await fetchAPI('/stops?route=Red,Orange,Blue,Green-B,Green-C,Green-D,Green-E');
-        if (!data) return;
+        // Search the full station list (the MBTA /stops call was capped at 100 stops)
+        if (!allStations.length) await loadStationsForTrip();
+        if (input.value.trim() !== query) return;  // a newer keystroke took over
         
-        const filtered = data.stops.filter(stop => 
-            stop.name.toLowerCase().includes(query.toLowerCase())
-        ).slice(0, 10);
+        const q = query.toLowerCase();
+        const filtered = allStations
+            .filter(stop => stop.name.toLowerCase().includes(q))
+            .sort((a, b) => a.name.toLowerCase().indexOf(q) - b.name.toLowerCase().indexOf(q))
+            .slice(0, 10);
         
         if (filtered.length > 0) {
             results.innerHTML = filtered.map(stop => `
                 <div class="search-result-item" onclick="openStationModal('${stop.id}')">
                     <strong>${stop.name}</strong>
-                    <div style="font-size: 0.8rem; color: var(--text-secondary);">${stop.municipality || ''}</div>
+                    <div class="station-lines" style="display: flex; gap: 4px; margin-top: 4px;">
+                        ${stop.lines.map(line => `<span class="line-badge" style="background: ${getLineColor(line)}; font-size: 10px; padding: 2px 6px; border-radius: 4px; color: white; font-weight: 600;">${line.replace('Green-', 'GL-')}</span>`).join('')}
+                    </div>
                 </div>
             `).join('');
             results.classList.add('active');
