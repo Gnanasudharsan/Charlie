@@ -18,12 +18,59 @@ from datetime import datetime, timedelta
 import pytz
 from openai import OpenAI
 
+import transit
+
 # Load Environment Variables
 load_dotenv()
 MBTA_API_KEY = os.getenv("MBTA_API_KEY")
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 
 app = Flask(__name__)
+
+
+def cached(response, seconds):
+    """Let Vercel's CDN cache public, non-personal responses briefly."""
+    response.headers["Cache-Control"] = f"public, max-age=0, s-maxage={seconds}, stale-while-revalidate={seconds * 2}"
+    return response
+
+# ==================== MBTA REQUESTS ====================
+# Short-lived in-process cache: identical MBTA calls within a few seconds share one
+# response (fewer requests, kinder to rate limits). Non-200 responses raise, so the
+# frontend keeps its last good data instead of rendering an empty result.
+
+class MBTAError(RuntimeError):
+    pass
+
+
+_MBTA_TTL = {"/vehicles": 5, "/predictions": 8, "/alerts": 20, "/stops": 3600, "/shapes": 86400, "/routes": 3600}
+_mbta_cache = {}
+
+
+class _CachedResponse:
+    def __init__(self, data):
+        self._data = data
+
+    def json(self):
+        return self._data
+
+
+def mbta_request(url, headers=None, params=None, timeout=15):
+    path = url.replace(BASE_URL, "")
+    ttl = next((t for prefix, t in _MBTA_TTL.items() if path.startswith(prefix)), 5)
+    key = (path, tuple(sorted((params or {}).items())))
+    now_ts = datetime.now().timestamp()
+    hit = _mbta_cache.get(key)
+    if hit and now_ts - hit[0] < ttl:
+        return _CachedResponse(hit[1])
+    response = requests.get(url, headers=headers or HEADERS, params=params, timeout=timeout)
+    if response.status_code != 200:
+        raise MBTAError(f"The MBTA API is unavailable right now (HTTP {response.status_code}).")
+    data = response.json()
+    if len(_mbta_cache) > 500:
+        _mbta_cache.clear()
+    _mbta_cache[key] = (now_ts, data)
+    return _CachedResponse(data)
+
 
 # Initialize OpenAI client
 client = OpenAI(api_key=OPENAI_API_KEY) if OPENAI_API_KEY else None
@@ -1073,9 +1120,13 @@ def process_chat_message(user_msg):
 
 # ==================== FLASK ROUTES ====================
 
+# Cache-busting token for static assets: the deployed commit on Vercel, else start time.
+ASSET_VERSION = (os.environ.get('VERCEL_GIT_COMMIT_SHA') or str(int(datetime.now().timestamp())))[:10]
+
+
 @app.route('/')
 def home():
-    return render_template('index.html')
+    return render_template('index.html', asset_version=ASSET_VERSION)
 
 
 @app.route('/health')
@@ -1149,7 +1200,7 @@ def get_all_stations():
             "lines": data["lines"]
         })
     
-    return jsonify(stations_list)
+    return cached(jsonify(stations_list), 86400)
 
 
 @app.route('/api/nearest-station')
@@ -1192,7 +1243,7 @@ def chat_get():
 @app.route('/api/routes')
 def get_routes():
     try:
-        response = requests.get(f"{BASE_URL}/routes", headers=HEADERS)
+        response = mbta_request(f"{BASE_URL}/routes", headers=HEADERS)
         data = response.json()
         routes_by_type = {"subway": [], "bus": [], "commuter_rail": [], "ferry": []}
         
@@ -1216,7 +1267,7 @@ def get_routes():
             elif route_type == 3: routes_by_type["bus"].append(route_info)
             elif route_type == 4: routes_by_type["ferry"].append(route_info)
         
-        return jsonify(routes_by_type)
+        return cached(jsonify(routes_by_type), 3600)
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
@@ -1225,32 +1276,18 @@ def get_routes():
 def get_alerts():
     try:
         route_filter = request.args.get('route')
-        params = {"sort": "-severity,-updated_at", "page[limit]": 100}
+        params = {"sort": "-severity,-updated_at", "page[limit]": 250}
         if route_filter:
             params["filter[route]"] = route_filter
-        
-        response = requests.get(f"{BASE_URL}/alerts", headers=HEADERS, params=params)
+
+        response = mbta_request(f"{BASE_URL}/alerts", headers=HEADERS, params=params, timeout=15)
         data = response.json()
-        
-        alerts = []
-        for alert in data.get('data', []):
-            attrs = alert['attributes']
-            affected_routes = []
-            for entity in attrs.get('informed_entity', []):
-                if 'route' in entity:
-                    affected_routes.append(entity['route'])
-            
-            alerts.append({
-                "id": alert['id'],
-                "effect": attrs.get('effect', 'UNKNOWN'),
-                "severity": attrs.get('severity', 0),
-                "header": attrs.get('header', ''),
-                "description": attrs.get('description', ''),
-                "affected_routes": list(set(affected_routes)),
-                "updated_at": attrs.get('updated_at')
-            })
-        
-        return jsonify({"alerts": alerts, "count": len(alerts)})
+        now = get_now()
+
+        alerts = [transit.alert_payload(a, now) for a in data.get('data', [])]
+        alerts.sort(key=transit.alert_priority)
+
+        return cached(jsonify({"alerts": alerts, "count": len(alerts), "updated_at": now.isoformat()}), 20)
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
@@ -1270,7 +1307,7 @@ def get_predictions():
         if route_id: params["filter[route]"] = route_id
         if direction_id: params["filter[direction_id]"] = direction_id
         
-        response = requests.get(f"{BASE_URL}/predictions", headers=HEADERS, params=params)
+        response = mbta_request(f"{BASE_URL}/predictions", headers=HEADERS, params=params)
         data = response.json()
         
         included = {f"{item['type']}_{item['id']}": item for item in data.get('included', [])}
@@ -1332,7 +1369,7 @@ def get_vehicles():
         params = {"include": "stop,route,trip", "page[limit]": limit}
         if route_id: params["filter[route]"] = route_id
         
-        response = requests.get(f"{BASE_URL}/vehicles", headers=HEADERS, params=params)
+        response = mbta_request(f"{BASE_URL}/vehicles", headers=HEADERS, params=params)
         data = response.json()
         
         included = {f"{item['type']}_{item['id']}": item for item in data.get('included', [])}
@@ -1346,6 +1383,11 @@ def get_vehicles():
             route_info = included.get(f"route_{route_data.get('id', '')}", {})
             route_attrs = route_info.get('attributes', {})
             
+            stop_rel = (rels.get('stop', {}) or {}).get('data') or {}
+            trip_rel = (rels.get('trip', {}) or {}).get('data') or {}
+            stop_attrs = included.get(f"stop_{stop_rel.get('id', '')}", {}).get('attributes', {})
+            trip_attrs = included.get(f"trip_{trip_rel.get('id', '')}", {}).get('attributes', {})
+
             vehicles.append({
                 "id": vehicle['id'],
                 "label": attrs.get('label', ''),
@@ -1354,6 +1396,10 @@ def get_vehicles():
                 "bearing": attrs.get('bearing'),
                 "current_status": attrs.get('current_status', ''),
                 "direction_id": attrs.get('direction_id'),
+                "updated_at": attrs.get('updated_at'),
+                "occupancy_status": attrs.get('occupancy_status'),
+                "headsign": trip_attrs.get('headsign', ''),
+                "stop_name": stop_attrs.get('name', ''),
                 "route": {
                     "id": route_data.get('id', ''),
                     "name": route_attrs.get('long_name') or route_attrs.get('short_name', ''),
@@ -1361,7 +1407,7 @@ def get_vehicles():
                 }
             })
         
-        return jsonify({"vehicles": vehicles, "count": len(vehicles)})
+        return cached(jsonify({"vehicles": vehicles, "count": len(vehicles), "updated_at": get_now().isoformat()}), 5)
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
@@ -1373,7 +1419,7 @@ def get_stops():
         params = {"page[limit]": 100}
         if route_id: params["filter[route]"] = route_id
         
-        response = requests.get(f"{BASE_URL}/stops", headers=HEADERS, params=params)
+        response = mbta_request(f"{BASE_URL}/stops", headers=HEADERS, params=params)
         data = response.json()
         
         stops = []
@@ -1396,68 +1442,119 @@ def get_stops():
 @app.route('/api/line/<line_id>')
 def get_line_status(line_id):
     try:
-        pred_response = requests.get(f"{BASE_URL}/predictions", headers=HEADERS,
-            params={"filter[route]": line_id, "include": "stop,trip", "sort": "arrival_time", "page[limit]": 50})
+        now = get_now()
+        pred_response = mbta_request(f"{BASE_URL}/predictions", headers=HEADERS, timeout=15, params={
+            "filter[route]": line_id, "include": "stop,trip", "page[limit]": 400})
         pred_data = pred_response.json()
-        
-        vehicle_response = requests.get(f"{BASE_URL}/vehicles", headers=HEADERS,
-            params={"filter[route]": line_id})
+
+        vehicle_response = mbta_request(f"{BASE_URL}/vehicles", headers=HEADERS, timeout=15,
+            params={"filter[route]": line_id, "include": "stop,trip"})
         vehicle_data = vehicle_response.json()
-        
-        alert_response = requests.get(f"{BASE_URL}/alerts", headers=HEADERS,
+
+        alert_response = mbta_request(f"{BASE_URL}/alerts", headers=HEADERS, timeout=15,
             params={"filter[route]": line_id, "sort": "-severity"})
         alert_data = alert_response.json()
-        
+
+        stops_response = mbta_request(f"{BASE_URL}/stops", headers=HEADERS, timeout=15,
+            params={"filter[route]": line_id, "fields[stop]": "name,wheelchair_boarding"})
+        stops_data = stops_response.json()
+
+        route_response = mbta_request(f"{BASE_URL}/routes/{line_id}", headers=HEADERS, timeout=15)
+        route_attrs = route_response.json().get('data', {}).get('attributes', {})
+
         included = {f"{item['type']}_{item['id']}": item for item in pred_data.get('included', [])}
-        
+
+        def parent_of(stop_id):
+            stop = included.get(f"stop_{stop_id}", {})
+            parent = stop.get('relationships', {}).get('parent_station', {}).get('data')
+            return parent['id'] if parent else stop_id
+
         predictions_by_stop = {}
+        by_station = {}
         for pred in pred_data.get('data', []):
             attrs = pred['attributes']
+            if transit.is_cancelled(attrs):
+                continue
             rels = pred.get('relationships', {})
-            stop_data = rels.get('stop', {}).get('data', {})
-            trip_data = rels.get('trip', {}).get('data', {})
-            stop_info = included.get(f"stop_{stop_data.get('id', '')}", {})
-            trip_info = included.get(f"trip_{trip_data.get('id', '')}", {})
-            
-            stop_id = stop_data.get('id', '')
-            stop_name = stop_info.get('attributes', {}).get('name', stop_id)
-            arrival_time = attrs.get('arrival_time') or attrs.get('departure_time')
-            if not arrival_time: continue
-            
-            arrival_dt = parser.isoparse(arrival_time)
-            if stop_id not in predictions_by_stop:
-                predictions_by_stop[stop_id] = {"stop_id": stop_id, "stop_name": stop_name, "predictions": []}
-            
-            predictions_by_stop[stop_id]["predictions"].append({
-                "time": arrival_time,
-                "time_formatted": format_time(arrival_time),
-                "time_away": format_time_diff(arrival_dt),
+            stop_id = rels.get('stop', {}).get('data', {}).get('id', '')
+            trip_id = rels.get('trip', {}).get('data', {}).get('id', '')
+            stop_info = included.get(f"stop_{stop_id}", {})
+            trip_info = included.get(f"trip_{trip_id}", {})
+
+            event_time = transit.effective_time(attrs)
+            event_dt = transit.parse_time(event_time)
+            if not event_dt or transit.is_departed(event_dt, now):
+                continue
+
+            entry = {
+                "time": event_time,
+                "time_formatted": format_time(event_time),
+                "time_away": format_time_diff(event_dt),
                 "headsign": trip_info.get('attributes', {}).get('headsign', ''),
-                "direction_id": attrs.get('direction_id')
+                "direction_id": attrs.get('direction_id'),
+                "status": attrs.get('status') or "",
+                "event": transit.event_kind(attrs),
+            }
+            stop_name = stop_info.get('attributes', {}).get('name', stop_id)
+            predictions_by_stop.setdefault(stop_id, {"stop_id": stop_id, "stop_name": stop_name, "predictions": []})
+            predictions_by_stop[stop_id]["predictions"].append(entry)
+            by_station.setdefault(parent_of(stop_id), []).append(entry)
+
+        for stop in predictions_by_stop.values():
+            stop["predictions"] = transit.sort_by_time(stop["predictions"])
+
+        # Station sequence (MBTA returns route stops in route order) with the next
+        # departures in each direction.
+        stations = []
+        for stop in stops_data.get('data', []):
+            preds = transit.sort_by_time(by_station.get(stop['id'], []))
+            next_by_direction = {}
+            for p in preds:
+                next_by_direction.setdefault(str(p["direction_id"]), [])
+                if len(next_by_direction[str(p["direction_id"])]) < 2:
+                    next_by_direction[str(p["direction_id"])].append(p)
+            stations.append({
+                "id": stop['id'],
+                "name": stop['attributes'].get('name', ''),
+                "wheelchair_boarding": stop['attributes'].get('wheelchair_boarding'),
+                "next": next_by_direction,
             })
-        
-        vehicles = [{"id": v['id'], "label": v['attributes'].get('label', ''),
-                    "latitude": v['attributes'].get('latitude'), "longitude": v['attributes'].get('longitude'),
-                    "current_status": v['attributes'].get('current_status', '')}
-                   for v in vehicle_data.get('data', [])]
-        
-        alerts = [{"id": a['id'], "effect": a['attributes'].get('effect', ''),
-                  "severity": a['attributes'].get('severity', 0), "header": a['attributes'].get('header', '')}
-                 for a in alert_data.get('data', [])]
-        
-        route_response = requests.get(f"{BASE_URL}/routes/{line_id}", headers=HEADERS)
-        route_attrs = route_response.json().get('data', {}).get('attributes', {})
-        
-        return jsonify({
+
+        v_included = {f"{item['type']}_{item['id']}": item for item in vehicle_data.get('included', [])}
+        vehicles = []
+        for v in vehicle_data.get('data', []):
+            a = v['attributes']
+            rels = v.get('relationships', {})
+            stop_rel = (rels.get('stop', {}) or {}).get('data') or {}
+            trip_rel = (rels.get('trip', {}) or {}).get('data') or {}
+            vehicles.append({
+                "id": v['id'], "label": a.get('label', ''),
+                "latitude": a.get('latitude'), "longitude": a.get('longitude'),
+                "bearing": a.get('bearing'), "direction_id": a.get('direction_id'),
+                "current_status": a.get('current_status', ''), "updated_at": a.get('updated_at'),
+                "stop_name": v_included.get(f"stop_{stop_rel.get('id', '')}", {}).get('attributes', {}).get('name', ''),
+                "headsign": v_included.get(f"trip_{trip_rel.get('id', '')}", {}).get('attributes', {}).get('headsign', ''),
+            })
+
+        alerts = [transit.alert_payload(a, now) for a in alert_data.get('data', [])]
+        alerts.sort(key=transit.alert_priority)
+
+        return cached(jsonify({
             "line": {
                 "id": line_id,
                 "name": route_attrs.get('long_name') or route_attrs.get('short_name', line_id),
-                "color": f"#{route_attrs.get('color', '000000')}"
+                "short_name": route_attrs.get('short_name', ''),
+                "color": f"#{route_attrs.get('color', '000000')}",
+                "type": route_attrs.get('type'),
+                "direction_names": route_attrs.get('direction_names', []),
+                "direction_destinations": route_attrs.get('direction_destinations', []),
             },
             "predictions_by_stop": list(predictions_by_stop.values()),
+            "stations": stations,
             "vehicles": vehicles,
-            "alerts": alerts
-        })
+            "alerts": alerts,
+            "updated_at": now.isoformat(),
+        }), 10)
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
@@ -1465,54 +1562,56 @@ def get_line_status(line_id):
 @app.route('/api/dashboard')
 def get_dashboard():
     try:
-        alert_response = requests.get(f"{BASE_URL}/alerts", headers=HEADERS,
-            params={"sort": "-severity", "page[limit]": 50})
+        now = get_now()
+        alert_response = mbta_request(f"{BASE_URL}/alerts", headers=HEADERS, timeout=15,
+            params={"sort": "-severity", "page[limit]": 250})
         alert_data = alert_response.json()
-        
+        alerts = [transit.alert_payload(a, now) for a in alert_data.get('data', [])]
+
+        # Distinct alerts per route (an alert lists a route once per affected stop).
         alerts_by_route = {}
-        severe_alerts = []
-        
-        for alert in alert_data.get('data', []):
-            attrs = alert['attributes']
-            alert_info = {
-                "id": alert['id'],
-                "effect": attrs.get('effect', ''),
-                "severity": attrs.get('severity', 0),
-                "header": attrs.get('header', ''),
-                "short_header": attrs.get('short_header', '')
-            }
-            if attrs.get('severity', 0) >= 7:
-                severe_alerts.append(alert_info)
-            
-            for entity in attrs.get('informed_entity', []):
-                route = entity.get('route')
-                if route:
-                    if route not in alerts_by_route: alerts_by_route[route] = []
-                    alerts_by_route[route].append(alert_info)
-        
+        for alert in alerts:
+            for route in alert["affected_routes"]:
+                alerts_by_route.setdefault(route, {})[alert["id"]] = alert
+
+        # One request for every subway line's vehicles, counted per route.
+        vehicle_response = mbta_request(f"{BASE_URL}/vehicles", headers=HEADERS, timeout=15,
+            params={"filter[route]": ",".join(SUBWAY_ROUTES)})
+        vehicle_counts = {}
+        for v in vehicle_response.json().get('data', []):
+            route = (v.get('relationships', {}).get('route', {}).get('data') or {}).get('id')
+            if route:
+                vehicle_counts[route] = vehicle_counts.get(route, 0) + 1
+
         subway_status = {}
         for line in SUBWAY_ROUTES:
-            vehicle_response = requests.get(f"{BASE_URL}/vehicles", headers=HEADERS,
-                params={"filter[route]": line})
-            vehicle_count = len(vehicle_response.json().get('data', []))
-            line_alerts = alerts_by_route.get(line, [])
-            has_severe = any(a['severity'] >= 7 for a in line_alerts)
-            
+            line_alerts = list(alerts_by_route.get(line, {}).values())
+            status, active_service = transit.line_status(line_alerts)
             subway_status[line] = {
                 "name": line,
                 "color": LINE_COLORS.get(line, "#000000"),
-                "vehicle_count": vehicle_count,
+                "vehicle_count": vehicle_counts.get(line, 0),
                 "alert_count": len(line_alerts),
-                "status": "alert" if has_severe else ("warning" if line_alerts else "normal")
+                "service_alert_count": len(active_service),
+                "accessibility_alert_count": sum(1 for a in line_alerts if a["category"] == "accessibility"),
+                "status": status,
+                "headline": (sorted(active_service, key=transit.alert_priority)[0]["service_effect"]
+                             if active_service else ""),
             }
-        
-        return jsonify({
+
+        severe_alerts = [
+            {k: a[k] for k in ("id", "effect", "severity", "header", "short_header")}
+            for a in sorted(alerts, key=transit.alert_priority)
+            if a["severity"] >= 7 and a["active_now"] and a["category"] == "service"
+        ]
+
+        return cached(jsonify({
             "subway_status": subway_status,
             "severe_alerts": severe_alerts[:10],
-            "total_alerts": len(alert_data.get('data', [])),
-            "updated_at": get_now().isoformat(),
+            "total_alerts": len(alerts),
+            "updated_at": now.isoformat(),
             "user_location": g.location
-        })
+        }), 15)
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
@@ -1520,56 +1619,100 @@ def get_dashboard():
 @app.route('/api/station/<stop_id>')
 def get_station_info(stop_id):
     try:
-        stop_response = requests.get(f"{BASE_URL}/stops/{stop_id}", headers=HEADERS)
+        now = get_now()
+        stop_response = mbta_request(f"{BASE_URL}/stops/{stop_id}", headers=HEADERS, timeout=15)
         stop_attrs = stop_response.json().get('data', {}).get('attributes', {})
-        
-        pred_response = requests.get(f"{BASE_URL}/predictions", headers=HEADERS,
-            params={"filter[stop]": stop_id, "include": "route,trip", "page[limit]": 50})
+
+        pred_response = mbta_request(f"{BASE_URL}/predictions", headers=HEADERS, timeout=15,
+            params={"filter[stop]": stop_id, "include": "route,trip,stop", "page[limit]": 60})
         pred_data = pred_response.json()
-        
+
+        alert_response = mbta_request(f"{BASE_URL}/alerts", headers=HEADERS, timeout=15,
+            params={"filter[stop]": stop_id})
+        alert_data = alert_response.json()
+
         included = {f"{item['type']}_{item['id']}": item for item in pred_data.get('included', [])}
-        
+
         predictions = []
         for pred in pred_data.get('data', []):
             attrs = pred['attributes']
+            if transit.is_cancelled(attrs):
+                continue
             rels = pred.get('relationships', {})
-            route_data = rels.get('route', {}).get('data', {})
-            trip_data = rels.get('trip', {}).get('data', {})
+            route_data = rels.get('route', {}).get('data', {}) or {}
+            trip_data = rels.get('trip', {}).get('data', {}) or {}
+            child_stop = rels.get('stop', {}).get('data', {}) or {}
             route_info = included.get(f"route_{route_data.get('id', '')}", {})
             trip_info = included.get(f"trip_{trip_data.get('id', '')}", {})
-            
-            arrival_time = attrs.get('arrival_time') or attrs.get('departure_time')
-            if not arrival_time: continue
-            
-            arrival_dt = parser.isoparse(arrival_time)
+            stop_info = included.get(f"stop_{child_stop.get('id', '')}", {}).get('attributes', {})
+
+            # Display and sort by the same time: arrival, else departure (terminals).
+            arrival_time = transit.effective_time(attrs)
+            arrival_dt = transit.parse_time(arrival_time)
+            if not arrival_dt or transit.is_departed(arrival_dt, now):
+                continue
             route_attrs = route_info.get('attributes', {})
-            
+
             predictions.append({
                 "route_id": route_data.get('id', ''),
                 "route_name": route_attrs.get('long_name') or route_attrs.get('short_name', ''),
+                "route_short_name": route_attrs.get('short_name', ''),
                 "route_color": f"#{route_attrs.get('color', '000000')}",
+                "route_type": route_attrs.get('type'),
                 "headsign": trip_info.get('attributes', {}).get('headsign', ''),
+                "direction_id": attrs.get('direction_id'),
+                "platform_name": stop_info.get('platform_name') or "",
+                "status": attrs.get('status') or "",
+                "event": transit.event_kind(attrs),
+                "time": arrival_time,
                 "arrival_formatted": format_time(arrival_time),
                 "time_away": format_time_diff(arrival_dt),
-                "_sort": arrival_dt
             })
-        
+
         # Sort by the time we display. MBTA's arrival_time sort misplaces trains that
         # only have a departure_time (e.g. trains leaving a terminal like Oak Grove).
-        predictions.sort(key=lambda p: p["_sort"])
-        for p in predictions:
-            p.pop("_sort", None)
-        predictions = predictions[:30]
-        
-        return jsonify({
+        predictions = transit.sort_by_time(predictions)[:30]
+
+        alerts = [transit.alert_payload(a, now) for a in alert_data.get('data', [])]
+        alerts = [a for a in alerts if a["active_now"]]
+        alerts.sort(key=transit.alert_priority)
+
+        station_meta = next((d for d in STATION_DATA.values() if d.get("id") == stop_id), {})
+
+        return cached(jsonify({
             "station": {
                 "id": stop_id,
                 "name": stop_attrs.get('name', ''),
                 "latitude": stop_attrs.get('latitude'),
-                "longitude": stop_attrs.get('longitude')
+                "longitude": stop_attrs.get('longitude'),
+                "wheelchair_boarding": stop_attrs.get('wheelchair_boarding'),
+                "municipality": stop_attrs.get('municipality', ''),
+                "lines": station_meta.get("lines", []),
             },
-            "predictions": predictions
-        })
+            "predictions": predictions,
+            "alerts": alerts,
+            "updated_at": now.isoformat(),
+        }), 10)
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route('/api/shapes')
+def get_shapes():
+    """Encoded polylines for route paths (canonical shapes when the MBTA marks them)."""
+    try:
+        route_ids = request.args.get('route', ",".join(SUBWAY_ROUTES))
+        # Shapes don't name their route, so fetch per-route lists of shape ids.
+        shapes = []
+        for route_id in route_ids.split(','):
+            r = mbta_request(f"{BASE_URL}/shapes", headers=HEADERS, timeout=20,
+                params={"filter[route]": route_id, "fields[shape]": "polyline"})
+            items = r.json().get('data', [])
+            canonical = [s for s in items if s['id'].startswith('canonical')]
+            for s in (canonical or items):
+                shapes.append({"route_id": route_id, "id": s['id'], "polyline": s['attributes']['polyline']})
+
+        return cached(jsonify({"shapes": shapes, "count": len(shapes)}), 86400)
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
