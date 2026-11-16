@@ -171,3 +171,13 @@ def test_trip_planner_falls_back_to_transitous(client, monkeypatch):
     assert len(data["routes"]) == 1
     assert data["routes"][0]["steps"][0]["name"] == "Red Line"
     assert data["routes"][0]["steps"][0]["color"] == "#DA291C"
+
+
+def test_static_modules_are_versioned_and_never_served_stale(client):
+    html = client.get("/").get_data(as_text=True)
+    assert '<script type="importmap">' in html
+    assert f'/static/js/core/api.js?v={charlie.ASSET_VERSION}' in html
+    versioned = client.get(f"/static/js/main.js?v={charlie.ASSET_VERSION}")
+    assert "immutable" in versioned.headers["Cache-Control"]
+    plain = client.get("/static/js/main.js")
+    assert plain.headers["Cache-Control"] == "no-store" and "ETag" not in plain.headers

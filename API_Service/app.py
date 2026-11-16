@@ -1124,9 +1124,31 @@ def process_chat_message(user_msg):
 ASSET_VERSION = (os.environ.get('VERCEL_GIT_COMMIT_SHA') or str(int(datetime.now().timestamp())))[:10]
 
 
+# Every ES module gets the version in its URL via an import map, so a deploy can never
+# be served stale. (Vercel normalizes file mtimes, so Flask's mtime+size ETags could
+# match across deploys and return 304 for changed files of the same size.)
+_STATIC_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'static')
+IMPORT_MAP = {"imports": {
+    f"/static/{os.path.relpath(os.path.join(root, f), _STATIC_DIR)}": f"/static/{os.path.relpath(os.path.join(root, f), _STATIC_DIR)}?v={ASSET_VERSION}"
+    for root, _, files in os.walk(os.path.join(_STATIC_DIR, 'js')) for f in files if f.endswith('.js')
+}}
+
+
+@app.after_request
+def static_cache_headers(response):
+    if request.path.startswith('/static/'):
+        if request.args.get('v') == ASSET_VERSION:
+            response.headers['Cache-Control'] = 'public, max-age=31536000, immutable'
+        else:
+            response.headers['Cache-Control'] = 'no-store'
+            response.headers.pop('ETag', None)
+            response.headers.pop('Last-Modified', None)
+    return response
+
+
 @app.route('/')
 def home():
-    return render_template('index.html', asset_version=ASSET_VERSION)
+    return render_template('index.html', asset_version=ASSET_VERSION, import_map=IMPORT_MAP)
 
 
 @app.route('/health')
