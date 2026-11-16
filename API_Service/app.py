@@ -1265,7 +1265,7 @@ def get_predictions():
         if not stop_id and not route_id:
             return jsonify({"error": "Provide stop or route"}), 400
         
-        params = {"include": "stop,route,trip,vehicle", "sort": "arrival_time", "page[limit]": 20}
+        params = {"include": "stop,route,trip,vehicle", "page[limit]": 40}
         if stop_id: params["filter[stop]"] = stop_id
         if route_id: params["filter[route]"] = route_id
         if direction_id: params["filter[direction_id]"] = direction_id
@@ -1316,6 +1316,9 @@ def get_predictions():
                 }
             })
         
+        # Sort by the displayed time (arrival, or departure when there is no arrival)
+        predictions.sort(key=lambda p: parser.isoparse(p["arrival_time"]))
+        predictions = predictions[:20]
         return jsonify({"predictions": predictions, "count": len(predictions)})
     except Exception as e:
         return jsonify({"error": str(e)}), 500
@@ -1521,7 +1524,7 @@ def get_station_info(stop_id):
         stop_attrs = stop_response.json().get('data', {}).get('attributes', {})
         
         pred_response = requests.get(f"{BASE_URL}/predictions", headers=HEADERS,
-            params={"filter[stop]": stop_id, "include": "route,trip", "sort": "arrival_time", "page[limit]": 30})
+            params={"filter[stop]": stop_id, "include": "route,trip", "page[limit]": 50})
         pred_data = pred_response.json()
         
         included = {f"{item['type']}_{item['id']}": item for item in pred_data.get('included', [])}
@@ -1547,8 +1550,16 @@ def get_station_info(stop_id):
                 "route_color": f"#{route_attrs.get('color', '000000')}",
                 "headsign": trip_info.get('attributes', {}).get('headsign', ''),
                 "arrival_formatted": format_time(arrival_time),
-                "time_away": format_time_diff(arrival_dt)
+                "time_away": format_time_diff(arrival_dt),
+                "_sort": arrival_dt
             })
+        
+        # Sort by the time we display. MBTA's arrival_time sort misplaces trains that
+        # only have a departure_time (e.g. trains leaving a terminal like Oak Grove).
+        predictions.sort(key=lambda p: p["_sort"])
+        for p in predictions:
+            p.pop("_sort", None)
+        predictions = predictions[:30]
         
         return jsonify({
             "station": {
