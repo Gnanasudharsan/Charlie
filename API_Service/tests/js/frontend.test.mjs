@@ -111,7 +111,7 @@ test('trip: step → route ids and transparent badges', () => {
   assert.deepEqual(routeIdsForStep({ name: 'Red Line' }), ['Red']);
   assert.deepEqual(routeIdsForStep({ name: 'Bus 66' }), ['66']);
   assert.deepEqual(routeIdsForStep({ name: 'Framingham/Worcester Line' }), []);
-  const badges = tripBadges([{ duration: 40, transfers: 3 }, { duration: 33, transfers: 2 }, { duration: 48, transfers: 1 }]);
+  const badges = tripBadges([{ duration: 40, transfers: 3, walk_time: 5 }, { duration: 33, transfers: 2, walk_time: 5 }, { duration: 48, transfers: 1, walk_time: 5 }]);
   assert.deepEqual(badges, [[], ['Shortest trip'], ['Fewest transfers']]);
   assert.deepEqual(tripBadges([{ duration: 10, transfers: 0 }]), [[]]);
 });
@@ -144,8 +144,115 @@ test('badges: text color keeps WCAG contrast on every line color', () => {
   assert.equal(inkFor('#00843D'), '#FFFFFF');   // Green Line
 });
 
-import { sortTrips } from '../../static/js/views/trip.js';
-test('trip: options are ordered by total travel time, ties keep API order', () => {
-  const r = [{ id: 'a', duration: 239 }, { id: 'b', duration: 214 }, { id: 'c', duration: 18 }, { id: 'd', duration: 18 }];
-  assert.deepEqual(sortTrips(r).map(x => x.id), ['c', 'd', 'b', 'a']);
+import { sortTrips, arrivalNote, tripAlertText, SORTS } from '../../static/js/views/trip.js';
+import { tripClock, arrivalRow } from '../../static/js/ui/components.js';
+import { searchResults, parseRouteQuery } from '../../static/js/core/search.js';
+import { groupHeading, modesPresent } from '../../static/js/ui/station-panel.js';
+import { clusterPoints } from '../../static/js/core/cluster.js';
+import { arrivalsCardHtml } from '../../static/js/views/assistant.js';
+
+// Park Street → Symphony as observed: the shortest ride leaves later and arrives later.
+const T0 = Date.parse('2026-11-16T16:40:00Z') / 1000;
+const TRIPS = [
+  { id: 'later-short', depart_ts: T0 + 16 * 60, arrive_ts: T0 + 26 * 60, duration: 10, transfers: 1, walk_time: 6 },
+  { id: 'first-arrival', depart_ts: T0 + 2 * 60, arrive_ts: T0 + 20 * 60, duration: 18, transfers: 0, walk_time: 9 },
+  { id: 'mid', depart_ts: T0 + 5 * 60, arrive_ts: T0 + 23 * 60, duration: 18, transfers: 0, walk_time: 3 },
+];
+
+test('trip: immediate trips default to earliest arrival, not duration', () => {
+  assert.equal(SORTS[0].id, 'arrival');
+  assert.deepEqual(sortTrips(TRIPS).map(x => x.id), ['first-arrival', 'mid', 'later-short']);
+  assert.deepEqual(sortTrips(TRIPS, 'duration').map(x => x.id), ['later-short', 'first-arrival', 'mid']);
+  assert.deepEqual(sortTrips(TRIPS, 'transfers').map(x => x.id), ['first-arrival', 'mid', 'later-short']);
+  assert.deepEqual(sortTrips(TRIPS, 'walking').map(x => x.id), ['mid', 'later-short', 'first-arrival']);
+});
+
+test('trip: ties fall through arrival → duration → transfers → walking → API order', () => {
+  const r = [{ id: 'a', arrive_ts: 100, duration: 20, transfers: 1, walk_time: 4 }, { id: 'b', arrive_ts: 100, duration: 20, transfers: 0, walk_time: 9 },
+    { id: 'c', arrive_ts: 100, duration: 15, transfers: 2, walk_time: 1 }, { id: 'd', arrive_ts: 100, duration: 20, transfers: 0, walk_time: 9 }];
+  assert.deepEqual(sortTrips(r).map(x => x.id), ['c', 'b', 'd', 'a']);
+  // Without timestamps, earliest arrival falls back to duration rather than guessing.
+  assert.deepEqual(sortTrips([{ id: 'x', duration: 30 }, { id: 'y', duration: 12 }]).map(x => x.id), ['y', 'x']);
+});
+
+test('trip: midnight boundary sorts by timestamp and labels the next day', () => {
+  const late = Date.parse('2026-11-17T04:50:00Z') / 1000;           // 11:50 PM Boston
+  const r = [{ id: 'after', arrive_ts: late + 25 * 60, duration: 20 }, { id: 'before', arrive_ts: late + 5 * 60, duration: 40 }];
+  assert.deepEqual(sortTrips(r).map(x => x.id), ['before', 'after']);
+  const now = new Date('2026-11-17T04:40:00Z');                       // 11:40 PM Boston on the 16th
+  assert.equal(tripClock(late + 5 * 60, '', now), '11:55 PM');
+  assert.equal(tripClock(late + 25 * 60, '', now), '12:15 AM tomorrow');
+});
+
+test('trip: badges and the shortest-but-later note are honest', () => {
+  const badges = tripBadges(TRIPS);
+  assert.deepEqual(badges, [['Shortest trip'], ['Earliest arrival'], ['Least walking']]);
+  assert.match(arrivalNote(TRIPS[0], TRIPS), /Shortest ride, but leaves later and arrives 6 min after/);
+  assert.equal(arrivalNote(TRIPS[1], TRIPS), '');
+  assert.equal(arrivalNote(TRIPS[2], TRIPS), '');                 // later, but not the shortest
+  // No trade-off when an earliest-arriving option is just as short.
+  const tie = [{ arrive_ts: 100, duration: 10 }, { arrive_ts: 400, duration: 10 }];
+  assert.equal(arrivalNote(tie[1], tie), '');
+});
+
+test('trip: alert text says the scope the feed supports', () => {
+  assert.match(tripAlertText({ step: 'Green Line E', scope: 'stop', effect: 'STATION_CLOSURE', stop_names: ['Symphony', 'Symphony'], header: 'Symphony station is closed.' }), /^Green Line E · Station closed at Symphony: /);
+  assert.match(tripAlertText({ step: 'Red Line', scope: 'route', header: 'Delays of about 10 minutes.' }), /^Red Line \(line-wide\): Delays/);
+  assert.match(tripAlertText({ step: 'Orange Line', scope: 'direction', header: 'Northbound trains bypass State.' }), /\(this direction\)/);
+});
+
+test('search: plain and natural route queries find the exact route first', () => {
+  const routes = { subway: [{ id: 'Red', name: 'Red Line', short_name: '' }], commuter_rail: [], ferry: [],
+    bus: [{ id: '39', short_name: '39', name: 'Forest Hills - Back Bay' }, { id: '393', short_name: '393', name: 'Lynn' }, { id: '9', short_name: '9', name: 'City Point' }] };
+  for (const q of ['39', 'Route 39', 'Bus 39', 'route  39', 'rt 39', '#39']) {
+    const out = searchResults(q, STATIONS, routes);
+    assert.equal(out[0].kind, 'route', q);
+    assert.equal(out[0].id, '39', q);
+  }
+  assert.deepEqual(parseRouteQuery('Bus 39'), { core: '39', explicit: true });
+  const harvard = searchResults('Harvard', STATIONS, routes);
+  assert.equal(harvard[0].kind, 'station');
+  assert.equal(harvard[0].name, 'Harvard');
+});
+
+test('station board: subway first, headsign headings, berths as supporting text', () => {
+  const preds = [
+    { route_id: '71', route_type: 3, direction_id: 0, headsign: 'Watertown Square', platform_name: 'Upper Busway Berth B4', time: '1' },
+    { route_id: 'Red', route_type: 1, direction_id: 0, headsign: 'Braintree', platform_name: 'Ashmont/Braintree', time: '2' },
+    { route_id: '86', route_type: 3, direction_id: 1, headsign: 'Harvard', platform_name: 'Upper Busway Berth B3', time: '3', event: 'arrival' },
+    { route_id: 'Red', route_type: 1, direction_id: 0, headsign: 'Ashmont', platform_name: 'Ashmont/Braintree', time: '4' },
+  ];
+  const groups = groupArrivals(preds);
+  assert.deepEqual(groups.map(g => g.route_id), ['Red', '71', '86']);
+  assert.deepEqual(modesPresent(preds), ['subway', 'bus']);
+  assert.deepEqual(groupHeading(groups[0], 'Harvard'), { dest: 'To Braintree / Ashmont', platform: '', rowPlatform: false });
+  const bus = groupHeading(groups[1], 'Harvard');
+  assert.equal(bus.dest, 'To Watertown Square');
+  assert.equal(bus.platform, 'Upper Busway Berth B4');
+  assert.equal(groupHeading(groups[2], 'Harvard').dest, 'Arriving at Harvard (ends here)');
+  const via = groupArrivals([{ route_id: '66', route_type: 3, direction_id: 1, headsign: 'Harvard via Allston', event: 'arrival', time: '1' }]);
+  assert.equal(groupHeading(via[0], 'Harvard').dest, 'Arriving at Harvard (ends here)');
+  const row = arrivalRow({ ...preds[2], time: new Date(Date.now() + 5 * 60000).toISOString() }, { stationName: 'Harvard', platform: true, showRoute: true });
+  assert.match(row, /arrival__dest">Harvard</);
+  assert.match(row, /ends here · Upper Busway Berth B3/);
+  assert.match(row, /line-badge/);
+});
+
+test('map: clustering merges only nearby vehicles on the same line', () => {
+  const c = clusterPoints([
+    { id: 'r1', x: 0, y: 0, group: 'Red' }, { id: 'r2', x: 10, y: 5, group: 'Red' },
+    { id: 'o1', x: 4, y: 2, group: 'Orange' }, { id: 'r3', x: 200, y: 0, group: 'Red' },
+  ], 26);
+  assert.deepEqual(c.map(x => [x.group, x.ids]), [['Red', ['r1', 'r2']], ['Orange', ['o1']], ['Red', ['r3']]]);
+});
+
+test('assistant: arrivals card keeps the station board shortcut and names each state', () => {
+  const ok = arrivalsCardHtml({ status: 'ok', station: { id: 'place-harsq', name: 'Harvard' }, updated_at: '2026-11-16T16:52:00Z',
+    groups: [{ route_id: 'Red', label: 'Ashmont/Braintree', items: [{ headsign: 'Braintree', time: new Date(Date.now() + 120000).toISOString(), event: 'arrival' }] }] });
+  assert.match(ok, /data-open-station="place-harsq"/);
+  assert.match(ok, /To Ashmont\/Braintree/);
+  assert.match(ok, /Braintree/);
+  assert.match(arrivalsCardHtml({ status: 'ambiguous', candidates: ['Park Street', 'Science Park'] }), /data-suggest="Next train at Science Park"/);
+  assert.match(arrivalsCardHtml({ status: 'unavailable', station: { id: 'x', name: 'Harvard' } }), /unavailable/);
+  assert.match(arrivalsCardHtml({ status: 'none', station: { id: 'x', name: 'Harvard' } }), /Service alerts/);
 });

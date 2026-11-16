@@ -5,7 +5,7 @@ import { store } from './core/store.js';
 import { parseHash, navigate } from './core/router.js';
 import { routeIdentity } from './core/constants.js';
 import { escapeHtml as e, formatClock, relativeTime } from './core/format.js';
-import { rank } from './core/search.js';
+import { searchResults } from './core/search.js';
 import { filterAlerts } from './core/alerts.js';
 import { initPanel, closePanel } from './ui/panel.js';
 import { combobox } from './ui/combobox.js';
@@ -95,11 +95,7 @@ function renderAlertCount() {
 
 // ---- Global search ------------------------------------------------------
 function searchItems(q) {
-  const stations = rank(store.get('stations'), q, s => s.name, 6).map(s => ({ kind: 'station', ...s }));
-  const r = store.get('routes');
-  const routes = r ? rank([...r.subway, ...r.commuter_rail, ...r.ferry, ...r.bus], q,
-    x => [x.short_name, x.name].filter(Boolean), 5).map(x => ({ kind: 'route', ...x })) : [];
-  return [...stations, ...routes];
+  return searchResults(q, store.get('stations') || [], store.get('routes'));
 }
 
 function searchOption(item) {

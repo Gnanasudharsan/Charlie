@@ -136,3 +136,139 @@ def line_status(alerts_for_line):
     else:
         status = "normal"
     return status, active
+
+
+# ==================== ARRIVAL ANSWERS ====================
+
+def next_by_direction(predictions, per_direction=2):
+    """Group time-sorted predictions by (route, direction) and keep the soonest few.
+
+    Branch headsigns (e.g. Ashmont vs Braintree) stay on each item, and a direction's
+    `headsigns` lists every branch seen so a rider can tell them apart."""
+    groups = {}
+    for p in predictions:
+        key = (p.get("route_id"), p.get("direction_id"))
+        g = groups.setdefault(key, {"route_id": key[0], "route_name": p.get("route_name", ""),
+                                    "direction_id": key[1], "headsigns": [], "items": []})
+        if p.get("headsign") and p["headsign"] not in g["headsigns"]:
+            g["headsigns"].append(p["headsign"])
+        if len(g["items"]) < per_direction:
+            g["items"].append(p)
+    return list(groups.values())
+
+
+def filter_toward(predictions, toward, direction_id=None):
+    """Predictions heading toward `toward` (matched on headsign), or in `direction_id`."""
+    if direction_id is not None:
+        return [p for p in predictions if p.get("direction_id") == direction_id]
+    if not toward:
+        return list(predictions)
+    t = toward.lower().strip()
+
+    def matches(p):
+        h = (p.get("headsign") or "").lower()
+        return bool(h) and (t in h or h in t)
+
+    return [p for p in predictions if matches(p)]
+
+
+# ==================== TRIP PLANNING ====================
+
+# Alert effects that close or bypass a stop for riders.
+CLOSURE_EFFECTS = {"STATION_CLOSURE", "STOP_CLOSURE", "SUSPENSION", "SHUTTLE", "NO_SERVICE", "DETOUR", "STOP_MOVED"}
+
+
+def alert_active_between(attrs, start, end):
+    """True when any active period overlaps [start, end] (alerts with no periods are always active)."""
+    periods = attrs.get("active_period") or []
+    if not periods:
+        return True
+    for period in periods:
+        p_start = parse_time(period.get("start"))
+        p_end = parse_time(period.get("end"))
+        if (p_start is None or p_start <= end) and (p_end is None or start <= p_end):
+            return True
+    return False
+
+
+def mbta_id(value):
+    """Transitous prefixes MBTA GTFS ids with the feed name ('us-ma-MBTA_70012' -> '70012')."""
+    value = str(value or "")
+    return value.split("_", 1)[1] if value.startswith("us-ma-MBTA_") else value
+
+
+def match_leg_alerts(alerts, leg, min_severity=STATUS_MIN_SEVERITY):
+    """Service alerts that affect one transit leg, labelled with the scope the feed supports.
+
+    leg: {route_id, direction_id, stop_ids: set, start: datetime, end: datetime}
+    scope: 'stop' (a stop this leg serves), 'direction' (this direction of the route)
+           or 'route' (the feed names only the route)."""
+    matches = []
+    stop_ids = set(leg.get("stop_ids") or [])
+    for alert in alerts:
+        attrs = alert.get("attributes", {})
+        effect = attrs.get("effect") or ""
+        if effect in ACCESSIBILITY_EFFECTS or (attrs.get("severity") or 0) < min_severity:
+            continue
+        if leg.get("start") and leg.get("end") and not alert_active_between(attrs, leg["start"], leg["end"]):
+            continue
+        best = None
+        hit_stops = set()
+        for ent in attrs.get("informed_entity", []):
+            if ent.get("route") and ent["route"] != leg.get("route_id"):
+                continue
+            if not ent.get("route") and not ent.get("stop"):
+                continue
+            if ent.get("direction_id") is not None and leg.get("direction_id") is not None \
+                    and ent["direction_id"] != leg["direction_id"]:
+                continue
+            if ent.get("stop"):
+                if ent["stop"] not in stop_ids:
+                    continue
+                hit_stops.add(ent["stop"])
+                scope = "stop"
+            elif not ent.get("route"):
+                continue
+            else:
+                scope = "direction" if ent.get("direction_id") is not None else "route"
+            rank = {"stop": 0, "direction": 1, "route": 2}[scope]
+            if best is None or rank < best:
+                best = rank
+        if best is None:
+            continue
+        matches.append({
+            "id": alert.get("id"),
+            "effect": effect,
+            "severity": attrs.get("severity") or 0,
+            "header": attrs.get("header") or "",
+            "service_effect": attrs.get("service_effect") or "",
+            "scope": ["stop", "direction", "route"][best],
+            "stops": sorted(hit_stops),
+        })
+    matches.sort(key=lambda m: ({"stop": 0, "direction": 1, "route": 2}[m["scope"]], -m["severity"]))
+    return matches
+
+
+def station_closures(alerts, station_id, at_start, at_end):
+    """Active closure-type service alerts naming a station (parent id like 'place-symcl')."""
+    found = []
+    for alert in alerts:
+        attrs = alert.get("attributes", {})
+        if attrs.get("effect") not in CLOSURE_EFFECTS:
+            continue
+        if not alert_active_between(attrs, at_start, at_end):
+            continue
+        ents = attrs.get("informed_entity", [])
+        if not any(e.get("stop") == station_id for e in ents):
+            continue
+        found.append({
+            "id": alert.get("id"),
+            "effect": attrs.get("effect"),
+            "severity": attrs.get("severity") or 0,
+            "header": attrs.get("header") or "",
+            "routes": sorted({e["route"] for e in ents if e.get("route")}),
+            "direction_ids": sorted({e["direction_id"] for e in ents
+                                     if e.get("stop") == station_id and e.get("direction_id") is not None}),
+        })
+    found.sort(key=lambda a: -a["severity"])
+    return found

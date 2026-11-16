@@ -23,10 +23,12 @@ export function tripFormHtml({ large = false, submitLabel = 'Plan journey' } = {
           <input id="${id}-from" class="input" name="origin" placeholder="From — station, address or place" />
           <button type="button" class="field__action" data-locate aria-label="Use my current location" title="Use my current location">${icon('locate', { size: 18 })}</button>
         </div>
+        <p class="field-error field-error--inline" id="${id}-from-err" data-error-for="origin" role="alert" hidden></p>
         <div class="field combo">
           <label class="sr-only" for="${id}-to">Destination</label>
           <input id="${id}-to" class="input" name="destination" placeholder="To — where are you going?" />
         </div>
+        <p class="field-error field-error--inline" id="${id}-to-err" data-error-for="destination" role="alert" hidden></p>
       </div>
       <button type="button" class="icon-btn trip-form__swap" data-swap aria-label="Swap starting point and destination" title="Swap">${icon('swap', { size: 18 })}</button>
     </div>
@@ -78,8 +80,24 @@ export function bindTripForm(form, { onSubmit, initial = {} } = {}) {
     return items;
   };
 
+  const fieldOf = name => (name === 'origin' ? origin : dest);
+  const fieldError = (name, message) => {
+    const input = fieldOf(name);
+    const msg = form.querySelector(`[data-error-for="${name}"]`);
+    if (!input || !msg) return;
+    msg.textContent = message;
+    msg.hidden = !message;
+    input.setAttribute('aria-invalid', message ? 'true' : 'false');
+    if (message) input.setAttribute('aria-describedby', msg.id); else input.removeAttribute('aria-describedby');
+  };
+  const clearErrors = () => { fieldError('origin', ''); fieldError('destination', ''); error.hidden = true; };
+
   for (const input of [origin, dest]) {
-    input.addEventListener('input', () => { delete input.dataset.lat; delete input.dataset.lon; delete input.dataset.id; error.hidden = true; });
+    input.addEventListener('input', () => {
+      delete input.dataset.lat; delete input.dataset.lon; delete input.dataset.id;
+      error.hidden = true;
+      fieldError(input === origin ? 'origin' : 'destination', '');
+    });
     combobox(input, {
       source: q => rank(stations(), q, s => s.name, 8),
       onOpenEmpty: () => recentItems(input === origin),
@@ -113,14 +131,18 @@ export function bindTripForm(form, { onSubmit, initial = {} } = {}) {
   form.addEventListener('submit', ev => {
     ev.preventDefault();
     const o = readPlace(origin), d = readPlace(dest);
+    clearErrors();
     if (!o || !d) {
-      error.textContent = !o ? 'Enter a starting point.' : 'Enter a destination.';
-      error.hidden = false;
+      if (!o) fieldError('origin', 'Enter a starting point.');
+      if (!d) fieldError('destination', 'Enter a destination.');
       (!o ? origin : dest).focus();
       return;
     }
     onSubmit({ origin: o, destination: d });
   });
 
-  return { setOrigin: p => setValue(origin, p), setDestination: p => setValue(dest, p) };
+  return {
+    setOrigin: p => setValue(origin, p), setDestination: p => setValue(dest, p),
+    fieldError, clearErrors, focusField: name => fieldOf(name)?.focus(),
+  };
 }

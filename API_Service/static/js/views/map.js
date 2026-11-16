@@ -71,11 +71,11 @@ function buildHost() {
     </div>
     <div class="map-focus" data-focus hidden></div>
     <div class="map-tools" role="toolbar" aria-label="Map tools">
-      <button class="map-tool" data-tool="layers" aria-expanded="false" aria-controls="map-layers" aria-label="Layers and line filters">${icon('layers')}</button>
+      <button class="map-tool map-tool--label" data-tool="layers" aria-expanded="false" aria-controls="map-layers" aria-label="Layers and line filters">${icon('layers')}<span class="map-tool__text" aria-hidden="true">Layers</span><span class="map-tool__count" data-hidden-count hidden></span></button>
       <button class="map-tool" data-tool="locate" aria-label="Show my location">${icon('locate')}</button>
       <button class="map-tool" data-tool="fit" aria-label="Fit the whole network">${icon('recenter')}</button>
     </div>
-    <div class="map-layers" id="map-layers" hidden>
+    <div class="map-layers" id="map-layers" role="dialog" aria-label="Map layers and line filters" hidden>
       <fieldset><legend>Lines</legend>
         ${LINE_GROUPS.map(g => `<label class="check"><input type="checkbox" data-group="${g.id}" checked><span class="swatch" style="--c:${routeIdentity(g.routes[0]).bright}"></span>${e(g.name)}</label>`).join('')}
         <label class="check"><input type="checkbox" data-group="CR" checked><span class="swatch" style="--c:${CR_COLOR}"></span>Commuter Rail</label>
@@ -91,14 +91,29 @@ function buildHost() {
 
   const layers = host.querySelector('#map-layers');
   const layersBtn = host.querySelector('[data-tool="layers"]');
-  layersBtn.addEventListener('click', () => {
-    layers.hidden = !layers.hidden;
-    layersBtn.setAttribute('aria-expanded', String(!layers.hidden));
+  const setLayersOpen = open => {
+    layers.hidden = !open;
+    layersBtn.setAttribute('aria-expanded', String(open));
+    if (open) layers.querySelector('input')?.focus();
+  };
+  layersBtn.addEventListener('click', () => setLayersOpen(layers.hidden));
+  layers.addEventListener('keydown', ev => { if (ev.key === 'Escape') { ev.stopPropagation(); setLayersOpen(false); layersBtn.focus(); } });
+  document.addEventListener('pointerdown', ev => {
+    if (!layers.hidden && !layers.contains(ev.target) && !layersBtn.contains(ev.target)) setLayersOpen(false);
   });
+  // A count on the Layers button when something is switched off, so hidden filters are visible.
+  const updateHiddenCount = () => {
+    const off = [...layers.querySelectorAll('input[type="checkbox"]')].filter(i => !i.checked).length;
+    const badge = host.querySelector('[data-hidden-count]');
+    badge.hidden = !off;
+    badge.textContent = off ? `${off} off` : '';
+    layersBtn.setAttribute('aria-label', off ? `Layers and line filters, ${off} turned off` : 'Layers and line filters');
+  };
   layers.addEventListener('change', ev => {
     const t = ev.target;
     if (t.dataset.group) liveMap.setGroup(t.dataset.group, t.checked);
     if (t.dataset.layer) liveMap.setLayer(t.dataset.layer, t.checked);
+    updateHiddenCount();
   });
   host.querySelector('[data-tool="fit"]').addEventListener('click', () => liveMap.focusRoute ? liveMap.fitRoute(liveMap.focusRoute) : liveMap.fitNetwork());
   host.querySelector('[data-tool="locate"]').addEventListener('click', async () => {

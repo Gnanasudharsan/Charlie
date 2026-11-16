@@ -29,15 +29,31 @@ export function countdownBlock(pred, { large = false } = {}) {
     `</span>`;
 }
 
-/** One row on an arrival board: destination, route, countdown, clock time. */
-export function arrivalRow(pred) {
+const sameName = (a, b) => String(a || '').toLowerCase().replace(/[^a-z0-9]/g, '') === String(b || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+
+/** True when a trip's headsign is this station ("Harvard", "Harvard via Allston"): it ends here. */
+export function endsAt(headsign, stationName) {
+  if (!headsign || !stationName) return false;
+  return sameName(headsign, stationName) || sameName(String(headsign).split(/\s+via\s+/i)[0], stationName);
+}
+
+/**
+ * One row on an arrival board: destination first, then arrival/departure time,
+ * platform/berth (when `platform`), status and countdown.
+ * `showRoute` adds the line badge (mixed-mode lists); `stationName` marks trips that end here.
+ */
+export function arrivalRow(pred, { showRoute = false, platform = false, stationName = '' } = {}) {
   const clock = formatClock(pred.time);
+  const endsHere = pred.event === 'arrival' && endsAt(pred.headsign, stationName);
   const verb = pred.event === 'departure' ? 'Departs' : 'Arrives';
   const status = pred.status && !/boarding/i.test(pred.status) ? `<span class="arrival__status">${e(pred.status)}</span>` : '';
+  const meta = [`${verb} ${e(clock)}`, endsHere ? 'ends here' : '', platform && pred.platform_name ? e(pred.platform_name) : '', status].filter(Boolean).join(' · ');
+  const badge = showRoute ? lineBadge(pred.route_id, { size: 'sm', route: { short_name: pred.route_short_name, name: pred.route_name } }) : '';
   return `<li class="arrival">
+    ${badge ? `<span class="arrival__route">${badge}</span>` : ''}
     <div class="arrival__main">
       <span class="arrival__dest">${e(pred.headsign || pred.route_name || 'Train')}</span>
-      <span class="arrival__meta">${verb} ${e(clock)}${status ? ' · ' : ''}${status}</span>
+      <span class="arrival__meta">${meta}</span>
     </div>
     ${countdownBlock(pred)}
   </li>`;
@@ -106,14 +122,29 @@ export function stationRow(station, { right = '', recent = false } = {}) {
 }
 
 const BADGE_HELP = {
+  'Earliest arrival': 'Gets you there first among these options',
   'Shortest trip': 'Lowest total travel time among these options',
   'Fewest transfers': 'Fewest changes between vehicles among these options',
+  'Least walking': 'Least time on foot among these options',
 };
+
+const dayKey = new Intl.DateTimeFormat('en-CA', { timeZone: 'America/New_York', year: 'numeric', month: '2-digit', day: '2-digit' });
+const weekday = new Intl.DateTimeFormat('en-US', { timeZone: 'America/New_York', weekday: 'short' });
+
+/** Clock time from an epoch (seconds), with the day when it isn't today in Boston. */
+export function tripClock(ts, fallback = '', now = new Date()) {
+  if (!Number.isFinite(ts)) return fallback;
+  const d = new Date(ts * 1000);
+  const label = formatClock(d);
+  if (dayKey.format(d) === dayKey.format(now)) return label;
+  const tomorrow = new Date(now.getTime() + 86400000);
+  return `${label} ${dayKey.format(d) === dayKey.format(tomorrow) ? 'tomorrow' : weekday.format(d)}`;
+}
 
 const STEP_MODE = { subway: 'subway', tram: 'subway', 'silver-line': 'bus', bus: 'bus', 'commuter-rail': 'commuter_rail', ferry: 'ferry', transit: 'subway' };
 
 /** Trip option card. `badges` holds transparent labels such as "Shortest trip". */
-export function tripOptionCard(route, index, { badges = [], alerts = [] } = {}) {
+export function tripOptionCard(route, index, { badges = [], alerts = [], note = '' } = {}) {
   const segments = route.steps.map((s, i) => {
     const color = s.color || '#64748B';
     return `${i ? `<span class="seg-sep" aria-hidden="true">${icon('chevronRight', { size: 14 })}</span>` : ''}<span class="seg" style="--seg:${e(color)};--seg-ink:${inkFor(color)}">${modeIcon(STEP_MODE[s.type] || 'subway', { size: 14 })}${e(s.short_name || s.name)}</span>`;
@@ -130,7 +161,10 @@ export function tripOptionCard(route, index, { badges = [], alerts = [] } = {}) 
     <summary class="trip-card__summary">
       <div class="trip-card__time">
         <span class="trip-card__duration">${e(route.duration_text || `${route.duration} min`)}</span>
-        <span class="trip-card__range">${e(route.time_range || '')}</span>
+        ${route.depart_time || Number.isFinite(route.depart_ts)
+          ? `<span class="trip-card__clock"><span class="muted">Leave</span> ${e(tripClock(route.depart_ts, route.depart_time))}</span>
+             <span class="trip-card__clock"><span class="muted">Arrive</span> <strong>${e(tripClock(route.arrive_ts, route.arrive_time))}</strong></span>`
+          : `<span class="trip-card__range">${e(route.time_range || '')}</span>`}
       </div>
       <div class="trip-card__segs">${segments}</div>
       <div class="trip-card__facts">
@@ -139,7 +173,8 @@ export function tripOptionCard(route, index, { badges = [], alerts = [] } = {}) 
         ${route.walk_time ? `<span>${icon('walk', { size: 14 })}${e(route.walk_time)} min walk</span>` : ''}
         ${route.fare ? `<span title="Estimated fare">${e(route.fare)} est.</span>` : ''}
       </div>
-      ${alerts.length ? `<div class="trip-card__alerts">${icon('alert', { size: 14 })}${alerts.map(a => e(a)).join(' · ')}</div>` : ''}
+      ${note ? `<div class="trip-card__note">${icon('clock', { size: 14 })}${e(note)}</div>` : ''}
+      ${alerts.length ? `<div class="trip-card__alerts">${icon('alert', { size: 14 })}<ul class="plain-list">${alerts.map(a => `<li>${e(a)}</li>`).join('')}</ul></div>` : ''}
       <span class="trip-card__chev">${icon('chevronDown', { size: 18 })}</span>
     </summary>
     <ol class="trip-card__steps">${steps}</ol>

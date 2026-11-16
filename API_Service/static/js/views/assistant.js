@@ -4,9 +4,9 @@
 import { api } from '../core/api.js';
 import { store } from '../core/store.js';
 import { LINES } from '../core/constants.js';
-import { escapeHtml as e, renderRichText } from '../core/format.js';
+import { escapeHtml as e, renderRichText, formatClockSeconds } from '../core/format.js';
 import { icon } from '../ui/icons.js';
-import { lineBadge } from '../ui/components.js';
+import { lineBadge, arrivalRow } from '../ui/components.js';
 import { openStation } from '../ui/station-panel.js';
 import { requestLocation } from '../ui/location.js';
 
@@ -43,6 +43,28 @@ export function mentions(text, stations) {
   return [...found, ...lines.slice(0, 3)];
 }
 
+/** Structured arrivals under a reply: the same predictions, with a station-board shortcut. */
+export function arrivalsCardHtml(a) {
+  if (!a) return '';
+  const station = a.station;
+  const open = station ? `<button class="btn btn--secondary btn--sm" data-open-station="${e(station.id)}">${icon('pin', { size: 14 })}Open ${e(station.name)} station board</button>` : '';
+  if (a.status === 'ambiguous') {
+    const line = a.route ? ` ${a.route.length <= 3 && /\d/.test(a.route) ? `route ${a.route}` : a.route}` : '';
+    return `<div class="msg-card"><div class="chips">${(a.candidates || []).map(c =>
+      `<button class="chip chip--btn" data-suggest="${e(`Next${line} train at ${c}`)}">${icon('pin', { size: 14 })}${e(c)}</button>`).join('')}</div></div>`;
+  }
+  if (a.status === 'unknown') return `<div class="msg-card"><a class="btn btn--secondary btn--sm" href="#/stations">${icon('search', { size: 14 })}Browse stations</a></div>`;
+  if (a.status === 'unavailable') return `<div class="msg-card msg-card--warn"><p class="small">Live predictions are unavailable right now, so no times are shown.</p><div class="btn-row">${open}</div></div>`;
+  if (a.status === 'none') return `<div class="msg-card"><div class="btn-row">${open}<a class="btn btn--ghost btn--sm" href="#/alerts">${icon('alert', { size: 14 })}Service alerts</a></div></div>`;
+  return `<div class="msg-card" aria-label="Live arrivals">
+    ${(a.groups || []).map(g => `<section class="board board--compact">
+      <header class="board__head">${lineBadge(g.route_id, { size: 'sm' })}<span class="board__dir">${e(g.route_name ? `${g.route_name} · ` : '')}To ${e(g.label)}</span></header>
+      <ul class="arrivals">${g.items.map(p => arrivalRow(p, { stationName: station?.name })).join('')}</ul>
+    </section>`).join('')}
+    <div class="msg-card__foot"><span class="muted small">MBTA predictions · checked ${e(formatClockSeconds(a.updated_at))}</span>${open}</div>
+  </div>`;
+}
+
 function messageHtml(msg, i) {
   if (msg.role === 'user') return `<li class="msg msg--user"><div class="msg__bubble">${e(msg.text)}</div></li>`;
   if (msg.role === 'error') return `<li class="msg msg--bot msg--error"><div class="msg__avatar" aria-hidden="true">${icon('alert', { size: 16 })}</div><div class="msg__bubble">${e(msg.text)} <button class="link" data-retry="${i}">Try again</button></div></li>`;
@@ -50,9 +72,10 @@ function messageHtml(msg, i) {
   return `<li class="msg msg--bot">
     <div class="msg__avatar" aria-hidden="true">${icon('sparkle', { size: 16 })}</div>
     <div class="msg__content">
-      <div class="msg__bubble"><p>${renderRichText(msg.text)}</p></div>
+      <div class="msg__bubble"><p>${renderRichText(msg.arrivals?.status === 'ok' ? String(msg.text).split('\n')[0] : msg.text)}</p></div>
+      ${arrivalsCardHtml(msg.arrivals)}
       <div class="msg__actions">
-        ${chips.map(c => c.type === 'station'
+        ${(msg.arrivals ? chips.filter(c => c.type !== 'station') : chips).map(c => c.type === 'station'
           ? `<button class="chip chip--btn" data-open-station="${e(c.id)}">${icon('pin', { size: 14 })}${e(c.name)}</button>`
           : `<a class="chip chip--btn" href="#/lines/${encodeURIComponent(c.id)}">${lineBadge(c.id, { size: 'sm', label: false })}${e(c.name)}</a>`).join('')}
         ${'speechSynthesis' in window ? `<button class="icon-btn icon-btn--sm" data-speak="${i}" aria-label="Read this reply aloud" title="Read aloud">${icon('speaker', { size: 16 })}</button>` : ''}
@@ -80,13 +103,14 @@ async function send(el, text) {
   sending = true;
   render(el);
   const loc = store.get('location');
-  const { data, error } = await api.chat({ message, history: chat.history, location: loc || null });
+  const { data, error } = await api.chat({ message, history: chat.history, location: loc || null, context: chat.context || null });
   sending = false;
   if (error || !data) {
     chat.messages.push({ role: 'error', text: 'Charlie couldn’t reach the transit service just now.', retry: message });
   } else {
     if (Array.isArray(data.history)) chat.history = data.history;
-    chat.messages.push({ role: 'bot', text: data.reply || 'No reply.' });
+    if (data.context) chat.context = data.context;
+    chat.messages.push({ role: 'bot', text: data.reply || 'No reply.', arrivals: data.arrivals || null });
     if (data.request_location) setTimeout(() => requestLocation(), 600);
   }
   render(el);

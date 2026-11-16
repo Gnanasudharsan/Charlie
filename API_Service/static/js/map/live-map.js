@@ -7,6 +7,7 @@ import { LINES, LINE_GROUPS, SUBWAY_IDS, BOSTON, routeIdentity } from '../core/c
 import { decodePolyline } from '../core/polyline.js';
 import { escapeHtml as e, formatClockSeconds, vehicleStatusText } from '../core/format.js';
 import { alertsForRoutes } from '../core/alerts.js';
+import { clusterPoints } from '../core/cluster.js';
 
 const LEAFLET_VERSION = '1.9.4';
 const REFRESH_MS = 10000;
@@ -38,6 +39,10 @@ export const CR_COLOR = '#B05AA4';      // Commuter Rail purple, lifted for the 
 export const BUS_COLOR = '#FFC72C';     // MBTA bus yellow
 const SILVER_COLOR = '#A3ADB5';
 const BUS_STATUS_TTL = 10000;
+// At network zoom (≤ 12) nearby vehicles on the same line merge into one count marker.
+export const CLUSTER_MAX_ZOOM = 12;
+const CLUSTER_RADIUS = 26;
+const GROUP_NAMES = { Red: 'Red Line', Orange: 'Orange Line', Blue: 'Blue Line', Green: 'Green Line', Mattapan: 'Mattapan Trolley', CR: 'Commuter Rail' };
 
 const VEHICLE_SVG = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5 19.5 20 12 16.2 4.5 20z"/></svg>';
 
@@ -89,12 +94,16 @@ export class LiveMap {
     // Canvas renderers keep 300+ bus paths fast; `tolerance` widens the hover target.
     this.busRenderer = L.canvas({ pane: 'busRoutes', tolerance: 6 });
     this.railRenderer = L.canvas({ pane: 'railRoutes' });
-    map.createPane('stations').style.zIndex = 600;
-    map.createPane('vehicles').style.zIndex = 650;
+    // Station pins sit above vehicle markers: a click aimed at a station opens the station.
+    // Vehicles stay reachable around the (smaller) pin, by keyboard, and as clusters.
+    map.createPane('vehicles').style.zIndex = 600;
+    map.createPane('stations').style.zIndex = 650;
     map.getPane('tooltipPane').style.zIndex = 700;   // keep hover cards above vehicle markers
     this.shapeGroup = L.layerGroup().addTo(map);
     this.stationGroup = L.layerGroup().addTo(map);
     this.vehicleGroup = L.layerGroup().addTo(map);
+    this.clusterGroup = L.layerGroup().addTo(map);
+    this.clustered = new Set();
     this.userGroup = L.layerGroup().addTo(map);
     this.crGroup = L.layerGroup().addTo(map);
     this.busGroup = L.layerGroup().addTo(map);
@@ -102,7 +111,7 @@ export class LiveMap {
     this.busTip = L.tooltip({ direction: 'top', offset: [0, -10], className: 'bus-tip', opacity: 1 });
     map.on('click', () => this.unpinBus());
 
-    map.on('zoomend', () => this.applyZoomClass());
+    map.on('zoomend', () => { this.applyZoomClass(); this.refreshVehicles(); });
     this.applyZoomClass();
     await Promise.all([this.drawShapes(SUBWAY_IDS), this.drawStations()]);
     // Commuter Rail and bus paths load after the subway is on screen.
@@ -322,11 +331,47 @@ export class LiveMap {
         pane: 'stations', keyboard: true, title: st.name, riseOnHover: true,
         icon: L.divIcon({ className: 'stop-icon', html: `<span class="stop${multi ? ' stop--hub' : ''}" style="--c:${color}"></span>`, iconSize: [16, 16], iconAnchor: [8, 8] }),
       });
-      marker.on('click', () => this.onStationSelect(st.id));
+      marker.on('click', ev => { this.L.DomEvent.stopPropagation(ev); this.stationClick(st.id); });
       marker.on('add', () => { const el = marker.getElement(); if (el) { el.setAttribute('aria-label', `${st.name} station`); el.setAttribute('role', 'button'); } });
       this.stationMarkers.set(st.id, { marker, station: st });
     }
     this.refreshStations();
+  }
+
+  /** Visible station pins whose centers are within `px` screen pixels of station `id`. */
+  stationsNear(id, px = 14) {
+    const base = this.stationMarkers.get(id);
+    if (!base) return [];
+    const p = this.map.latLngToContainerPoint(base.marker.getLatLng());
+    const near = [];
+    for (const [sid, { marker, station }] of this.stationMarkers) {
+      if (!this.stationGroup.hasLayer(marker)) continue;
+      const d = p.distanceTo(this.map.latLngToContainerPoint(marker.getLatLng()));
+      if (d <= px) near.push({ id: sid, station, d: sid === id ? -1 : d });
+    }
+    return near.sort((a, b) => a.d - b.d);
+  }
+
+  /** A click on a pin that overlaps others (e.g. Park Street / Downtown Crossing at network
+   *  zoom) asks which station was meant instead of guessing. */
+  stationClick(id) {
+    const near = this.stationsNear(id);
+    if (near.length <= 1) { this.onStationSelect(id); return; }
+    const box = document.createElement('div');
+    box.className = 'station-pick';
+    box.setAttribute('role', 'group');
+    box.setAttribute('aria-label', 'Choose a station');
+    box.innerHTML = `<p class="station-pick__title">${near.length} stations here</p>` + near.map(n =>
+      `<button type="button" class="station-pick__btn" data-pick="${e(n.id)}">${e(n.station.name)}</button>`).join('');
+    box.addEventListener('click', ev => {
+      const btn = ev.target.closest('[data-pick]');
+      if (!btn) return;
+      this.map.closePopup();
+      this.onStationSelect(btn.dataset.pick);
+    });
+    this.L.popup({ className: 'pick-popup', closeButton: true, autoPan: true, offset: [0, -6] })
+      .setLatLng(this.stationMarkers.get(id).marker.getLatLng()).setContent(box).openOn(this.map);
+    setTimeout(() => box.querySelector('button')?.focus(), 0);
   }
 
   refreshStations() {
@@ -390,11 +435,45 @@ export class LiveMap {
   }
 
   refreshVehicles() {
-    for (const { marker, data } of this.vehicles.values()) {
-      const show = this.vehicleVisible(data);
+    this.clusterVehicles();
+    for (const [id, { marker, data }] of this.vehicles) {
+      const show = this.vehicleVisible(data) && !this.clustered.has(id);
       const on = this.vehicleGroup.hasLayer(marker);
       if (show && !on) this.vehicleGroup.addLayer(marker);
       if (!show && on) this.vehicleGroup.removeLayer(marker);
+    }
+  }
+
+  /** Merge overlapping same-line vehicles at network zoom; individual markers from zoom 13. */
+  clusterVehicles() {
+    this.clusterGroup.clearLayers();
+    this.clustered = new Set();
+    if (!this.map || this.map.getZoom() > CLUSTER_MAX_ZOOM) return;
+    const points = [];
+    for (const [id, { data }] of this.vehicles) {
+      if (id === this.selectedVehicle || !this.vehicleVisible(data)) continue;
+      const group = groupOf(data.route?.id);
+      if (!group) continue;
+      const pt = this.map.latLngToLayerPoint([data.latitude, data.longitude]);
+      points.push({ id, x: pt.x, y: pt.y, group });
+    }
+    for (const c of clusterPoints(points, CLUSTER_RADIUS)) {
+      if (c.ids.length < 2) continue;
+      c.ids.forEach(id => this.clustered.add(id));
+      const color = c.group === 'CR' ? CR_COLOR : routeIdentity(LINE_GROUPS.find(g => g.id === c.group)?.routes[0]).bright;
+      const label = `${c.ids.length} ${GROUP_NAMES[c.group] || ''} vehicles here — zoom in to see each one`;
+      const latlngs = c.ids.map(id => { const d = this.vehicles.get(id).data; return [d.latitude, d.longitude]; });
+      const marker = this.L.marker(this.map.layerPointToLatLng([c.x, c.y]), {
+        pane: 'vehicles', keyboard: true, title: label,
+        icon: this.L.divIcon({ className: 'veh-icon', html: `<span class="veh-cluster" style="--c:${e(color)}">${c.ids.length}</span>`, iconSize: [26, 26], iconAnchor: [13, 13] }),
+      });
+      marker.on('click', ev => {
+        this.L.DomEvent.stopPropagation(ev);
+        const bounds = this.L.latLngBounds(latlngs);
+        this.map.flyToBounds(bounds.pad(0.6), { maxZoom: Math.max(CLUSTER_MAX_ZOOM + 2, this.map.getZoom() + 2), duration: 0.5 });
+      });
+      marker.on('add', () => { const el = marker.getElement(); if (el) { el.setAttribute('role', 'button'); el.setAttribute('aria-label', label); } });
+      marker.addTo(this.clusterGroup);
     }
   }
 
@@ -407,6 +486,7 @@ export class LiveMap {
   selectVehicle(id, { pan = false } = {}) {
     if (this.selectedVehicle) this.vehicles.get(this.selectedVehicle)?.marker.getElement()?.classList.remove('is-selected');
     this.selectedVehicle = id;
+    if (this.map && this.map.getZoom() <= CLUSTER_MAX_ZOOM) this.refreshVehicles();
     const entry = id && this.vehicles.get(id);
     if (entry) {
       entry.marker.getElement()?.classList.add('is-selected');
@@ -490,6 +570,8 @@ export class LiveMap {
     this.focusRoute = routeId || null;
     // Vehicles for a different route set: clear and refetch.
     for (const { marker } of this.vehicles.values()) this.vehicleGroup.removeLayer(marker);
+    this.clusterGroup.clearLayers();
+    this.clustered.clear();
     this.vehicles.clear();
     if (routeId && !this.shapeLayers.has(routeId)) await this.drawShapes([routeId]);
     this.refreshShapes(); this.refreshStations(); this.refreshModeLayers();

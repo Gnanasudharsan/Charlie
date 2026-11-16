@@ -19,6 +19,7 @@ import pytz
 from openai import OpenAI
 
 import transit
+import arrivals
 
 # Load Environment Variables
 load_dotenv()
@@ -102,6 +103,11 @@ def load_client_state():
 
     location = data.get('location')
     g.location = {**EMPTY_LOCATION, **location} if isinstance(location, dict) else dict(EMPTY_LOCATION)
+
+    # What the last arrivals answer was about, so "what about toward Ashmont?" works.
+    context = data.get('context')
+    g.chat_context = {k: str(v)[:80] for k, v in context.items()
+                      if k in ("station_name", "station_id", "route") and v} if isinstance(context, dict) else {}
 
 # Line Colors for UI
 LINE_COLORS = {
@@ -887,9 +893,129 @@ def get_trip_directions_for_chat(origin, destination):
         return None
 
 
+
+def route_meta(route_id):
+    """Route attributes (direction names/destinations), cached for an hour."""
+    try:
+        return mbta_request(f"{BASE_URL}/routes/{route_id}").json().get('data', {}).get('attributes', {})
+    except Exception:
+        return {}
+
+
+def answer_arrivals(parsed):
+    """Answer an arrivals question from the same live predictions the station board shows."""
+    now = get_now()
+    route_filter = parsed.get("route")
+    answer = {"status": "ok", "route": route_filter, "route_label": arrivals.route_label(route_filter, []),
+              "toward": None, "groups": [], "alerts": []}
+
+    resolved = arrivals.resolve_station(parsed["station_query"], STATION_DATA, STATION_ALIASES)
+    if resolved["status"] != "ok":
+        answer.update(resolved)
+        return answer
+    station = {"id": resolved["id"], "name": resolved["name"]}
+    answer["station"] = station
+
+    try:
+        preds = station_arrivals(station["id"], now)
+    except Exception as e:
+        print(f"Arrivals unavailable: {e}")
+        answer["status"] = "unavailable"
+        return answer
+    answer["updated_at"] = now.isoformat()
+    answer["checked_text"] = now.strftime("%-I:%M %p")
+
+    preds = [p for p in preds if arrivals.route_matches(route_filter, p["route_id"])]
+
+    # Direction: a headsign/destination ("toward Ashmont") or a compass word ("southbound").
+    toward = parsed.get("toward")
+    filtered = preds
+    if toward:
+        toward_station = arrivals.resolve_station(toward, STATION_DATA, STATION_ALIASES)
+        matched = transit.filter_toward(preds, toward)
+        if not matched and toward_station["status"] == "ok":
+            matched = transit.filter_toward(preds, toward_station["name"])
+            if not matched:
+                # A station along the line (e.g. JFK/UMass): use its known direction.
+                default = DEFAULT_ROUTES.get(toward_station["name"])
+                if default and arrivals.route_matches(route_filter or default["route"], default["route"]):
+                    matched = [p for p in preds if p["route_id"] == default["route"] and p["direction_id"] == default["dir"]]
+        if matched or toward_station["status"] == "ok":
+            filtered = matched
+            answer["toward"] = toward_station.get("name") if toward_station["status"] == "ok" else toward.title()
+        # Otherwise the phrase wasn't a destination ("how long to wait") — ignore it.
+    elif parsed.get("direction") is not None:
+        filtered = [p for p in preds if p["direction_id"] == parsed["direction"][1]]
+        answer["toward"] = parsed.get("direction_word")
+
+    metas = {}
+    def meta(rid):
+        if rid not in metas:
+            metas[rid] = route_meta(rid)
+        return metas[rid]
+
+    groups = transit.next_by_direction(filtered, per_direction=3)
+    # Subway first, then Commuter Rail, then buses; each by its soonest prediction.
+    mode_rank = lambda g: 0 if g["route_id"] in SUBWAY_ROUTES else 1 if g["route_id"].startswith("CR-") else 2
+    groups.sort(key=mode_rank)
+    multi_route = len({g["route_id"] for g in groups}) > 1
+    for g in groups[:6]:
+        m = meta(g["route_id"])
+        answer["groups"].append({
+            "route_id": g["route_id"],
+            "direction_id": g["direction_id"],
+            "label": arrivals.direction_label(g, m),
+            "route_name": (arrivals.route_label(g["route_id"], []) if g["route_id"] in SUBWAY_ROUTES
+                           else (f"Route {m.get('short_name') or g['route_id']}" if g["route_id"][:1].isdigit() else m.get("long_name") or g["route_id"]))
+                          if multi_route else None,
+            "items": [{
+                "headsign": p["headsign"], "time": p["time"], "event": p["event"], "status": p["status"],
+                "platform_name": p["platform_name"], "route_id": p["route_id"], "direction_id": p["direction_id"],
+                "countdown": arrivals.countdown_text(p, now), "clock": format_time(p["time"]) or "",
+            } for p in g["items"]],
+        })
+
+    if not answer["groups"]:
+        answer["status"] = "none"
+        if filtered is not preds and preds:
+            answer["other_directions"] = [
+                {"label": arrivals.direction_label(g, meta(g["route_id"])), "next": arrivals.countdown_text(g["items"][0], now)}
+                for g in transit.next_by_direction(preds, 1)[:3]]
+
+    # Active service alerts at this station on the lines asked about.
+    try:
+        raw = mbta_request(f"{BASE_URL}/alerts", params={"filter[stop]": station["id"]}).json().get('data', [])
+        for a in sorted((transit.alert_payload(x, now) for x in raw), key=transit.alert_priority):
+            if a["active_now"] and a["category"] == "service" and a["severity"] >= transit.STATUS_MIN_SEVERITY \
+                    and (not route_filter or any(arrivals.route_matches(route_filter, r) for r in a["affected_routes"])):
+                answer["alerts"].append(a["header"])
+    except Exception:
+        pass
+    return answer
+
+
+def arrivals_response(user_msg, parsed):
+    """Chat response for an arrivals question: grounded text plus structured arrivals."""
+    if not any(m.get("role") == "user" and m.get("content") == user_msg for m in g.history[-1:]):
+        g.history.append({"role": "user", "content": user_msg})
+    answer = answer_arrivals(parsed)
+    reply = arrivals.build_reply(answer, get_now())
+    g.history.append({"role": "assistant", "content": reply})
+    result = {"reply": reply, "arrivals": answer}
+    if answer.get("station"):
+        result["context"] = {"station_name": answer["station"]["name"], "station_id": answer["station"]["id"],
+                             "route": answer.get("route")}
+    return result
+
+
 def process_chat_message(user_msg):
     """Main chat processing function"""
-    
+
+    # Arrival questions are answered straight from live predictions (no model-written times).
+    parsed = arrivals.parse_arrival_question(user_msg, STATION_DATA, STATION_ALIASES, g.chat_context)
+    if parsed:
+        return arrivals_response(user_msg, parsed)
+
     intent = get_smart_intent(user_msg)
     
     if not intent:
@@ -1005,16 +1131,9 @@ def process_chat_message(user_msg):
     
     elif intent_type == 'prediction':
         origin = intent.get('origin')
-        dest = intent.get('destination')
-        offset = intent.get('time_offset', 0)
-        specific_route = intent.get('specific_route')
-        
         if origin == "USE_CURRENT_LOCATION":
-            if g.location.get("station"):
-                origin = g.location["station"]
-                data_context["data"]["location_auto_detected"] = True
-                data_context["data"]["detected_station"] = origin
-            else:
+            origin = g.location.get("station")
+            if not origin:
                 data_context["data"] = {
                     "error": "Location Required",
                     "message": "I need your location to find nearby trains. Please click the location button.",
@@ -1023,94 +1142,17 @@ def process_chat_message(user_msg):
                 final_reply = generate_natural_response(user_msg, data_context)
                 g.history.append({"role": "assistant", "content": final_reply})
                 return {"reply": final_reply, "request_location": True}
-        
-        if origin: origin = normalize_station_name(origin)
-        if dest: dest = normalize_station_name(dest)
-        
-        stop_id = STATION_TO_ID.get(origin) if origin else None
-        
-        if origin and dest and not specific_route:
-            deduced_route = find_common_route(origin, dest)
-            if deduced_route:
-                specific_route = deduced_route
-                data_context["data"]["auto_deduced_route"] = deduced_route
-
-        if not stop_id:
-            if g.location.get("station"):
-                data_context["data"] = {
-                    "error": "Unknown Origin", 
-                    "suggestion": f"Did you mean to start from {g.location['station']}?"
-                }
-            else:
-                data_context["data"] = {"error": "Unknown Origin", "details": f"Could not find station '{origin}'"}
-        elif not dest:
-            data_context["data"] = {"error": "Missing Destination", "origin_locked": origin}
-        else:
-            dest = normalize_station_name(dest)
-            route_data = DEFAULT_ROUTES.get(dest)
-            
-            if specific_route:
-                if route_data:
-                    route_data = {"route": specific_route, "dir": route_data['dir']}
-                else:
-                    route_data = {"route": specific_route, "dir": 1}
-            
-            if not route_data:
-                 data_context["data"] = {
-                     "error": "Route Ambiguous", 
-                     "origin": origin, 
-                     "dest": dest,
-                     "message": "I need to know the Line (Red, Orange, Blue, Green) to check."
-                 }
-            else:
-                url = f"{BASE_URL}/predictions"
-                params = {
-                    "filter[stop]": stop_id,
-                    "filter[route]": route_data['route'],
-                    "filter[direction_id]": route_data['dir'],
-                    "include": "schedule",
-                    "sort": "arrival_time",
-                    "page[limit]": 8
-                }
-
-                try:
-                    response = requests.get(url, headers=HEADERS, params=params)
-                    api_data = response.json()
-                    
-                    trains_found = []
-                    now = datetime.now()
-                    
-                    for train in api_data.get('data', []):
-                        arrival = train['attributes']['arrival_time'] or train['attributes']['departure_time']
-                        if not arrival: continue
-                        
-                        arrival_dt = parser.isoparse(arrival)
-                        if arrival_dt.tzinfo is None:
-                            arrival_dt = arrival_dt.replace(tzinfo=now.astimezone().tzinfo)
-                        else:
-                            now = now.astimezone(arrival_dt.tzinfo)
-                        
-                        diff_min = int((arrival_dt - now).total_seconds() / 60)
-                        
-                        if diff_min >= offset:
-                            trains_found.append({
-                                "minutes_away": diff_min,
-                                "arrival_time": format_time(arrival),
-                                "status": train['attributes'].get('status', 'On Time')
-                            })
-                    
-                    data_context["data"] = {
-                        "route": route_data['route'],
-                        "origin": origin,
-                        "destination": dest,
-                        "predictions": trains_found,
-                        "typo_correction": intent.get('original_station_mentioned'),
-                        "location_auto_detected": data_context.get("data", {}).get("location_auto_detected", False)
-                    }
-
-                except Exception as e:
-                    print(f"MBTA API Error: {e}")
-                    data_context["data"] = {"error": "API Connection Failed"}
+        origin = origin or g.chat_context.get("station_name")
+        if origin:
+            # Same grounded path as the deterministic parser: live predictions, no invented times.
+            return arrivals_response(user_msg, {
+                "station_query": origin,
+                "route": arrivals.parse_route(intent.get('specific_route') or user_msg) or arrivals.parse_route(user_msg),
+                "toward": intent.get('destination'),
+                "direction": None, "direction_word": None, "followup": False,
+            })
+        data_context["data"] = {"error": "Unknown Origin",
+                                "message": "Which station are you asking about? For example: next Red Line train at Harvard."}
 
     final_reply = generate_natural_response(user_msg, data_context)
     g.history.append({"role": "assistant", "content": final_reply})
@@ -1638,62 +1680,66 @@ def get_dashboard():
         return jsonify({"error": str(e)}), 500
 
 
+def station_arrivals(stop_id, now):
+    """Upcoming, time-sorted predictions at a station. Shared by the station board and
+    Charlie AI, so both answer from the same MBTA snapshot (cached for a few seconds).
+    Raises MBTAError when the MBTA can't be reached."""
+    pred_response = mbta_request(f"{BASE_URL}/predictions", headers=HEADERS, timeout=15,
+        params={"filter[stop]": stop_id, "include": "route,trip,stop", "page[limit]": 60})
+    pred_data = pred_response.json()
+    included = {f"{item['type']}_{item['id']}": item for item in pred_data.get('included', [])}
+
+    predictions = []
+    for pred in pred_data.get('data', []):
+        attrs = pred['attributes']
+        if transit.is_cancelled(attrs):
+            continue
+        rels = pred.get('relationships', {})
+        route_data = rels.get('route', {}).get('data', {}) or {}
+        trip_data = rels.get('trip', {}).get('data', {}) or {}
+        child_stop = rels.get('stop', {}).get('data', {}) or {}
+        route_info = included.get(f"route_{route_data.get('id', '')}", {})
+        trip_info = included.get(f"trip_{trip_data.get('id', '')}", {})
+        stop_info = included.get(f"stop_{child_stop.get('id', '')}", {}).get('attributes', {})
+
+        # Display and sort by the same time: arrival, else departure (terminals).
+        arrival_time = transit.effective_time(attrs)
+        arrival_dt = transit.parse_time(arrival_time)
+        if not arrival_dt or transit.is_departed(arrival_dt, now):
+            continue
+        route_attrs = route_info.get('attributes', {})
+
+        predictions.append({
+            "route_id": route_data.get('id', ''),
+            "route_name": route_attrs.get('long_name') or route_attrs.get('short_name', ''),
+            "route_short_name": route_attrs.get('short_name', ''),
+            "route_color": f"#{route_attrs.get('color', '000000')}",
+            "route_type": route_attrs.get('type'),
+            "headsign": trip_info.get('attributes', {}).get('headsign', ''),
+            "direction_id": attrs.get('direction_id'),
+            "platform_name": stop_info.get('platform_name') or "",
+            "status": attrs.get('status') or "",
+            "event": transit.event_kind(attrs),
+            "time": arrival_time,
+            "arrival_formatted": format_time(arrival_time),
+            "time_away": format_time_diff(arrival_dt),
+        })
+
+    # Sort by the time we display. MBTA's arrival_time sort misplaces trains that
+    # only have a departure_time (e.g. trains leaving a terminal like Oak Grove).
+    return transit.sort_by_time(predictions)
+
+
 @app.route('/api/station/<stop_id>')
 def get_station_info(stop_id):
     try:
         now = get_now()
         stop_response = mbta_request(f"{BASE_URL}/stops/{stop_id}", headers=HEADERS, timeout=15)
         stop_attrs = stop_response.json().get('data', {}).get('attributes', {})
-
-        pred_response = mbta_request(f"{BASE_URL}/predictions", headers=HEADERS, timeout=15,
-            params={"filter[stop]": stop_id, "include": "route,trip,stop", "page[limit]": 60})
-        pred_data = pred_response.json()
-
+        predictions = station_arrivals(stop_id, now)[:30]
         alert_response = mbta_request(f"{BASE_URL}/alerts", headers=HEADERS, timeout=15,
             params={"filter[stop]": stop_id})
         alert_data = alert_response.json()
-
-        included = {f"{item['type']}_{item['id']}": item for item in pred_data.get('included', [])}
-
-        predictions = []
-        for pred in pred_data.get('data', []):
-            attrs = pred['attributes']
-            if transit.is_cancelled(attrs):
-                continue
-            rels = pred.get('relationships', {})
-            route_data = rels.get('route', {}).get('data', {}) or {}
-            trip_data = rels.get('trip', {}).get('data', {}) or {}
-            child_stop = rels.get('stop', {}).get('data', {}) or {}
-            route_info = included.get(f"route_{route_data.get('id', '')}", {})
-            trip_info = included.get(f"trip_{trip_data.get('id', '')}", {})
-            stop_info = included.get(f"stop_{child_stop.get('id', '')}", {}).get('attributes', {})
-
-            # Display and sort by the same time: arrival, else departure (terminals).
-            arrival_time = transit.effective_time(attrs)
-            arrival_dt = transit.parse_time(arrival_time)
-            if not arrival_dt or transit.is_departed(arrival_dt, now):
-                continue
-            route_attrs = route_info.get('attributes', {})
-
-            predictions.append({
-                "route_id": route_data.get('id', ''),
-                "route_name": route_attrs.get('long_name') or route_attrs.get('short_name', ''),
-                "route_short_name": route_attrs.get('short_name', ''),
-                "route_color": f"#{route_attrs.get('color', '000000')}",
-                "route_type": route_attrs.get('type'),
-                "headsign": trip_info.get('attributes', {}).get('headsign', ''),
-                "direction_id": attrs.get('direction_id'),
-                "platform_name": stop_info.get('platform_name') or "",
-                "status": attrs.get('status') or "",
-                "event": transit.event_kind(attrs),
-                "time": arrival_time,
-                "arrival_formatted": format_time(arrival_time),
-                "time_away": format_time_diff(arrival_dt),
-            })
-
-        # Sort by the time we display. MBTA's arrival_time sort misplaces trains that
-        # only have a departure_time (e.g. trains leaving a terminal like Oak Grove).
-        predictions = transit.sort_by_time(predictions)[:30]
 
         alerts = [transit.alert_payload(a, now) for a in alert_data.get('data', [])]
         alerts = [a for a in alerts if a["active_now"]]
@@ -1799,46 +1845,116 @@ GOOGLE_MAPS_API_KEY = os.environ.get('GOOGLE_MAPS_API_KEY')
 @app.route('/api/trip-planner', methods=['POST'])
 def plan_trip():
     """
-    Plan a trip using Google Maps Directions API.
-    Returns ALL possible transit routes like Google Maps.
+    Plan a trip. Google Maps Directions when a key is configured, else the free
+    Transitous (MOTIS) router. Each place is resolved first, so the response can say
+    which field couldn't be found, versus no itineraries, versus a routing failure.
     """
-    data = request.get_json()
-    origin = data.get('origin', '')
-    destination = data.get('destination', '')
-    origin_coords = data.get('origin_coords')
-    dest_coords = data.get('dest_coords')
-    
+    data = request.get_json(silent=True) or {}
+    origin = (data.get('origin') or '').strip()
+    destination = (data.get('destination') or '').strip()
     if not origin or not destination:
         return jsonify({"error": "Origin and destination are required"}), 400
-    
-    # Get coordinates if not provided
-    if not origin_coords:
-        origin_data = find_station_data(origin)
-        if origin_data:
-            origin_coords = f"{origin_data['lat']},{origin_data['lon']}"
-        else:
-            origin_coords = f"{origin}, Boston, MA"
-    
-    if not dest_coords:
-        dest_data = find_station_data(destination)
-        if dest_data:
-            dest_coords = f"{dest_data['lat']},{dest_data['lon']}"
-        else:
-            dest_coords = f"{destination}, Boston, MA"
-    
-    # Call Google Maps Directions API
-    routes = get_google_directions(origin_coords, dest_coords, origin, destination)
 
-    # Fallback: free open-source transit router (Transitous / MOTIS, uses MBTA GTFS)
-    # when Google Maps is unavailable (e.g. key disabled / billing off).
+    origin_station = station_by_id(data.get('origin_id')) or find_station_data(origin)
+    dest_station = station_by_id(data.get('dest_id')) or find_station_data(destination)
+    origin_coords = data.get('origin_coords') or (f"{origin_station['lat']},{origin_station['lon']}" if origin_station else None)
+    dest_coords = data.get('dest_coords') or (f"{dest_station['lat']},{dest_station['lon']}" if dest_station else None)
+
+    routes = get_google_directions(origin_coords or f"{origin}, Boston, MA",
+                                   dest_coords or f"{destination}, Boston, MA", origin, destination)
     if not routes:
-        routes = get_transitous_directions(origin_coords, dest_coords)
+        try:
+            from_place = origin_coords or _resolve_place(origin)
+            to_place = dest_coords or _resolve_place(destination)
+        except RoutingError as e:
+            return jsonify({"error": str(e), "code": "routing_unavailable"}), 502
+        unresolved = [f for f, p in (("origin", from_place), ("destination", to_place)) if not p]
+        if unresolved:
+            return jsonify({"origin": origin, "destination": destination, "routes": [], "code": "unresolved",
+                            "unresolved": unresolved,
+                            "message": "We couldn’t find that place in the Boston area."})
+        dest_label = dest_station["name"] if dest_station else destination
+        try:
+            routes = get_transitous_directions(from_place, to_place, dest_label)
+        except RoutingError as e:
+            return jsonify({"error": str(e), "code": "routing_unavailable"}), 502
+
+    notices = []
+    try:
+        notices = annotate_trip_alerts(routes, origin_station, dest_station)
+    except Exception as e:
+        print(f"Trip alert matching skipped: {e}")
+    for r in routes:
+        r.pop("_legs", None)
 
     return jsonify({
         "origin": origin,
         "destination": destination,
-        "routes": routes
+        "routes": routes,
+        "notices": notices,
+        "code": "ok" if routes else "no_itineraries",
     })
+
+
+def station_by_id(stop_id):
+    if not stop_id:
+        return None
+    for name, d in STATION_DATA.items():
+        if d["id"] == stop_id:
+            return {"name": name, **d}
+    return None
+
+
+def annotate_trip_alerts(routes, origin_station, dest_station):
+    """Attach matched MBTA alerts to each itinerary and return trip-level notices for
+    closures at the chosen origin or destination station."""
+    legs = [leg for r in routes for leg in r.get("_legs", [])]
+    route_ids = sorted({leg["route_id"] for leg in legs if leg.get("route_id")})
+    station_ids = [s["id"] for s in (origin_station, dest_station) if s]
+    raw = []
+    if route_ids:
+        raw += mbta_request(f"{BASE_URL}/alerts", params={"filter[route]": ",".join(route_ids)}).json().get('data', [])
+    if station_ids:
+        raw += mbta_request(f"{BASE_URL}/alerts", params={"filter[stop]": ",".join(station_ids)}).json().get('data', [])
+    alerts = list({a["id"]: a for a in raw}.values())
+
+    for r in routes:
+        found = {}
+        for leg in r.get("_legs", []):
+            for m in transit.match_leg_alerts(alerts, leg):
+                if m["id"] not in found:
+                    found[m["id"]] = {**m, "step": leg["name"], "route_id": leg["route_id"],
+                                      "stop_names": [leg["stop_names"].get(s, s) for s in m["stops"]]}
+        r["alerts"] = list(found.values())
+
+    now = get_now()
+    starts = [transit.parse_time(r.get("depart_iso")) for r in routes if r.get("depart_iso")]
+    ends = [transit.parse_time(r.get("arrive_iso")) for r in routes if r.get("arrive_iso")]
+    window = (min(starts) if starts else now, max(ends) if ends else now + timedelta(hours=2))
+
+    notices = []
+    for role, station in (("origin", origin_station), ("destination", dest_station)):
+        if not station:
+            continue
+        closures = transit.station_closures(alerts, station["id"], *window)
+        if not closures:
+            continue
+        name = station["name"]
+        used = [s for r in routes for s in ([r.get("first_board")] if role == "origin" else [r.get("last_alight")]) if s]
+        via = sorted({s for s in used if s.lower() != name.lower()})
+        serves = any(s.lower() == name.lower() for s in used)
+        c = closures[0]
+        if routes and via and not serves:
+            how = (f"These options {'start from' if role == 'origin' else 'reach the area via'} "
+                   f"{' or '.join(via[:3])} {'after' if role == 'origin' else 'and'} a short walk.")
+        else:
+            how = ""
+        notices.append({
+            "role": role, "station": name, "station_id": station["id"], "alert_id": c["id"],
+            "effect": c["effect"], "severity": c["severity"], "header": c["header"], "routes": c["routes"],
+            "direction_specific": bool(c["direction_ids"]), "via": via, "explanation": how,
+        })
+    return notices
 
 
 def get_google_directions(origin, destination, origin_name, dest_name):
@@ -1961,6 +2077,8 @@ def get_google_directions(origin, destination, origin_name, dest_name):
                 "transfers": max(0, transfers),
                 "depart_time": depart_time,
                 "arrive_time": arrive_time,
+                "depart_ts": leg.get('departure_time', {}).get('value'),
+                "arrive_ts": leg.get('arrival_time', {}).get('value'),
                 "time_range": f"{depart_time}—{arrive_time}" if depart_time and arrive_time else duration_text,
                 "walk_time": walk_time,
                 "fare": fare or estimate_fare(steps),
@@ -2062,8 +2180,18 @@ TRANSITOUS_URL = "https://api.transitous.org/api"
 TRANSITOUS_HEADERS = {"User-Agent": "charlie-mbta-trip-planner"}
 
 
+class RoutingError(RuntimeError):
+    pass
+
+
+SERVICE_RADIUS_KM = 80  # MBTA service area, measured from downtown Boston
+
+
 def _resolve_place(place):
-    """Return 'lat,lon' for a coordinate string or geocode free text via Transitous."""
+    """'lat,lon' for a coordinate string, else geocode free text in the Boston area.
+
+    Returns None when nothing in the service area matches (e.g. "zzzzz"); raises
+    RoutingError when the geocoder itself can't be reached."""
     parts = [p.strip() for p in str(place).split(',')]
     if len(parts) == 2:
         try:
@@ -2071,16 +2199,26 @@ def _resolve_place(place):
             return f"{parts[0]},{parts[1]}"
         except ValueError:
             pass
+    text = str(place).replace(', Boston, MA', '').strip()
     try:
-        text = str(place).replace(', Boston, MA', '').strip()
+        # No "Boston" suffix: it made nonsense like "zzzzz" match "New Boston, NH".
         resp = requests.get(f"{TRANSITOUS_URL}/v1/geocode",
-                            params={"text": f"{text} Boston", "place": "42.3601,-71.0589"},
+                            params={"text": text, "place": "42.3601,-71.0589"},
                             headers=TRANSITOUS_HEADERS, timeout=15)
-        results = resp.json()
-        if results:
-            return f"{results[0]['lat']},{results[0]['lon']}"
-    except Exception as e:
-        print(f"Transitous geocode error: {e}")
+    except requests.RequestException as e:
+        raise RoutingError("The trip planning service didn’t respond. Try again in a moment.") from e
+    if resp.status_code != 200:
+        raise RoutingError(f"The trip planning service is unavailable right now (HTTP {resp.status_code}).")
+    try:
+        results = resp.json() or []
+    except ValueError:
+        raise RoutingError("The trip planning service sent an unreadable response.")
+    for r in results:
+        try:
+            if haversine_distance(42.3601, -71.0589, r['lat'], r['lon']) <= SERVICE_RADIUS_KM * 1000:
+                return f"{r['lat']},{r['lon']}"
+        except (KeyError, TypeError):
+            continue
     return None
 
 
@@ -2105,121 +2243,149 @@ TRANSITOUS_MODE_MAP = {
 }
 
 
-def get_transitous_directions(origin, destination):
-    """Get transit itineraries from the free Transitous (MOTIS) API, in the same shape as Google results."""
-    try:
-        from_place = _resolve_place(origin)
-        to_place = _resolve_place(destination)
-        if not from_place or not to_place:
-            return []
+def _epoch(iso_str):
+    dt = transit.parse_time(iso_str)
+    return int(dt.timestamp()) if dt else None
 
+
+def get_transitous_directions(from_place, to_place, dest_name=None):
+    """Itineraries from the free Transitous (MOTIS) API, in the same shape as Google results.
+
+    from_place/to_place are 'lat,lon'. Raises RoutingError when the router fails; an
+    empty list means it answered but found no itineraries."""
+    try:
         resp = requests.get(f"{TRANSITOUS_URL}/v5/plan",
                             params={"fromPlace": from_place, "toPlace": to_place, "numItineraries": 6},
                             headers=TRANSITOUS_HEADERS, timeout=20)
+    except requests.RequestException as e:
+        raise RoutingError("The trip planning service didn’t respond. Try again in a moment.") from e
+    if getattr(resp, "status_code", 200) != 200:
+        raise RoutingError(f"The trip planning service is unavailable right now (HTTP {resp.status_code}).")
+    try:
         data = resp.json()
+    except ValueError:
+        raise RoutingError("The trip planning service sent an unreadable response.")
 
-        routes = []
-        seen = set()
-        for it in data.get('itineraries', []):
-            steps, detailed_steps = [], []
-            walk_time = 0
-            for leg in it.get('legs', []):
-                mode = leg.get('mode', '')
-                leg_minutes = round(leg.get('duration', 0) / 60)
-                from_name = leg.get('from', {}).get('name', '')
-                to_name = leg.get('to', {}).get('name', '')
+    routes = []
+    seen = set()
+    for it in data.get('itineraries', []):
+        steps, detailed_steps, legs_meta = [], [], []
+        walk_time = 0
+        first_board = last_alight = None
+        for leg in it.get('legs', []):
+            mode = leg.get('mode', '')
+            leg_minutes = round(leg.get('duration', 0) / 60)
+            from_name = leg.get('from', {}).get('name', '')
+            to_name = leg.get('to', {}).get('name', '')
 
-                if mode == 'WALK':
-                    if leg_minutes < 1 and (leg.get('distance') or 0) < 50:
-                        continue
-                    walk_time += leg_minutes
-                    dist = leg.get('distance') or 0
-                    dist_text = f"{dist / 1609.34:.1f} mi" if dist >= 160 else f"{int(dist * 3.281)} ft"
-                    target = to_name if to_name != 'END' else 'destination'
-                    detailed_steps.append({
-                        "type": "walk",
-                        "instruction": f"Walk {dist_text}",
-                        "details": f"Walk to {target}",
-                        "duration": _fmt_minutes(max(1, leg_minutes))
-                    })
-                    continue
-
-                vehicle_type = TRANSITOUS_MODE_MAP.get(mode, 'BUS')
-                short = leg.get('routeShortName') or ''
-                long_name = leg.get('routeLongName') or ''
-                line_name = short or long_name
-                color = f"#{leg['routeColor']}" if leg.get('routeColor') else '#666666'
-                headsign = leg.get('headsign', '')
-                num_stops = len(leg.get('intermediateStops') or []) + 1
-
-                if vehicle_type == 'BUS' and short and ' ' in short:
-                    display = short  # e.g. "Green Line C Shuttle"
-                elif vehicle_type == 'BUS' and short and not short.upper().startswith('SL'):
-                    display = f"Bus {short}"
-                elif short.upper().startswith('SL'):
-                    display = f"Silver Line {short[2:]}".strip()
-                elif vehicle_type == 'COMMUTER_TRAIN':
-                    display = long_name if long_name.endswith('Line') else f"{line_name} Line"
-                elif long_name:
-                    display = long_name
-                else:
-                    display = get_display_name(line_name, vehicle_type)
-
-                steps.append({
-                    "type": get_transit_type(vehicle_type, line_name),
-                    "name": display,
-                    "short_name": short or (long_name.split()[0] if long_name else vehicle_type[:3]),
-                    "color": color,
-                    "vehicle_type": vehicle_type
-                })
+            if mode == 'WALK':
+                if (leg.get('distance') or 0) < 30 and leg_minutes <= 1:
+                    continue                                   # "Walk 0 ft" between a stop and itself
+                walk_time += leg_minutes
+                dist = leg.get('distance') or 0
+                dist_text = f"{dist / 1609.34:.1f} mi" if dist >= 160 else f"{int(dist * 3.281)} ft"
+                final = to_name in ('END', '')
+                target = (dest_name or 'your destination') if final else to_name
+                origin_label = from_name if from_name not in ('START', '') else ''
                 detailed_steps.append({
-                    "type": "transit",
-                    "instruction": f"Take {display}",
-                    "details": f"Board at {from_name}" + (f" toward {headsign}" if headsign else ""),
-                    "time": _fmt_time(leg.get('startTime', '')),
-                    "duration": _fmt_minutes(leg_minutes),
-                    "color": color,
-                    "num_stops": num_stops
+                    "type": "walk",
+                    "instruction": f"Walk {dist_text} to {target}" if dist >= 30 else f"Walk to {target}",
+                    "details": f"From {origin_label}" if origin_label else "From your starting point",
+                    "duration": _fmt_minutes(max(1, leg_minutes))
                 })
-                detailed_steps.append({
-                    "type": "transit",
-                    "instruction": f"Get off at {to_name}",
-                    "details": f"{num_stops} stop{'s' if num_stops != 1 else ''}",
-                    "time": _fmt_time(leg.get('endTime', '')),
-                    "color": color
-                })
-
-            if not steps:
                 continue
 
-            duration = round(it.get('duration', 0) / 60)
-            depart = _fmt_time(it.get('startTime', ''))
-            arrive = _fmt_time(it.get('endTime', ''))
-            key = (depart, arrive, tuple(s['name'] for s in steps))
-            if key in seen:
-                continue
-            seen.add(key)
+            vehicle_type = TRANSITOUS_MODE_MAP.get(mode, 'BUS')
+            short = leg.get('routeShortName') or ''
+            long_name = leg.get('routeLongName') or ''
+            line_name = short or long_name
+            color = f"#{leg['routeColor']}" if leg.get('routeColor') else '#666666'
+            headsign = leg.get('headsign', '')
+            num_stops = len(leg.get('intermediateStops') or []) + 1
 
-            routes.append({
-                "duration": duration,
-                "duration_text": _fmt_minutes(duration),
-                "transfers": it.get('transfers', max(0, len(steps) - 1)),
-                "depart_time": depart,
-                "arrive_time": arrive,
-                "time_range": f"{depart}—{arrive}" if depart and arrive else _fmt_minutes(duration),
-                "walk_time": walk_time,
-                "fare": estimate_fare(steps),
-                "steps": steps,
-                "detailed_steps": detailed_steps,
-                "warnings": [],
-                "summary": " → ".join(s['name'] for s in steps)
+            if vehicle_type == 'BUS' and short and ' ' in short:
+                display = short  # e.g. "Green Line C Shuttle"
+            elif vehicle_type == 'BUS' and short and not short.upper().startswith('SL'):
+                display = f"Bus {short}"
+            elif short.upper().startswith('SL'):
+                display = f"Silver Line {short[2:]}".strip()
+            elif vehicle_type == 'COMMUTER_TRAIN':
+                display = long_name if long_name.endswith('Line') else f"{line_name} Line"
+            elif long_name:
+                display = long_name
+            else:
+                display = get_display_name(line_name, vehicle_type)
+
+            first_board = first_board or from_name
+            last_alight = to_name
+            stops = [leg.get('from', {})] + list(leg.get('intermediateStops') or []) + [leg.get('to', {})]
+            legs_meta.append({
+                "name": display,
+                "route_id": transit.mbta_id(leg.get('routeId')),
+                "direction_id": int(leg['directionId']) if str(leg.get('directionId', '')).isdigit() else None,
+                "stop_ids": {transit.mbta_id(s.get('stopId')) for s in stops if s.get('stopId')},
+                "stop_names": {transit.mbta_id(s.get('stopId')): s.get('name', '') for s in stops if s.get('stopId')},
+                "start": transit.parse_time(leg.get('startTime')),
+                "end": transit.parse_time(leg.get('endTime')),
+            })
+            steps.append({
+                "type": get_transit_type(vehicle_type, line_name),
+                "name": display,
+                "short_name": short or (long_name.split()[0] if long_name else vehicle_type[:3]),
+                "color": color,
+                "vehicle_type": vehicle_type
+            })
+            detailed_steps.append({
+                "type": "transit",
+                "instruction": f"Take {display}",
+                "details": f"Board at {from_name}" + (f" toward {headsign}" if headsign else ""),
+                "time": _fmt_time(leg.get('startTime', '')),
+                "duration": _fmt_minutes(leg_minutes),
+                "color": color,
+                "num_stops": num_stops
+            })
+            detailed_steps.append({
+                "type": "transit",
+                "instruction": f"Get off at {to_name}",
+                "details": f"{num_stops} stop{'s' if num_stops != 1 else ''}",
+                "time": _fmt_time(leg.get('endTime', '')),
+                "color": color
             })
 
-        return routes[:6]
+        if not steps:
+            continue
 
-    except Exception as e:
-        print(f"Transitous API error: {e}")
-        return []
+        duration = round(it.get('duration', 0) / 60)
+        depart = _fmt_time(it.get('startTime', ''))
+        arrive = _fmt_time(it.get('endTime', ''))
+        key = (depart, arrive, tuple(s['name'] for s in steps))
+        if key in seen:
+            continue
+        seen.add(key)
+
+        routes.append({
+            "duration": duration,
+            "duration_text": _fmt_minutes(duration),
+            "transfers": it.get('transfers', max(0, len(steps) - 1)),
+            "depart_time": depart,
+            "arrive_time": arrive,
+            "depart_iso": it.get('startTime'),
+            "arrive_iso": it.get('endTime'),
+            "depart_ts": _epoch(it.get('startTime')),
+            "arrive_ts": _epoch(it.get('endTime')),
+            "time_range": f"{depart}—{arrive}" if depart and arrive else _fmt_minutes(duration),
+            "walk_time": walk_time,
+            "fare": estimate_fare(steps),
+            "steps": steps,
+            "detailed_steps": detailed_steps,
+            "warnings": [],
+            "first_board": first_board,
+            "last_alight": last_alight,
+            "summary": " → ".join(s['name'] for s in steps),
+            "_legs": legs_meta,
+        })
+
+    return routes[:6]
 
 
 def find_station_data(query):

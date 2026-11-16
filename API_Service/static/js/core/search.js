@@ -53,3 +53,51 @@ export function rank(items, query, getText = x => x.name, limit = 8) {
   scored.sort((a, b) => a.score - b.score || a.name.length - b.name.length || a.name.localeCompare(b.name));
   return scored.slice(0, limit).map(s => s.item);
 }
+
+/**
+ * Route queries as riders type them: "39", "Route 39", "Bus 39", "rt 39", "#39".
+ * Returns { core, explicit } where `explicit` means a route word was used.
+ */
+export function parseRouteQuery(query) {
+  const q = normalize(query);
+  const m = q.match(/^(?:route|rte|rt|bus|line|no|number)\s+(.+)$/) || String(query).trim().match(/^#\s*(\S+)$/);
+  return m ? { core: normalize(m[1]), explicit: true } : { core: q, explicit: false };
+}
+
+/**
+ * Rank routes for a query. An exact route number ("39" → route 39) ranks first,
+ * then route numbers that start with it ("39" → 390?), then name matches.
+ */
+export function rankRoutes(routes, query, limit = 5) {
+  const { core } = parseRouteQuery(query);
+  if (!core) return [];
+  const scored = [];
+  for (const r of routes) {
+    const short = normalize(r.short_name || r.id);
+    let s = null;
+    if (short === core || normalize(r.id) === core) s = 0;
+    else if (short.startsWith(core) && /^\d/.test(core)) s = 1;
+    else {
+      const byName = [r.short_name, r.name].filter(Boolean).map(t => scoreMatch(core, t)).filter(v => v !== null);
+      if (byName.length) s = 2 + Math.min(...byName);
+    }
+    if (s !== null) scored.push({ r, s });
+  }
+  scored.sort((a, b) => a.s - b.s || String(a.r.short_name || a.r.id).length - String(b.r.short_name || b.r.id).length
+    || String(a.r.short_name || a.r.name).localeCompare(String(b.r.short_name || b.r.name), undefined, { numeric: true }));
+  return scored.slice(0, limit).map(x => ({ ...x.r, exact: x.s === 0 }));
+}
+
+/** Global search: stations and routes. Exact route numbers ("39", "Route 39") lead. */
+export function searchResults(q, stations, routesByType) {
+  const { explicit } = parseRouteQuery(q);
+  const st = rank(stations || [], q, s => s.name, 6).map(s => ({ kind: 'station', ...s }));
+  const r = routesByType;
+  const routes = r ? rankRoutes([...(r.subway || []), ...(r.commuter_rail || []), ...(r.ferry || []), ...(r.bus || [])], q, 5)
+    .map(x => ({ kind: 'route', ...x })) : [];
+  if (explicit || routes.some(x => x.exact)) {
+    const exact = routes.filter(x => x.exact);
+    return [...exact, ...st, ...routes.filter(x => !x.exact)];
+  }
+  return [...st, ...routes];
+}

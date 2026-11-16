@@ -91,7 +91,7 @@ async function renderBoards(signal) {
         <button class="mini-board__title" data-station="${e(p.id)}">${p.near ? `<span class="chip chip--accent">Near you</span>` : ''}<span>${e(name)}</span>${icon('chevronRight', { size: 16 })}</button>
         <span class="mini-board__lines">${(store.stationById(p.id)?.lines || []).map(l => lineBadge(l, { size: 'sm' })).join('')}</span>
       </header>
-      ${error ? `<p class="muted small">${e(error)}</p>` : preds.length ? `<ul class="arrivals">${preds.map(arrivalRow).join('')}</ul>` : `<p class="muted small">No predictions right now.</p>`}
+      ${error ? `<p class="muted small">${e(error)}</p>` : preds.length ? `<ul class="arrivals">${preds.map(pr => arrivalRow(pr, { showRoute: true, stationName: data.station?.name || name })).join('')}</ul>` : `<p class="muted small">No predictions right now.</p>`}
     </article>`;
   }).join('');
 }
