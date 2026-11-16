@@ -73,13 +73,14 @@ export function tripCardsHtml(t, i) {
   const open = t.code !== 'need_origin' && t.origin
     ? `<button class="btn btn--secondary btn--sm" data-plan-trip="${i}">${icon('route', { size: 14 })}Open in Trip Planner</button>` : '';
   if (t.code !== 'ok' || !(t.routes || []).length) return open ? `<div class="msg-card"><div class="btn-row">${open}</div></div>` : '';
-  const routes = sortTrips(t.routes);
+  // "Arrive by" answers come latest-departure-first from the server; otherwise earliest arrival.
+  const routes = t.arrive_by ? t.routes : sortTrips(t.routes);
   const badges = tripBadges(routes);
   return `<div class="msg-card msg-card--trips" aria-label="Trip options">
     ${(t.notices || []).map(noticeHtml).join('')}
     <div class="stack-sm">${routes.map((r, k) => tripOptionCard(r, k, {
       badges: badges[k], note: arrivalNote(r, routes), alerts: (r.alerts || []).map(tripAlertText) })).join('')}</div>
-    <div class="msg-card__foot"><span class="muted small">From the Trip Planner’s live routing · earliest arrival first</span>${open}</div>
+    <div class="msg-card__foot"><span class="muted small">From the Trip Planner’s live routing · ${t.arrive_by ? 'latest departure first' : 'earliest arrival first'}</span>${open}</div>
   </div>`;
 }
 

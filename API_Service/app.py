@@ -8,6 +8,7 @@ UPDATED: Bold timing in chatbot responses for better readability.
 """
 
 import os
+import re
 import json
 import math
 import requests
@@ -108,7 +109,7 @@ def load_client_state():
     # What the last arrivals answer was about, so "what about toward Ashmont?" works.
     context = data.get('context')
     g.chat_context = {k: str(v)[:80] for k, v in context.items()
-                      if k in ("station_name", "station_id", "route") and v} if isinstance(context, dict) else {}
+                      if k in ("station_name", "station_id", "route", "trip_origin", "trip_destination") and v} if isinstance(context, dict) else {}
 
 # Line Colors for UI
 LINE_COLORS = {
@@ -930,11 +931,19 @@ def arrivals_response(user_msg, parsed):
     return result
 
 
-def trip_response(user_msg, origin, destination):
+def trip_response(user_msg, origin, destination, when=None):
     """Chat answer for a trip question, from the same planner as the Trip Planner page."""
     if not any(m.get("role") == "user" and m.get("content") == user_msg for m in g.history[-1:]):
         g.history.append({"role": "user", "content": user_msg})
     origin_coords = None
+    here = {"here", "my location", "current location", "my current location", "where i am", "me", "my place"}
+    there = g.chat_context.get("station_name") or g.chat_context.get("trip_destination")
+    if origin and origin.lower() in here:
+        origin = "USE_CURRENT_LOCATION"
+    elif origin and origin.lower() in ("there", "that station", "that stop") and there:
+        origin = there
+    if destination and destination.lower() in ("there", "that station", "that stop") and g.chat_context.get("station_name"):
+        destination = g.chat_context["station_name"]
     if not origin or origin == "USE_CURRENT_LOCATION":
         if g.location.get("station"):
             origin = g.location["station"]
@@ -946,12 +955,21 @@ def trip_response(user_msg, origin, destination):
         result = {"code": "need_origin", "destination": destination, "destination_name": destination, "routes": []}
         reply = trips.build_trip_reply(result)
         g.history.append({"role": "assistant", "content": reply})
-        return {"reply": reply, "trip": result, "request_location": True}
-    result = plan_trip_core(origin, destination, origin_coords=origin_coords)
-    result["routes"] = trips.sort_routes(result.get("routes") or [])
+        return {"reply": reply, "trip": result, "request_location": True,
+                "context": {"trip_destination": destination}}
+    result = plan_trip_core(origin, destination, origin_coords=origin_coords,
+                            when=when["time"] if when else None, arrive_by=bool(when and when["arrive_by"]))
+    if when:
+        result["when_label"] = when["label"]
+        result["arrive_by"] = bool(when["arrive_by"] and not result.get("missed_deadline"))
+    result["routes"] = trips.sort_routes(result.get("routes") or [], arrive_by=bool(result.get("arrive_by")))
     reply = trips.build_trip_reply(result, get_now().strftime("%-I:%M %p"))
     g.history.append({"role": "assistant", "content": reply})
-    return {"reply": reply, "trip": result}
+    context = {"trip_origin": result.get("origin_name") if origin_coords is None else None,
+               "trip_destination": result.get("destination_name") or destination}
+    if result["code"] == "unresolved" and "origin" in (result.get("unresolved") or []):
+        context["trip_origin"] = None          # ask again for the start, keep the destination
+    return {"reply": reply, "trip": result, "context": {k: v for k, v in context.items() if v}}
 
 
 def process_chat_message(user_msg):
@@ -959,9 +977,11 @@ def process_chat_message(user_msg):
 
     # Trip questions use the Trip Planner's own routing; arrival questions use live
     # predictions. Neither lets the model invent times or steps.
-    trip_q = trips.parse_trip_question(user_msg, is_place=lambda s: find_station_data(s) is not None)
+    is_place = lambda s: find_station_data(s) is not None or s.lower() in LANDMARKS
+    trip_q = trips.parse_trip_question(user_msg, is_place=is_place, now=get_now()) \
+        or trips.parse_trip_followup(user_msg, g.chat_context, is_place=is_place)
     if trip_q:
-        return trip_response(user_msg, trip_q["origin"], trip_q["destination"])
+        return trip_response(user_msg, trip_q["origin"], trip_q["destination"], trip_q.get("when"))
 
     parsed = arrivals.parse_arrival_question(user_msg, STATION_DATA, STATION_ALIASES, g.chat_context)
     if parsed:
@@ -1754,7 +1774,8 @@ def get_mode_shapes():
 GOOGLE_MAPS_API_KEY = os.environ.get('GOOGLE_MAPS_API_KEY')
 
 
-def plan_trip_core(origin, destination, origin_coords=None, dest_coords=None, origin_id=None, dest_id=None):
+def plan_trip_core(origin, destination, origin_coords=None, dest_coords=None, origin_id=None, dest_id=None,
+                   when=None, arrive_by=False):
     """Plan a trip. Shared by the Trip Planner endpoint and Charlie AI so both give
     identical itineraries. Google Directions when a key is configured, else the free
     Transitous (MOTIS) router. Each place is resolved first, so the result says which
@@ -1763,15 +1784,19 @@ def plan_trip_core(origin, destination, origin_coords=None, dest_coords=None, or
     Returns {"code": "ok"|"no_itineraries"|"unresolved"|"routing_unavailable", ...}."""
     origin_station = station_by_id(origin_id) or find_station_data(origin)
     dest_station = station_by_id(dest_id) or find_station_data(destination)
-    origin_coords = origin_coords or (f"{origin_station['lat']},{origin_station['lon']}" if origin_station else None)
-    dest_coords = dest_coords or (f"{dest_station['lat']},{dest_station['lon']}" if dest_station else None)
+    origin_mark, dest_mark = landmark(origin), landmark(destination)
+    origin_coords = origin_coords or (f"{origin_station['lat']},{origin_station['lon']}" if origin_station
+                                      else origin_mark and origin_mark["coords"])
+    dest_coords = dest_coords or (f"{dest_station['lat']},{dest_station['lon']}" if dest_station
+                                  else dest_mark and dest_mark["coords"])
     base = {"origin": origin, "destination": destination,
-            "origin_name": origin_station["name"] if origin_station else origin,
-            "destination_name": dest_station["name"] if dest_station else destination,
+            "origin_name": origin_station["name"] if origin_station else (origin_mark["name"] if origin_mark else origin),
+            "destination_name": dest_station["name"] if dest_station else (dest_mark["name"] if dest_mark else destination),
             "routes": [], "notices": []}
 
-    routes = get_google_directions(origin_coords or f"{origin}, Boston, MA",
-                                   dest_coords or f"{destination}, Boston, MA", origin, destination)
+    # Google Directions only plans "now"; a requested time goes to the free router.
+    routes = [] if when else get_google_directions(origin_coords or f"{origin}, Boston, MA",
+                                                   dest_coords or f"{destination}, Boston, MA", origin, destination)
     if not routes:
         try:
             from_place = origin_coords or _resolve_place(origin)
@@ -1783,7 +1808,14 @@ def plan_trip_core(origin, destination, origin_coords=None, dest_coords=None, or
             return {**base, "code": "unresolved", "unresolved": unresolved,
                     "message": "We couldn’t find that place in the Boston area."}
         try:
-            routes = get_transitous_directions(from_place, to_place, base["destination_name"])
+            routes = get_transitous_directions(from_place, to_place, base["destination_name"], when=when, arrive_by=arrive_by)
+            # Never offer a trip that has already left.
+            cutoff = get_now().timestamp() - 60
+            routes = [r for r in routes if not r.get("depart_ts") or r["depart_ts"] >= cutoff]
+            if arrive_by and not routes:
+                # Nothing leaving now makes the deadline: say so and show the soonest arrivals.
+                base["missed_deadline"] = True
+                routes = get_transitous_directions(from_place, to_place, base["destination_name"])
         except RoutingError as e:
             return {**base, "code": "routing_unavailable", "error": str(e)}
 
@@ -2163,14 +2195,15 @@ def _epoch(iso_str):
     return int(dt.timestamp()) if dt else None
 
 
-def get_transitous_directions(from_place, to_place, dest_name=None):
+def get_transitous_directions(from_place, to_place, dest_name=None, when=None, arrive_by=False):
     """Itineraries from the free Transitous (MOTIS) API, in the same shape as Google results.
 
     from_place/to_place are 'lat,lon'. Raises RoutingError when the router fails; an
     empty list means it answered but found no itineraries."""
     try:
         resp = requests.get(f"{TRANSITOUS_URL}/v5/plan",
-                            params={"fromPlace": from_place, "toPlace": to_place, "numItineraries": 6},
+                            params={"fromPlace": from_place, "toPlace": to_place, "numItineraries": 6,
+                                    **({"time": when.replace(second=0, microsecond=0).isoformat(), "arriveBy": "true" if arrive_by else "false"} if when else {})},
                             headers=TRANSITOUS_HEADERS, timeout=20)
     except requests.RequestException as e:
         raise RoutingError("The trip planning service didn’t respond. Try again in a moment.") from e
@@ -2303,6 +2336,29 @@ def get_transitous_directions(from_place, to_place, dest_name=None):
         })
 
     return routes[:6]
+
+
+# Places riders name that the geocoder misses or places on a nearby garage/stop.
+LANDMARKS = {
+    "bu": ("Boston University", "42.3505,-71.1054"), "boston university": ("Boston University", "42.3505,-71.1054"),
+    "fenway park": ("Fenway Park", "42.3467,-71.0972"), "faneuil hall": ("Faneuil Hall", "42.3600,-71.0568"),
+    "boston common": ("Boston Common", "42.3550,-71.0656"), "the common": ("Boston Common", "42.3550,-71.0656"),
+    "gillette": ("Gillette Stadium", "42.0909,-71.2643"), "gillette stadium": ("Gillette Stadium", "42.0909,-71.2643"),
+    "mit": ("MIT", "42.3601,-71.0942"), "harvard university": ("Harvard University", "42.3770,-71.1167"),
+    "td garden": ("TD Garden", "42.3662,-71.0621"), "the garden": ("TD Garden", "42.3662,-71.0621"),
+    "mgh": ("Mass General Hospital", "42.3626,-71.0685"), "mass general": ("Mass General Hospital", "42.3626,-71.0685"),
+    "massachusetts general hospital": ("Mass General Hospital", "42.3626,-71.0685"),
+    "bpl": ("Boston Public Library", "42.3493,-71.0782"), "boston public library": ("Boston Public Library", "42.3493,-71.0782"),
+    "logan": ("Logan Airport", "42.3656,-71.0096"), "logan airport": ("Logan Airport", "42.3656,-71.0096"),
+    "the aquarium": ("New England Aquarium", "42.3591,-71.0498"), "new england aquarium": ("New England Aquarium", "42.3591,-71.0498"),
+    "northeastern": ("Northeastern University", "42.3398,-71.0892"), "northeastern university": ("Northeastern University", "42.3398,-71.0892"),
+    "umass boston": ("UMass Boston", "42.3134,-71.0381"), "seaport": ("Seaport", "42.3510,-71.0440"),
+}
+
+
+def landmark(text):
+    hit = LANDMARKS.get(re.sub(r"\s+", " ", str(text or "").lower().strip(" ,.?!")))
+    return {"name": hit[0], "coords": hit[1]} if hit else None
 
 
 _ABBREV = [(r"\brd\b", "road"), (r"\bst\b", "street"), (r"\bave?\b", "avenue"), (r"\bsq\b", "square"),
