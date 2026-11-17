@@ -312,3 +312,46 @@ test('assistant: trip replies render every itinerary card plus a Trip Planner sh
   assert.match(tripCardsHtml({ code: 'unresolved', origin: 'zzzzz', routes: [] }, 1), /Open in Trip Planner/);
   assert.equal(tripCardsHtml({ code: 'need_origin', routes: [] }, 1), '');
 });
+
+// ---------- Leave now / Depart at / Arrive by ----------
+import { bostonParts, suggestedParts, whenText, WHEN_MODES } from '../../static/js/ui/trip-form.js';
+import { whenSummaryHtml } from '../../static/js/views/trip.js';
+import { nearCardHtml } from '../../static/js/views/assistant.js';
+
+test('trip time: Boston wall clock regardless of the browser time zone', () => {
+  const at = new Date('2026-11-16T22:55:00Z');              // 5:55 PM in Boston (EST)
+  assert.deepEqual(bostonParts(0, at), { date: '2026-11-16', time: '17:55' });
+  assert.deepEqual(bostonParts(10, at), { date: '2026-11-16', time: '18:05' });
+  assert.deepEqual(bostonParts(0, new Date('2026-07-01T16:00:00Z')), { date: '2026-07-01', time: '12:00' });   // EDT
+  assert.deepEqual(suggestedParts(10, new Date('2026-11-16T22:51:00Z')), { date: '2026-11-16', time: '18:05' }); // rounded up to 5 min
+  assert.deepEqual(bostonParts(10, new Date('2026-11-17T04:55:00Z')), { date: '2026-11-17', time: '00:05' });   // past midnight
+});
+
+test('trip time: labels for each mode', () => {
+  const at = new Date('2026-11-16T22:55:00Z');
+  assert.deepEqual(WHEN_MODES.map(m => m.id), ['now', 'depart', 'arrive']);
+  assert.equal(whenText(null, at), 'Leaving now');
+  assert.equal(whenText({ mode: 'depart', time: '2026-11-16T18:05' }, at), 'Leave today at 6:05 PM');
+  assert.equal(whenText({ mode: 'arrive', time: '2026-11-17T09:00' }, at), 'Arrive by 9:00 AM tomorrow');
+  assert.equal(whenText({ mode: 'depart', time: '2026-11-17T00:00:00-05:00' }, at), 'Leave tomorrow at 12:00 AM');
+  assert.match(whenSummaryHtml({ missedDeadline: true, when: { mode: 'arrive', time: '2026-11-16T18:00' } }), /No trip gets you there by that time/);
+});
+
+test('assistant: nearest-stop card shows stop, walk and too-soon warnings, or asks for location', () => {
+  const card = nearCardHtml({ kind: 'near', status: 'ok', updated_at: new Date().toISOString(), groups: [{
+    route_id: '39', route_name: 'Route 39', label: 'Back Bay Station', stop_id: '1357', stop_name: '360 Huntington Ave',
+    distance_m: 47, walk_min: 1, items: [
+      { headsign: 'Back Bay', time: new Date(Date.now() + 30000).toISOString(), event: 'arrival', catchable: false },
+      { headsign: 'Back Bay', time: new Date(Date.now() + 14 * 60000).toISOString(), event: 'arrival', catchable: true }] }] }, 3);
+  assert.match(card, /360 Huntington Ave<\/button> · 47 m · ~1 min walk/);
+  assert.match(card, /data-open-station="1357"/);
+  assert.equal((card.match(/Too soon to walk there/g) || []).length, 1);
+  const ask = nearCardHtml({ kind: 'near', status: 'need_location' }, 5);
+  assert.match(ask, /data-share-loc="5"/);
+});
+
+test('trip: arrive-by results can list the latest departure first', () => {
+  const r = (id, dep, arr, transfers = 0) => ({ id, depart_ts: dep, arrive_ts: arr, duration: (arr - dep) / 60, transfers });
+  const routes = [r('a', 1000, 2000), r('b', 1600, 2500), r('c', 1300, 2200), r('d', 1600, 2400, 1)];
+  assert.deepEqual(sortTrips(routes, 'departure').map(x => x.id), ['b', 'd', 'c', 'a']);   // tie → fewer transfers
+});

@@ -270,6 +270,9 @@ body.is-locating [data-locate-global] .icon { animation: spin 1s linear infinite
 .msg-card--warn p { color: #F7C887; }
 .msg-card__foot { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--s2); }
 .board__dir { font-size: var(--fs-sm); color: var(--text-2); font-weight: 500; }
+.board__stop { margin: calc(-1 * var(--s1)) 0 var(--s1); }
+.board__stop .link { color: var(--text-2); font-weight: 600; }
+.arrival__warn { color: var(--warn); }
 
 /* Alerts */
 .alert-card { position: relative; background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-md); overflow: hidden; }
@@ -740,3 +743,14 @@ body[data-route="ai"] .view { padding: 0; max-width: none; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
 }
+
+/* Trip Planner: Leave now / Depart at / Arrive by */
+.trip-when { border: 0; padding: 0; margin: var(--s3) 0 0; min-width: 0; display: flex; flex-direction: column; gap: var(--s2); }
+.trip-when__modes { display: flex; width: 100%; }
+.trip-when__modes .segmented__btn { flex: 1 1 0; justify-content: center; }
+.trip-when__pick { display: flex; flex-direction: column; gap: var(--s2); }
+.trip-when__pick[hidden] { display: none; }
+.trip-when__inputs { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); gap: var(--s2); }
+.trip-when__inputs .input { height: 40px; color-scheme: dark; }
+.trip-when__quick { display: flex; flex-wrap: wrap; gap: 6px; }
+.trip-when__summary { display: flex; align-items: center; gap: 6px; margin: 0 0 var(--s3); color: var(--text-2); font-size: var(--fs-sm); font-weight: 500; }

@@ -97,10 +97,14 @@ def parse_when(text, now):
             t = t[:m.start()] + t[m.end():]
         if day:
             t = DAY_RE.sub("", t, count=1)
+    return re.sub(r"\s+", " ", t).strip(), {"time": when_dt, "arrive_by": arrive_by, "label": when_label(when_dt, arrive_by, now)}
+
+
+def when_label(when_dt, arrive_by, now):
+    """'leaving today at 6:10 PM' / 'arriving by 9:00 AM tomorrow'."""
     label_day = "today" if when_dt.date() == now.date() else "tomorrow" if when_dt.date() == (now + timedelta(days=1)).date() else when_dt.strftime("%a %b %-d")
     clock = when_dt.strftime('%-I:%M %p')
-    label = f"arriving by {clock} {label_day}" if arrive_by else f"leaving {label_day} at {clock}"
-    return re.sub(r"\s+", " ", t).strip(), {"time": when_dt, "arrive_by": arrive_by, "label": label}
+    return f"arriving by {clock} {label_day}" if arrive_by else f"leaving {label_day} at {clock}"
 
 
 # ---------- origin / destination ----------
@@ -146,6 +150,9 @@ def parse_trip_question(text, is_place=None, now=None):
     asks_trip = bool(TRIP_WORDS.search(t))
     if ARRIVAL_WORDS.search(t) and not re.search(r"\b(how|directions?|route|way|plan|take me|get me|trip|journey|get to|leave|should i)\b", t, re.I):
         return None                      # "next train from Park Street to Alewife" is an arrivals question
+    if not asks_trip and re.search(r"\btowards?\b", t, re.I) and \
+            re.search(r"\b(?:bus|route|rt)\s*(?:number|no\.?)?\s*#?\s*\d|\b\d{1,3}[a-z]?\s+bus\b|\b(?:train|bus|trolley)\b", t, re.I):
+        return None                      # "bus 57 toward Watertown from here" asks for departures, not a trip
     t, when = parse_when(t, now or datetime.now())
 
     result = None

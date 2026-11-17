@@ -1,5 +1,6 @@
 """Charlie AI trip questions: phrasing, times, follow-ups and planner results (no network)."""
 
+import re
 from datetime import datetime
 
 import pytest
@@ -137,7 +138,7 @@ def test_requested_time_is_sent_to_the_router(client, monkeypatch):
     mock_router(monkeypatch, [{"itineraries": [itin(60, 76)]}], seen)
     data = chat(client, "from Park Street to Harvard in 1 hour")
     assert seen[0]["arriveBy"] == "false" and "T" in seen[0]["time"] and seen[0]["time"].endswith(":00-05:00")
-    assert "leaving today at" in data["reply"]
+    assert re.search(r"leaving (today|tomorrow) at", data["reply"])          # "tomorrow" after 11 PM
 
 
 def test_arrive_by_lists_latest_departure_first(client, monkeypatch):
